@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Author;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AuthorController extends Controller
 {
@@ -14,7 +15,7 @@ class AuthorController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Author::pipe(), 200);
     }
 
     /**
@@ -35,7 +36,17 @@ class AuthorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => ['string', 'required', 'max:140'],
+            'description' => ['string', 'required'],
+            'social_media_links' => ['json', 'nullable'],
+            'email' => ['string', 'required', 'max:140'],
+            'profile_picture_url' => ['image', 'required'],
+        ]);
+
+        $validated['profile_picture_url'] = $this->storeFileFromRequest($request, 'profile_picture_url', 'public/media/authors');
+
+        return response()->json(Author::create($validated), 200);
     }
 
     /**
@@ -57,7 +68,6 @@ class AuthorController extends Controller
      */
     public function edit(Author $author)
     {
-        //
     }
 
     /**
@@ -69,7 +79,19 @@ class AuthorController extends Controller
      */
     public function update(Request $request, Author $author)
     {
-        //
+        $validated = $request->validate([
+            'name' => ['string', 'required', 'max:140'],
+            'description' => ['string', 'required'],
+            'social_media_links' => ['json', 'nullable'],
+            'email' => ['string', 'required', 'max:140'],
+            'profile_picture_url' => ['image', 'nullable'],
+        ]);
+
+        if(!empty($validated['profile_picture_url'])){
+            $validated['profile_picture_url'] = $this->storeFileFromRequest($request, 'profile_picture_url', 'public/media/authors');
+        }
+
+        return response()->json($author->update($validated), 200);
     }
 
     /**
@@ -80,6 +102,6 @@ class AuthorController extends Controller
      */
     public function destroy(Author $author)
     {
-        //
+        return response()->json($author->delete());
     }
 }

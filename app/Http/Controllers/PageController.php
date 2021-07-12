@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Page;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class PageController extends Controller
 {
@@ -14,7 +15,7 @@ class PageController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Page::pipe(), 200);
     }
 
     /**
@@ -35,7 +36,18 @@ class PageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'page_number' => ['integer', 'required'],
+            'image_url' => ['image', 'required'],
+            'config' => ['string', 'nullable'],
+            'comic_id' => ['required', 'exists:comics,id'],
+            'comic_name' => ['required', 'string']
+        ]);
+        $comicName = Str::slug($validated['comic_name']);
+        $validated['image_url'] = $this->storeFileFromRequest($request, 'image_url', 'public/media/comics/' . $comicName);
+        unset($validated['comic_name']);
+
+        return response()->json(Page::create($validated), 200);
     }
 
     /**
@@ -69,7 +81,21 @@ class PageController extends Controller
      */
     public function update(Request $request, Page $page)
     {
-        //
+        $validated = $request->validate([
+            'page_number' => ['integer', 'required'],
+            'image_url' => ['image', 'required'],
+            'config' => ['string', 'nullable'],
+            'comic_id' => ['required', 'exists:comics,id'],
+            'comic_name' => ['required', 'string']
+        ]);
+
+        if(!empty($validated['image_url'])){
+            $comicName = Str::slug($validated['comic_name']);
+            $validated['image_url'] = $this->storeFileFromRequest($request, 'image_url', 'public/media/comics/' . $comicName);
+        }
+        unset($validated['comic_name']);
+
+        return response()->json($page->create($validated), 200);
     }
 
     /**
@@ -80,6 +106,6 @@ class PageController extends Controller
      */
     public function destroy(Page $page)
     {
-        //
+        return response()->json($page->delete());
     }
 }

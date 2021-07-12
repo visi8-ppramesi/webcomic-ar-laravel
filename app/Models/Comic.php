@@ -2,13 +2,22 @@
 
 namespace App\Models;
 
+use App\Filters\Get;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\Pipeable;
 
 class Comic extends Model
 {
     use HasFactory;
+    use Pipeable;
     protected $guarded = [];
+
+    public function pipeable(){
+        return [
+            Get::class
+        ];
+    }
 
     public function authors(){
         return $this->belongsToMany(Author::class);

@@ -14,7 +14,7 @@ class ComicController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Comic::pipe(), 200);
     }
 
     /**
@@ -35,7 +35,18 @@ class ComicController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'title' => ['string', 'required', 'max:140'],
+            'description' => ['string', 'required'],
+            'tags' => ['json', 'nullable'],
+            'genres' => ['json', 'nullable'],
+            'author_id' => ['required', 'exists:authors,id'],
+            'price' => ['numeric', 'required'],
+            'cover_url' => ['image', 'required']
+        ]);
+        $validated['cover_url'] = $this->storeFileFromRequest($request, 'cover_url', 'public/media/covers');
+
+        return response()->json(Comic::create($validated), 200);
     }
 
     /**
@@ -46,7 +57,8 @@ class ComicController extends Controller
      */
     public function show(Comic $comic)
     {
-        //
+        $comic->load('pages');
+        return response()->json($comic);
     }
 
     /**
@@ -69,7 +81,21 @@ class ComicController extends Controller
      */
     public function update(Request $request, Comic $comic)
     {
-        //
+        $validated = $request->validate([
+            'title' => ['string', 'required', 'max:140'],
+            'description' => ['string', 'required'],
+            'tags' => ['json', 'nullable'],
+            'genres' => ['json', 'nullable'],
+            'author_id' => ['required', 'exists:authors,id'],
+            'price' => ['numeric', 'required'],
+            'cover_url' => ['image', 'nullable']
+        ]);
+
+        if(!empty($validated['cover_url'])){
+            $validated['cover_url'] = $this->storeFileFromRequest($request, 'cover_url', 'public/media/covers');
+        }
+
+        return response()->json($comic->update($validated), 200);
     }
 
     /**
@@ -80,6 +106,6 @@ class ComicController extends Controller
      */
     public function destroy(Comic $comic)
     {
-        //
+        return response()->json($comic->delete());
     }
 }
