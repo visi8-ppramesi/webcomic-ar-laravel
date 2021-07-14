@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comic;
 use App\Models\Page;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -13,9 +14,9 @@ class PageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request, Comic $comic)
     {
-        return response()->json(Page::pipe(), 200);
+        return response()->json($comic->pages, 200);
     }
 
     /**

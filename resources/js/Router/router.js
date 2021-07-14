@@ -1,9 +1,16 @@
 import VueRouter from "vue-router";
+import Home from '../Pages/Home.vue'
+import Comics from '../Pages/Comics.vue'
 
 const routes = [
     {
+        path: '/comics',
+        component: Comics,
+        name: 'comics'
+    },
+    {
         path: '',
-        component: import('../Pages/Home.vue'),
+        component: Home,
         name: 'home'
     },
 ]
