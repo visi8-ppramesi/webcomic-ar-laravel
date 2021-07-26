@@ -58,6 +58,7 @@ class ComicController extends Controller
     public function show(Comic $comic)
     {
         $comic->load('pages');
+        $comic->load('authors');
         return response()->json($comic);
     }
 

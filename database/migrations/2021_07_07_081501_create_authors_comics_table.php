@@ -13,7 +13,7 @@ class CreateAuthorsComicsTable extends Migration
      */
     public function up()
     {
-        Schema::create('authors_comics', function (Blueprint $table) {
+        Schema::create('author_comic', function (Blueprint $table) {
             $table->id();
             $table->foreignId('author_id');
             $table->foreignId('comic_id');
@@ -28,6 +28,6 @@ class CreateAuthorsComicsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('authors_comics');
+        Schema::dropIfExists('author_comic');
     }
 }
