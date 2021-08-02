@@ -32,12 +32,15 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::patch('/page/{page}', [PageController::class, 'update'])->name('api.page.update');
     Route::delete('/page/{page}', [PageController::class, 'destroy'])->name('api.page.delete');
     Route::post('/page', [PageController::class, 'create'])->name('api.page.create');
-    Route::get('/pages/{comic}', [PageController::class, 'index'])->name('api.comic.show.pages');
+    // Route::get('/pages/{comic}', [PageController::class, 'index'])->name('api.comic.show.pages');
 
     Route::patch('/author/{author}', [AuthorController::class, 'update'])->name('api.author.update');
     Route::delete('/author/{author}', [AuthorController::class, 'destroy'])->name('api.author.delete');
 
     Route::post('/author', [AuthorController::class, 'create'])->name('api.author.create');
+
+    Route::get('/pages/{comicId}/{chapter}/{page}', [PageController::class, 'getComicPages'])->name('api.pages.show');
+    Route::get('/page/scene/{page}', [PageController::class, 'getPageScene'])->name('api.page.show.scene');
 });
 
 Route::post('/register', [AuthController::class, 'register'])->name('api.register');

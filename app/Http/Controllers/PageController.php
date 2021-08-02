@@ -9,6 +9,16 @@ use Illuminate\Support\Str;
 
 class PageController extends Controller
 {
+    public function getPageScene(Page $page){
+        return response()->json(['config' => $page->config, 'scene' => $page->scene], 200);
+    }
+
+    public function getComicPages($comicId, $chapter, $page){
+        $pages = Page::where('comic_id', $comicId)->where('chapter', $chapter)->where('page_number', $page)->orderBy('section')->get();
+
+        return response()->json($pages, 200);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -39,8 +49,11 @@ class PageController extends Controller
     {
         $validated = $request->validate([
             'page_number' => ['integer', 'required'],
+            'chapter' => ['integer', 'required'],
+            'section' => ['integer', 'required'],
             'image_url' => ['image', 'required'],
             'config' => ['string', 'nullable'],
+            'scene' => ['string', 'nullable'],
             'comic_id' => ['required', 'exists:comics,id'],
             'comic_name' => ['required', 'string']
         ]);
@@ -84,8 +97,11 @@ class PageController extends Controller
     {
         $validated = $request->validate([
             'page_number' => ['integer', 'required'],
+            'chapter' => ['integer', 'required'],
+            'section' => ['integer', 'required'],
             'image_url' => ['image', 'required'],
             'config' => ['string', 'nullable'],
+            'scene' => ['string', 'nullable'],
             'comic_id' => ['required', 'exists:comics,id'],
             'comic_name' => ['required', 'string']
         ]);

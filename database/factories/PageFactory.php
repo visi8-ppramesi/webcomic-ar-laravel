@@ -25,6 +25,8 @@ class PageFactory extends Factory
         $comic = Comic::inRandomOrder()->first()->id;
         return [
             'page_number' => $this->faker->randomDigit(),
+            'chapter' => $this->faker->randomDigit(),
+            'section' => $this->faker->randomDigit(),
             'image_url' => '/storage/media/comics/pg1.jpg',
             'config' => 'tbd',
             'comic_id' => $comic

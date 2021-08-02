@@ -22,4 +22,8 @@ class Page extends Model
     public function comic(){
         return $this->belongsTo(Comic::class);
     }
+
+    public function bookmarked(){
+        return $this->belongsToMany(User::class);
+    }
 }

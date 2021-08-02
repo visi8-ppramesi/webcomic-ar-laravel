@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePagesTable extends Migration
+class CreatePageUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreatePagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('pages', function (Blueprint $table) {
+        Schema::create('page_user', function (Blueprint $table) {
             $table->id();
-            $table->integer('page_number');
-            $table->string('image_url');
-            $table->text('config')->nullable;
-            $table->foreignId('comic_id');
+            $table->foreignId('page_id');
+            $table->foreignId('user_id');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreatePagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pages');
+        Schema::dropIfExists('page_user');
     }
 }

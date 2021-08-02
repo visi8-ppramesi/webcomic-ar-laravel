@@ -46,4 +46,8 @@ class Comic extends Model
     public function comments(){
         return $this->hasMany(Comment::class);
     }
+
+    public function favorited(){
+        return $this->belongsToMany(User::class);
+    }
 }

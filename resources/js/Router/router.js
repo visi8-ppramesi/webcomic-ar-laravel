@@ -2,6 +2,7 @@ import VueRouter from "vue-router";
 import Home from '../Pages/Home.vue'
 import Comics from '../Pages/Comics.vue'
 import ComicNew from '../Pages/ComicNew.vue'
+import ComicShow from '../Pages/ComicShow.vue'
 import Login from '../Pages/Login.vue'
 import Logout from '../Pages/Logout.vue'
 import AppLayout from '../Layout/AppLayout.vue'
@@ -28,6 +29,14 @@ const routes = [
                 path: '/comics',
                 component: Comics,
                 name: 'comics',
+                meta: {
+                    requiresAuth: true
+                }
+            },
+            {
+                path: '/comic/:id',
+                component: ComicShow,
+                name: 'comicShow',
                 meta: {
                     requiresAuth: true
                 }

@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comic;
+use App\Models\Page;
 use Illuminate\Http\Request;
 
 class ComicController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
