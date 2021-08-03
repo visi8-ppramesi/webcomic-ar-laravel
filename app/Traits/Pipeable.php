@@ -10,10 +10,13 @@ trait Pipeable{
         return $this->pipeableThrough;
     }
 
-    public static function pipe(){
+    public static function pipe($pipeableObject = null){
+        if(empty($pipeableObject)){
+            $pipeableObject = self::query();
+        }
         $self = new static;
         return app(Pipeline::class)
-            ->send(self::query())
+            ->send($pipeableObject)
             ->through($self->pipeable())
             ->thenReturn();
     }

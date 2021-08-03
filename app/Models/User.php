@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Laratrust\Traits\LaratrustUserTrait;
 
 class User extends Authenticatable
 {
+    use LaratrustUserTrait;
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -71,8 +73,9 @@ class User extends Authenticatable
 
     public function bookmarkPage($pageId){
         $siblingIds = Page::find($pageId)->comic()->with('pages')->get()->pluck('pages')[0]->pluck('id')->toArray();
-        $faved = $this->load('bookmarked')->favorites->pluck('id')->toArray();
-        $newBookmarked = array_values(array_diff($faved, $siblingIds));
+        $bookmarked = $this->load('bookmarked')->bookmarked->pluck('id')->toArray();
+        $newBookmarked = array_values(array_diff($bookmarked, $siblingIds));
+        $newBookmarked[] = $pageId;
         return $this->bookmarked()->sync($newBookmarked);
     }
 
@@ -84,5 +87,16 @@ class User extends Authenticatable
             $faved[] = $comicId;
         }
         return $this->favorites()->sync($faved);
+    }
+
+    public function getComicBookmarkedPage($comicId){
+        $bookmarked = $this->bookmarked()->get()->pluck('id')->toArray();
+        $comicIds = Comic::find($comicId)->pages()->get()->pluck('id')->toArray();
+        $pageId = array_values(array_intersect($bookmarked, $comicIds));
+        if(!empty($pageId)){
+            return Page::select('page_number', 'chapter')->find($pageId[0])->toArray();
+        }else{
+            return [];
+        }
     }
 }

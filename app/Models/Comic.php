@@ -23,7 +23,7 @@ class Comic extends Model
         return $this->belongsToMany(Author::class);
     }
 
-    public function Pages(){
+    public function pages(){
         return $this->hasMany(Page::class);
     }
 

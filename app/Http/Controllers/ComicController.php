@@ -8,6 +8,15 @@ use Illuminate\Http\Request;
 
 class ComicController extends Controller
 {
+    public function getFavorites(){
+        $u = auth()->user();
+        return response()->json(Comic::pipe($u->favorites()), 200);
+    }
+
+    public function toggleFavoriteComic($comicId){
+        $u = auth()->user();
+        return response()->json($u->toggleFavoriteComic($comicId));
+    }
 
     /**
      * Display a listing of the resource.

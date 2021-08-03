@@ -23,6 +23,12 @@ Route::middleware('auth:sanctum')->group(function(){
     })->name('api.testing');
     Route::get('/logout', [AuthController::class, 'logout'])->name('api.logout');
 
+    Route::get('/comic/favorite/{comicId}', [ComicController::class, 'toggleFavoriteComic'])->name('api.comic.favorite');
+    Route::get('/page/bookmark/{pageId}', [PageController::class, 'bookmarkPage'])->name('api.page.bookmark');
+
+    Route::get('/pages/{comicId}/{chapter}/{page}', [PageController::class, 'getComicPages'])->name('api.pages.show');
+    Route::get('/page/scene/{page}', [PageController::class, 'getPageScene'])->name('api.page.show.scene');
+
     Route::get('/comic/{comic}', [ComicController::class, 'show'])->name('api.comic.show');
     Route::patch('/comic/{comic}', [ComicController::class, 'update'])->name('api.comic.update');
     Route::delete('/comic/{comic}', [ComicController::class, 'destroy'])->name('api.comic.delete');
@@ -39,8 +45,7 @@ Route::middleware('auth:sanctum')->group(function(){
 
     Route::post('/author', [AuthorController::class, 'create'])->name('api.author.create');
 
-    Route::get('/pages/{comicId}/{chapter}/{page}', [PageController::class, 'getComicPages'])->name('api.pages.show');
-    Route::get('/page/scene/{page}', [PageController::class, 'getPageScene'])->name('api.page.show.scene');
+    Route::get('/user/favorites', [ComicController::class, 'getFavorites'])->name('api.user.show.favorites');
 });
 
 Route::post('/register', [AuthController::class, 'register'])->name('api.register');
