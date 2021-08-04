@@ -8,6 +8,16 @@ use Illuminate\Http\Request;
 
 class ComicController extends Controller
 {
+    public function checkPurchased($comicId){
+        $u = auth()->user();
+        return response()->json($u->checkComicPurchased($comicId), 200);
+    }
+
+    public function checkBookmarked($comicId){
+        $u = auth()->user();
+        return response()->json($u->getComicBookmarkedPage($comicId), 200);
+    }
+
     public function getFavorites(){
         $u = auth()->user();
         return response()->json(Comic::pipe($u->favorites()), 200);

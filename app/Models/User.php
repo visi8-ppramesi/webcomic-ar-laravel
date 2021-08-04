@@ -71,8 +71,32 @@ class User extends Authenticatable
         return $this->belongsToMany(Comic::class);
     }
 
+    public function checkComicPurchased($comicId){
+        $purchaseHistory = collect(json_decode($this->purchase_history));
+        return empty($purchaseHistory[$comicId]) ? [] : $purchaseHistory[$comicId];
+    }
+
+    public function getPurchasedComics(){
+        $purchasedId = collect(json_decode($this->purchase_history))->keys()->toArray();
+        return Comic::whereIn('id', $purchasedId)->get();
+    }
+
+    public function purchaseComic($comicId, $ar = 0){//to be called after sucessful payment
+        $comicObj = Comic::findOrFail($comicId);
+        $purchaseObject = [
+            'price' => $comicObj->price,
+            'ar' => $ar,
+            'id' => $comicId,
+            'date' => now()
+        ];
+        $jsonString = 'purchase_history->' . $comicId;
+        $uid = $this->id;
+        echo $jsonString;
+        return self::where('id', $uid)->update([$jsonString => $purchaseObject]);
+    }
+
     public function bookmarkPage($pageId){
-        $siblingIds = Page::find($pageId)->comic()->with('pages')->get()->pluck('pages')[0]->pluck('id')->toArray();
+        $siblingIds = Page::findOrFail($pageId)->comic()->with('pages')->get()->pluck('pages')[0]->pluck('id')->toArray();
         $bookmarked = $this->load('bookmarked')->bookmarked->pluck('id')->toArray();
         $newBookmarked = array_values(array_diff($bookmarked, $siblingIds));
         $newBookmarked[] = $pageId;
@@ -91,10 +115,10 @@ class User extends Authenticatable
 
     public function getComicBookmarkedPage($comicId){
         $bookmarked = $this->bookmarked()->get()->pluck('id')->toArray();
-        $comicIds = Comic::find($comicId)->pages()->get()->pluck('id')->toArray();
+        $comicIds = Comic::findOrFail($comicId)->pages()->get()->pluck('id')->toArray();
         $pageId = array_values(array_intersect($bookmarked, $comicIds));
         if(!empty($pageId)){
-            return Page::select('page_number', 'chapter')->find($pageId[0])->toArray();
+            return Page::select('page_number', 'chapter')->findOrFail($pageId[0])->toArray();
         }else{
             return [];
         }

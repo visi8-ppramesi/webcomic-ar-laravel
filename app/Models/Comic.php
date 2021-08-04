@@ -28,7 +28,9 @@ class Comic extends Model
     }
 
     public function purchasedBy(){
-        return $this->belongsToMany(User::class, 'purchase_histories', 'user_id', 'comic_id');
+        $whereName = implode('->', ['purchase_history', $this->id, 'id']);
+        return User::where($whereName, $this->id)->get();
+        // return $this->belongsToMany(User::class, 'purchase_histories', 'user_id', 'comic_id');
     }
 
     public function readBy(){

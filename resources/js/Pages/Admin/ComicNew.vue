@@ -32,10 +32,10 @@
 </template>
 
 <script>
-import InputComponent from '../Components/Input.vue'
-import SelectComponent from '../Components/Select.vue'
-import FileInputComponent from '../Components/FileInput.vue'
-import TextareaComponent from '../Components/Textarea.vue'
+import InputComponent from '../../Components/Input.vue'
+import SelectComponent from '../../Components/Select.vue'
+import FileInputComponent from '../../Components/FileInput.vue'
+import TextareaComponent from '../../Components/Textarea.vue'
 export default {
     name: 'comic-new',
     components: {

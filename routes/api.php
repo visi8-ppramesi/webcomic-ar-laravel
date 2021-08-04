@@ -46,6 +46,9 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::post('/author', [AuthorController::class, 'create'])->name('api.author.create');
 
     Route::get('/user/favorites', [ComicController::class, 'getFavorites'])->name('api.user.show.favorites');
+
+    Route::get('/comic/bookmark/check/{comicId}', [ComicController::class, 'checkBookmarked'])->name('api.comic.check.bookmark');
+    Route::get('/comic/purchased/check/{comicId}', [ComicController::class, 'checkPurchased'])->name('api.comic.check.purchased');
 });
 
 Route::post('/register', [AuthController::class, 'register'])->name('api.register');

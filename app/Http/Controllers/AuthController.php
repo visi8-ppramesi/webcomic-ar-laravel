@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\User;
@@ -20,8 +19,8 @@ class AuthController extends Controller
         $user = User::create([
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
-            'purchase_history' => '[]',
-            'read_history' => '[]',
+            'purchase_history' => '{}',
+            'read_history' => '{}',
             'password' => Hash::make($validatedData['password']),
         ]);
         

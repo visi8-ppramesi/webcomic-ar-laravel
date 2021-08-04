@@ -7,7 +7,7 @@ export default {
   created() {
     this.$store.dispatch('logout')
       .then(response => {
-        this.$router.push({ name: 'login' })
+        this.$router.push({ name: 'adminLogin' })
       })
   }
 }
