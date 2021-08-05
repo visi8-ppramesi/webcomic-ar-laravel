@@ -17,15 +17,15 @@
                 <div><!-- buttons -->
                     <div><!-- buy/continue reading -->
                         <template v-if="purchased">
-                            <button v-if="$_.isEmpty(bookmark)" @click="startReading">Start Reading</button>
-                            <button v-else @click="continueReading">Continue Reading</button>
+                            <button class="inline-flex items-center justify-center p-2 rounded-md text-gray-50 bg-gray-800 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" v-if="$_.isEmpty(bookmark)" @click="startReading">Start Reading</button>
+                            <button class="inline-flex items-center justify-center p-2 rounded-md text-gray-50 bg-gray-800 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" v-else @click="continueReading">Continue Reading</button>
                         </template>
                         <template v-else>
-                            <button @click="purchaseComic">Buy Comic</button>
+                            <button class="inline-flex items-center justify-center p-2 rounded-md text-gray-50 bg-gray-800 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" @click="purchaseComic">Buy Comic</button>
                         </template>
                     </div>
                     <div><!-- favorite -->
-                        <button @click="favorite">Favorite</button>
+                        <button class="inline-flex items-center justify-center p-2 rounded-md text-gray-50 bg-gray-800 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" @click="favorite">Favorite</button>
                     </div>
                 </div>
             </div>
@@ -48,7 +48,7 @@
                 <div>Authors:</div>
                 <div>
                     <div v-for="(author, idx) in authors" :key="'author-' + idx">
-                        <button @click="$router.push({name: 'authorShow', params: {authorId: author.id}})">{{author.name}}</button>
+                        <button class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" @click="$router.push({name: 'authorShow', params: {authorId: author.id}})">{{author.name}}</button>
                     </div><!-- authors value -->
                 </div>
             </div>
@@ -113,9 +113,11 @@ export default {
                 })
             });
         },
-        purchaseComic(){//for now this just automatically trigger purchase comic, later it will redirect to shopping cart page
-            axios.get(route('api.comic.purchase', {comic: this.$route.params.comicId}))
-            .then()
+        purchaseComic(){
+            let cart = JSON.parse(localStorage.getItem('cart') || '[]')
+            cart.push(this.$route.params.comicId)
+            localStorage.setItem('cart', JSON.stringify(cart))
+            this.$router.push({name: 'paymentShow'})
         },
         startReading(){
             this.$router.push({name: 'pageShow', params: {

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Filters\Get;
+use App\Filters\WhereInId;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Pipeable;
@@ -15,7 +16,8 @@ class Comic extends Model
 
     public function pipeable(){
         return [
-            Get::class
+            Get::class,
+            WhereInId::class,
         ];
     }
 

@@ -8,6 +8,18 @@ use Illuminate\Http\Request;
 
 class ComicController extends Controller
 {
+    public function purchaseComics(Request $request){
+        $validated = $request->validate([
+            'comic_ids' => ['required', 'json'],
+            'ar_bought' => ['required', 'json']
+        ]);
+
+        $ids = json_decode($validated['comic_ids']);
+        $ar = json_decode($validated['ar_bought']);
+
+        return response()->json(['ids' => $ids], 200);
+    }
+
     public function checkPurchased($comicId){
         $u = auth()->user();
         return response()->json($u->checkComicPurchased($comicId), 200);

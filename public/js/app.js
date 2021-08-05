@@ -2759,10 +2759,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     purchaseComic: function purchaseComic() {
-      //for now this just automatically trigger purchase comic, later it will redirect to shopping cart page
-      axios.get(route('api.comic.purchase', {
-        comic: this.$route.params.comicId
-      })).then();
+      var cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      cart.push(this.$route.params.comicId);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      this.$router.push({
+        name: 'paymentShow'
+      });
     },
     startReading: function startReading() {
       this.$router.push({
@@ -3074,7 +3076,73 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'payment-page',
+  created: function created() {
+    var _this = this;
+
+    var cart = localStorage.getItem('cart');
+    axios.get(route('api.comics.list', {
+      where_in_id: cart
+    })).then(function (response) {
+      _this.cartItems = response.data;
+    });
+  },
+  data: function data() {
+    return {
+      cartItems: [],
+      arSelected: {}
+    };
+  },
+  methods: {
+    submit: function submit() {
+      var _this2 = this;
+
+      var arBought = [];
+      Object.keys(this.arSelected).map(function (el) {
+        if (_this2.arSelected[el]) {
+          arBought.push(el);
+        }
+      });
+      axios.get(route('api.comics.purchase'), {
+        comic_ids: JSON.stringify(this.cartItems.map(function (el) {
+          return el.id;
+        })),
+        ar_bought: JSON.stringify(arBought)
+      });
+    }
+  }
+});
 
 /***/ }),
 
@@ -24209,24 +24277,50 @@ var render = function() {
               _vm.purchased
                 ? [
                     _vm.$_.isEmpty(_vm.bookmark)
-                      ? _c("button", { on: { click: _vm.startReading } }, [
-                          _vm._v("Start Reading")
-                        ])
-                      : _c("button", { on: { click: _vm.continueReading } }, [
-                          _vm._v("Continue Reading")
-                        ])
+                      ? _c(
+                          "button",
+                          {
+                            staticClass:
+                              "inline-flex items-center justify-center p-2 rounded-md text-gray-50 bg-gray-800 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white",
+                            on: { click: _vm.startReading }
+                          },
+                          [_vm._v("Start Reading")]
+                        )
+                      : _c(
+                          "button",
+                          {
+                            staticClass:
+                              "inline-flex items-center justify-center p-2 rounded-md text-gray-50 bg-gray-800 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white",
+                            on: { click: _vm.continueReading }
+                          },
+                          [_vm._v("Continue Reading")]
+                        )
                   ]
                 : [
-                    _c("button", { on: { click: _vm.purchaseComic } }, [
-                      _vm._v("Buy Comic")
-                    ])
+                    _c(
+                      "button",
+                      {
+                        staticClass:
+                          "inline-flex items-center justify-center p-2 rounded-md text-gray-50 bg-gray-800 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white",
+                        on: { click: _vm.purchaseComic }
+                      },
+                      [_vm._v("Buy Comic")]
+                    )
                   ]
             ],
             2
           ),
           _vm._v(" "),
           _c("div", [
-            _c("button", { on: { click: _vm.favorite } }, [_vm._v("Favorite")])
+            _c(
+              "button",
+              {
+                staticClass:
+                  "inline-flex items-center justify-center p-2 rounded-md text-gray-50 bg-gray-800 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white",
+                on: { click: _vm.favorite }
+              },
+              [_vm._v("Favorite")]
+            )
           ])
         ])
       ])
@@ -24259,6 +24353,8 @@ var render = function() {
               _c(
                 "button",
                 {
+                  staticClass:
+                    "inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white",
                   on: {
                     click: function($event) {
                       return _vm.$router.push({
@@ -24634,9 +24730,163 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c("div", [
+    _c(
+      "div",
+      _vm._l(_vm.cartItems, function(item, idx) {
+        return _c("div", { key: "cart-" + idx, staticClass: "mb-2" }, [
+          _c("div", [
+            _vm._v("\n                " + _vm._s(item.title) + "\n            ")
+          ]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.arSelected[item.id],
+                expression: "arSelected[item.id]"
+              }
+            ],
+            attrs: { type: "checkbox" },
+            domProps: {
+              value: item.id,
+              checked: Array.isArray(_vm.arSelected[item.id])
+                ? _vm._i(_vm.arSelected[item.id], item.id) > -1
+                : _vm.arSelected[item.id]
+            },
+            on: {
+              change: function($event) {
+                var $$a = _vm.arSelected[item.id],
+                  $$el = $event.target,
+                  $$c = $$el.checked ? true : false
+                if (Array.isArray($$a)) {
+                  var $$v = item.id,
+                    $$i = _vm._i($$a, $$v)
+                  if ($$el.checked) {
+                    $$i < 0 &&
+                      _vm.$set(_vm.arSelected, item.id, $$a.concat([$$v]))
+                  } else {
+                    $$i > -1 &&
+                      _vm.$set(
+                        _vm.arSelected,
+                        item.id,
+                        $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                      )
+                  }
+                } else {
+                  _vm.$set(_vm.arSelected, item.id, $$c)
+                }
+              }
+            }
+          }),
+          _vm._v(" Buy AR\n        ")
+        ])
+      }),
+      0
+    ),
+    _vm._v(" "),
+    _c("div", [_vm._v("Choose Method:")]),
+    _vm._v(" "),
+    _vm._m(0),
+    _vm._v(" "),
+    _vm._m(1),
+    _vm._v(" "),
+    _c(
+      "button",
+      {
+        staticClass:
+          "inline-flex items-center justify-center p-2 rounded-md text-gray-50 bg-gray-800 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white",
+        on: { click: _vm.submit }
+      },
+      [_vm._v("Submit")]
+    )
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("div", [_vm._v("Credit/Debit Card")]),
+      _vm._v(" "),
+      _c("form", [
+        _c("div", { staticClass: "grid grid-cols-5 gap-x-4 gap-y-1" }, [
+          _c(
+            "label",
+            {
+              staticClass: "col-span-2 text-right text-sm",
+              attrs: { for: "name" }
+            },
+            [_vm._v("Card Holder Name")]
+          ),
+          _vm._v(" "),
+          _c("input", {
+            staticClass:
+              "col-span-3 bg-gray-300 appearance-none border-2 border-gray-300 rounded w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500",
+            attrs: { type: "text", name: "name" }
+          }),
+          _vm._v(" "),
+          _c(
+            "label",
+            {
+              staticClass: "col-span-2 text-right text-sm",
+              attrs: { for: "name" }
+            },
+            [_vm._v("Card Number")]
+          ),
+          _vm._v(" "),
+          _c("input", {
+            staticClass:
+              "col-span-3 bg-gray-300 appearance-none border-2 border-gray-300 rounded w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500",
+            attrs: { type: "text", name: "cardNumber" }
+          }),
+          _vm._v(" "),
+          _c(
+            "label",
+            {
+              staticClass: "col-span-2 text-right text-sm",
+              attrs: { for: "name" }
+            },
+            [_vm._v("Expiration Date")]
+          ),
+          _vm._v(" "),
+          _c("input", {
+            staticClass:
+              "col-span-3 bg-gray-300 appearance-none border-2 border-gray-300 rounded w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500",
+            attrs: { type: "text", name: "expDate" }
+          }),
+          _vm._v(" "),
+          _c(
+            "label",
+            {
+              staticClass: "col-span-2 text-right text-sm",
+              attrs: { for: "name" }
+            },
+            [_vm._v("CCV Number")]
+          ),
+          _vm._v(" "),
+          _c("input", {
+            staticClass:
+              "col-span-3 bg-gray-300 appearance-none border-2 border-gray-300 rounded w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500",
+            attrs: { type: "text", name: "ccv" }
+          })
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("div", [_vm._v("Online Payment")]),
+      _vm._v(" "),
+      _c("div", [_vm._v("[button] [button] [button] [button]")])
+    ])
+  }
+]
 render._withStripped = true
 
 
