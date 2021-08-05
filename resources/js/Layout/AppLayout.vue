@@ -29,7 +29,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                    <div v-if="isLoggedIn" class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                         <!-- Profile dropdown -->
                         <div class="ml-3 relative">
                             <div>
@@ -41,11 +41,12 @@
 
                             <div v-if="profileMenuOpen" class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
                                 <!-- Active: "bg-gray-100", Not Active: "" -->
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
+                                <router-link :to="{name: 'logout'}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</router-link>
                             </div>
                         </div>
+                    </div>
+                    <div v-else>
+                        <router-link :to="{name: 'login'}">Login</router-link>
                     </div>
                 </div>
             </div>
@@ -81,6 +82,11 @@
 export default {
     name: 'app-layout',
     created() {
+        this.isLoggedIn = this.$store.getters.loggedIn
+        console.log('is logged in: ' + this.isLoggedIn)
+        if(this.$store.getters.loggedIn){
+            this.$store.commit('setAxiosCurrentToken')
+        }
         let appLayout = this.$router.options.routes.find((el) => {
             return el.name == 'appLayout'
         })
@@ -90,13 +96,13 @@ export default {
                 path: route.path
             })
         })
-    }
-    ,
+    },
     data() {
         return {
             items: [],
             mobileMenuOpen: false,
             profileMenuOpen: false,
+            isLoggedIn: false
         }
     }
 }

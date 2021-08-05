@@ -2251,10 +2251,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'app-layout',
   created: function created() {
     var _this = this;
+
+    this.isLoggedIn = this.$store.getters.loggedIn;
+    console.log('is logged in: ' + this.isLoggedIn);
+
+    if (this.$store.getters.loggedIn) {
+      this.$store.commit('setAxiosCurrentToken');
+    }
 
     var appLayout = this.$router.options.routes.find(function (el) {
       return el.name == 'appLayout';
@@ -2270,7 +2278,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       items: [],
       mobileMenuOpen: false,
-      profileMenuOpen: false
+      profileMenuOpen: false,
+      isLoggedIn: false
     };
   }
 });
@@ -2729,7 +2738,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     })["catch"](function (error) {
       _this.$router.push({
         name: 'notFound'
-      });
+      }); // if(error.response.status = 401){
+      //     this.$router.push({ name: 'login' })
+      // }else{
+      // }
+
     });
   },
   methods: {
@@ -2916,12 +2929,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'login',
   data: function data() {
     return {
       email: '',
-      password: ''
+      password: '',
+      loginFailed: false
     };
   },
   methods: {
@@ -2935,7 +2950,9 @@ __webpack_require__.r(__webpack_exports__);
         _this.$router.push({
           name: 'dashboard'
         });
-      })["catch"](function (error) {});
+      })["catch"](function (error) {
+        _this.loginFailed = true;
+      });
     }
   }
 });
@@ -2963,7 +2980,7 @@ __webpack_require__.r(__webpack_exports__);
 
     this.$store.dispatch('logout').then(function (response) {
       _this.$router.push({
-        name: 'adminLogin'
+        name: 'login'
       });
     });
   }
@@ -3088,19 +3105,31 @@ var routes = [{
   }, {
     path: '/comic/:comicId',
     component: _Pages_Client_ComicShow_vue__WEBPACK_IMPORTED_MODULE_1__.default,
-    name: 'comicShow'
+    name: 'comicShow',
+    meta: {
+      requiresAuth: true
+    }
   }, {
     path: '/page/:comicId/:chapter/:page',
     component: _Pages_Client_PageShow_vue__WEBPACK_IMPORTED_MODULE_3__.default,
-    name: 'pageShow'
+    name: 'pageShow',
+    meta: {
+      requiresAuth: true
+    }
   }, {
     path: '/author/:authorId',
     component: _Pages_Client_AuthorShow_vue__WEBPACK_IMPORTED_MODULE_2__.default,
-    name: 'authorShow'
+    name: 'authorShow',
+    meta: {
+      requiresAuth: true
+    }
   }, {
     path: '/payment',
     component: _Pages_Client_PaymentShow_vue__WEBPACK_IMPORTED_MODULE_4__.default,
-    name: 'paymentShow'
+    name: 'paymentShow',
+    meta: {
+      requiresAuth: true
+    }
   }, {
     path: '/404',
     name: 'notFound',
@@ -3118,7 +3147,7 @@ var routes = [{
   component: _Pages_Client_Logout_vue__WEBPACK_IMPORTED_MODULE_6__.default,
   name: 'logout',
   meta: {
-    requiresVisitor: true
+    requiresAuth: true
   }
 }, {
   path: '/admin',
@@ -3181,22 +3210,22 @@ router.beforeEach(function (to, from, next) {
   if (to.matched.some(function (record) {
     return record.meta.requiresAuth;
   })) {
-    if (!_Store_store__WEBPACK_IMPORTED_MODULE_16__.default.getters.loggedIn && !loggedIn) {
-      next({
+    if (_Store_store__WEBPACK_IMPORTED_MODULE_16__.default.getters.tokenExpired || !_Store_store__WEBPACK_IMPORTED_MODULE_16__.default.getters.loggedIn && !loggedIn) {
+      return next({
         name: 'login'
       });
     } else {
-      next();
+      return next();
     }
   } else if (to.matched.some(function (record) {
     return record.meta.requiresVisitor;
   })) {
     if (_Store_store__WEBPACK_IMPORTED_MODULE_16__.default.getters.loggedIn) {
-      next({
+      return next({
         name: 'dashboard'
       });
     } else {
-      next();
+      return next();
     }
   } else {
     next();
@@ -3228,21 +3257,32 @@ vue__WEBPACK_IMPORTED_MODULE_1__.default.use(vuex__WEBPACK_IMPORTED_MODULE_2__.d
 var store = new vuex__WEBPACK_IMPORTED_MODULE_2__.default.Store({
   state: {
     user: null,
-    token: localStorage.getItem('token') || null
+    token: localStorage.getItem('token') || null,
+    tokenExpiration: localStorage.getItem('token_expiration') || null
   },
   mutations: {
+    setAxiosCurrentToken: function setAxiosCurrentToken(state) {
+      var token = localStorage.getItem('token');
+      (axios__WEBPACK_IMPORTED_MODULE_0___default().defaults.headers.common.Authorization) = "Bearer ".concat(token);
+    },
     setToken: function setToken(state, data) {
+      var expire = Date.now() + 60000 * 60 * 24 * 30;
       localStorage.setItem('token', data.token);
+      localStorage.setItem('token_expiration', expire);
+      state.token = data.token;
+      state.tokenExpiration = expire;
       (axios__WEBPACK_IMPORTED_MODULE_0___default().defaults.headers.common.Authorization) = "Bearer ".concat(data.token);
     },
     clearUserData: function clearUserData() {
       localStorage.removeItem('token');
+      localStorage.removeItem('token_expiration');
     },
     retrieveToken: function retrieveToken(state, token) {
       state.token = token;
     },
     destroyToken: function destroyToken(state) {
       state.token = null;
+      state.tokenExpiration = null;
     }
   },
   actions: {
@@ -3250,18 +3290,26 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_2__.default.Store({
       var commit = _ref.commit;
       return axios__WEBPACK_IMPORTED_MODULE_0___default().post(route('api.login'), credentials).then(function (_ref2) {
         var data = _ref2.data;
+        commit('clearUserData');
         commit('setToken', data);
       });
     },
     logout: function logout(_ref3) {
       var commit = _ref3.commit;
-      commit('clearUserData');
-      return axios__WEBPACK_IMPORTED_MODULE_0___default().get(route('api.logout'));
+      return axios__WEBPACK_IMPORTED_MODULE_0___default().get(route('api.logout')).then(function (response) {
+        commit('clearUserData');
+        commit('destroyToken');
+      });
     }
   },
   getters: {
     loggedIn: function loggedIn(state) {
-      return state.token !== null;
+      var now = Date.now();
+      return state.token !== null && now < parseInt(state.tokenExpiration);
+    },
+    tokenExpired: function tokenExpired(state) {
+      var now = Date.now();
+      return now > parseInt(state.tokenExpiration);
     }
   }
 });
@@ -23373,113 +23421,94 @@ var render = function() {
                 ]
               ),
               _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass:
-                    "absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
-                },
-                [
-                  _c("div", { staticClass: "ml-3 relative" }, [
-                    _c("div", [
-                      _c(
-                        "button",
-                        {
-                          staticClass:
-                            "bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white",
-                          attrs: {
-                            type: "button",
-                            id: "user-menu-button",
-                            "aria-expanded": "false",
-                            "aria-haspopup": "true"
-                          },
-                          on: {
-                            click: function($event) {
-                              _vm.profileMenuOpen = !_vm.profileMenuOpen
-                            }
-                          }
-                        },
-                        [
-                          _c("span", { staticClass: "sr-only" }, [
-                            _vm._v("Open user menu")
-                          ]),
-                          _vm._v(" "),
-                          _c("img", {
-                            staticClass: "h-8 w-8 rounded-full",
-                            attrs: {
-                              src:
-                                "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-                              alt: ""
-                            }
-                          })
-                        ]
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _vm.profileMenuOpen
-                      ? _c(
-                          "div",
-                          {
-                            staticClass:
-                              "origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none",
-                            attrs: {
-                              role: "menu",
-                              "aria-orientation": "vertical",
-                              "aria-labelledby": "user-menu-button",
-                              tabindex: "-1"
-                            }
-                          },
-                          [
-                            _c(
-                              "a",
+              _vm.isLoggedIn
+                ? _c(
+                    "div",
+                    {
+                      staticClass:
+                        "absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
+                    },
+                    [
+                      _c("div", { staticClass: "ml-3 relative" }, [
+                        _c("div", [
+                          _c(
+                            "button",
+                            {
+                              staticClass:
+                                "bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white",
+                              attrs: {
+                                type: "button",
+                                id: "user-menu-button",
+                                "aria-expanded": "false",
+                                "aria-haspopup": "true"
+                              },
+                              on: {
+                                click: function($event) {
+                                  _vm.profileMenuOpen = !_vm.profileMenuOpen
+                                }
+                              }
+                            },
+                            [
+                              _c("span", { staticClass: "sr-only" }, [
+                                _vm._v("Open user menu")
+                              ]),
+                              _vm._v(" "),
+                              _c("img", {
+                                staticClass: "h-8 w-8 rounded-full",
+                                attrs: {
+                                  src:
+                                    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+                                  alt: ""
+                                }
+                              })
+                            ]
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _vm.profileMenuOpen
+                          ? _c(
+                              "div",
                               {
                                 staticClass:
-                                  "block px-4 py-2 text-sm text-gray-700",
+                                  "origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none",
                                 attrs: {
-                                  href: "#",
-                                  role: "menuitem",
-                                  tabindex: "-1",
-                                  id: "user-menu-item-0"
+                                  role: "menu",
+                                  "aria-orientation": "vertical",
+                                  "aria-labelledby": "user-menu-button",
+                                  tabindex: "-1"
                                 }
                               },
-                              [_vm._v("Your Profile")]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "a",
-                              {
-                                staticClass:
-                                  "block px-4 py-2 text-sm text-gray-700",
-                                attrs: {
-                                  href: "#",
-                                  role: "menuitem",
-                                  tabindex: "-1",
-                                  id: "user-menu-item-1"
-                                }
-                              },
-                              [_vm._v("Settings")]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "a",
-                              {
-                                staticClass:
-                                  "block px-4 py-2 text-sm text-gray-700",
-                                attrs: {
-                                  href: "#",
-                                  role: "menuitem",
-                                  tabindex: "-1",
-                                  id: "user-menu-item-2"
-                                }
-                              },
-                              [_vm._v("Sign out")]
+                              [
+                                _c(
+                                  "router-link",
+                                  {
+                                    staticClass:
+                                      "block px-4 py-2 text-sm text-gray-700",
+                                    attrs: {
+                                      to: { name: "logout" },
+                                      role: "menuitem",
+                                      tabindex: "-1",
+                                      id: "user-menu-item-2"
+                                    }
+                                  },
+                                  [_vm._v("Sign out")]
+                                )
+                              ],
+                              1
                             )
-                          ]
-                        )
-                      : _vm._e()
-                  ])
-                ]
-              )
+                          : _vm._e()
+                      ])
+                    ]
+                  )
+                : _c(
+                    "div",
+                    [
+                      _c("router-link", { attrs: { to: { name: "login" } } }, [
+                        _vm._v("Login")
+                      ])
+                    ],
+                    1
+                  )
             ]
           )
         ]),
@@ -24346,7 +24375,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "flex justify-center" }, [
-    _c("div", { staticClass: "w-1/3" }, [
+    _c("div", { staticClass: "w-full p-5" }, [
       _c("div", { staticClass: "mb-4" }, [
         _c(
           "label",
@@ -24422,6 +24451,12 @@ var render = function() {
           _vm._v("Please choose a password.")
         ])
       ]),
+      _vm._v(" "),
+      _vm.loginFailed
+        ? _c("div", { staticClass: "text-red" }, [
+            _vm._v("Wrong password or email")
+          ])
+        : _vm._e(),
       _vm._v(" "),
       _c("div", { staticClass: "flex items-center justify-between" }, [
         _c(

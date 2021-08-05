@@ -98,6 +98,10 @@ export default {
         })
         .catch((error) => {
             this.$router.push({ name: 'notFound' })
+            // if(error.response.status = 401){
+            //     this.$router.push({ name: 'login' })
+            // }else{
+            // }
         })
     },
     methods: {

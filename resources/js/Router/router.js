@@ -33,22 +33,34 @@ const routes = [
             {
                 path: '/comic/:comicId',
                 component: ComicShow,
-                name: 'comicShow'
+                name: 'comicShow',
+                meta: {
+                    requiresAuth: true
+                }
             },
             {
                 path: '/page/:comicId/:chapter/:page',
                 component: PageShow,
-                name: 'pageShow'
+                name: 'pageShow',
+                meta: {
+                    requiresAuth: true
+                }
             },
             {
                 path: '/author/:authorId',
                 component: AuthorShow,
-                name: 'authorShow'
+                name: 'authorShow',
+                meta: {
+                    requiresAuth: true
+                }
             },
             {
                 path: '/payment',
                 component: PaymentShow,
-                name: 'paymentShow'
+                name: 'paymentShow',
+                meta: {
+                    requiresAuth: true
+                }
             },
             {
                 path: '/404',
@@ -70,7 +82,7 @@ const routes = [
         component: Logout,
         name: 'logout',
         meta: {
-            requiresVisitor: true
+            requiresAuth: true
         }
     },
     {
@@ -141,20 +153,20 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     const loggedIn = localStorage.getItem("token")
     if (to.matched.some(record => record.meta.requiresAuth)) {
-        if (!store.getters.loggedIn && !loggedIn) {
-            next({
+        if (store.getters.tokenExpired || (!store.getters.loggedIn && !loggedIn)) {
+            return next({
                 name: 'login',
             })
         } else {
-            next()
+            return next()
         }
     } else if (to.matched.some(record => record.meta.requiresVisitor)) {
         if (store.getters.loggedIn) {
-            next({
+            return next({
                 name: 'dashboard',
             })
         } else {
-            next()
+            return next()
         }
     } else {
         next()
