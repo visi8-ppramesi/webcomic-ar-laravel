@@ -47,7 +47,9 @@
             <div><!-- authors -->
                 <div>Authors:</div>
                 <div>
-                    <div></div><!-- authors value -->
+                    <div v-for="(author, idx) in authors" :key="'author-' + idx">
+                        <button @click="$router.push({name: 'authorShow', params: {authorId: author.id}})">{{author.name}}</button>
+                    </div><!-- authors value -->
                 </div>
             </div>
             <div><!-- genres -->
@@ -80,13 +82,15 @@ export default {
         return {
             comic: {},
             bookmark: {},
-            purchased: false
+            purchased: false,
+            authors: [],
         }
     },
     created(){
         axios.get(route('api.comic.show', {comic: this.$route.params.comicId}))
         .then((response) => {
             this.comic = response.data
+            this.parseAuthors()
             return axios.get(route('api.comic.check.purchased', {comicId: this.$route.params.comicId}))
         })
         .then((response) => {
@@ -98,22 +102,34 @@ export default {
         })
         .catch((error) => {
             this.$router.push({ name: 'notFound' })
-            // if(error.response.status = 401){
-            //     this.$router.push({ name: 'login' })
-            // }else{
-            // }
         })
     },
     methods: {
+        parseAuthors(){
+            this.comic.authors.forEach(element => {
+                this.authors.push({
+                    name: element.name,
+                    id: element.id
+                })
+            });
+        },
         purchaseComic(){//for now this just automatically trigger purchase comic, later it will redirect to shopping cart page
             axios.get(route('api.comic.purchase', {comic: this.$route.params.comicId}))
             .then()
         },
         startReading(){
-
+            this.$router.push({name: 'pageShow', params: {
+                comicId: this.$route.params.comicId,
+                chapter: 1,
+                page: 1,
+            }})
         },
         continueReading(){
-
+            this.$router.push({name: 'pageShow', params: {
+                comicId: this.$route.params.comicId,
+                chapter: this.bookmark.chapter,
+                page: this.bookmark.page_number,
+            }})
         },
         favorite(){
 

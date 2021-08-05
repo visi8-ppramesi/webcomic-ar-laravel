@@ -2708,6 +2708,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'comic-show',
   components: {},
@@ -2715,7 +2717,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     return {
       comic: {},
       bookmark: {},
-      purchased: false
+      purchased: false,
+      authors: []
     };
   },
   created: function created() {
@@ -2725,6 +2728,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       comic: this.$route.params.comicId
     })).then(function (response) {
       _this.comic = response.data;
+
+      _this.parseAuthors();
+
       return axios.get(route('api.comic.check.purchased', {
         comicId: _this.$route.params.comicId
       }));
@@ -2738,22 +2744,46 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     })["catch"](function (error) {
       _this.$router.push({
         name: 'notFound'
-      }); // if(error.response.status = 401){
-      //     this.$router.push({ name: 'login' })
-      // }else{
-      // }
-
+      });
     });
   },
   methods: {
+    parseAuthors: function parseAuthors() {
+      var _this2 = this;
+
+      this.comic.authors.forEach(function (element) {
+        _this2.authors.push({
+          name: element.name,
+          id: element.id
+        });
+      });
+    },
     purchaseComic: function purchaseComic() {
       //for now this just automatically trigger purchase comic, later it will redirect to shopping cart page
       axios.get(route('api.comic.purchase', {
         comic: this.$route.params.comicId
       })).then();
     },
-    startReading: function startReading() {},
-    continueReading: function continueReading() {},
+    startReading: function startReading() {
+      this.$router.push({
+        name: 'pageShow',
+        params: {
+          comicId: this.$route.params.comicId,
+          chapter: 1,
+          page: 1
+        }
+      });
+    },
+    continueReading: function continueReading() {
+      this.$router.push({
+        name: 'pageShow',
+        params: {
+          comicId: this.$route.params.comicId,
+          chapter: this.bookmark.chapter,
+          page: this.bookmark.page_number
+        }
+      });
+    },
     favorite: function favorite() {}
   }
 });
@@ -3003,7 +3033,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'page',
+  data: function data() {
+    return {
+      pages: []
+    };
+  },
+  created: function created() {
+    var _this = this;
+
+    axios.get(route('api.pages.show', {
+      comicId: this.$route.params.comicId,
+      chapter: this.$route.params.chapter,
+      page: this.$route.params.page
+    })).then(function (response) {
+      _this.pages = response.data;
+    })["catch"](function (error) {});
+  }
+});
 
 /***/ }),
 
@@ -24197,9 +24249,34 @@ var render = function() {
       _vm._v(" "),
       _vm._m(0),
       _vm._v(" "),
-      _vm._m(1),
+      _c("div", [
+        _c("div", [_vm._v("Authors:")]),
+        _vm._v(" "),
+        _c(
+          "div",
+          _vm._l(_vm.authors, function(author, idx) {
+            return _c("div", { key: "author-" + idx }, [
+              _c(
+                "button",
+                {
+                  on: {
+                    click: function($event) {
+                      return _vm.$router.push({
+                        name: "authorShow",
+                        params: { authorId: author.id }
+                      })
+                    }
+                  }
+                },
+                [_vm._v(_vm._s(author.name))]
+              )
+            ])
+          }),
+          0
+        )
+      ]),
       _vm._v(" "),
-      _vm._m(2)
+      _vm._m(1)
     ]),
     _vm._v(" "),
     _c("div"),
@@ -24220,16 +24297,6 @@ var staticRenderFns = [
       _c("div", [_vm._v("Total Pages:")]),
       _vm._v(" "),
       _c("div")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("div", [_vm._v("Authors:")]),
-      _vm._v(" "),
-      _c("div", [_c("div")])
     ])
   },
   function() {
@@ -24531,7 +24598,18 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c(
+    "div",
+    { staticClass: "w-full" },
+    _vm._l(_vm.pages, function(page, idx) {
+      return _c(
+        "div",
+        { key: "img-" + idx, staticClass: "w-100", attrs: { src: "" } },
+        [_c("img", { attrs: { src: page.image_url } })]
+      )
+    }),
+    0
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
