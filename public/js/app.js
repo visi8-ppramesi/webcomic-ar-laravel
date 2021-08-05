@@ -2248,6 +2248,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'app-layout',
   created: function created() {
@@ -23550,6 +23553,10 @@ var render = function() {
           [_c("router-view")],
           1
         )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "w-100 bg-gray-800" }, [
+        _vm._v("\n        Footer\n    ")
       ])
     ]
   )

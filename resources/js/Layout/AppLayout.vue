@@ -71,6 +71,9 @@
                 <router-view></router-view>
             </div>
         </div>
+        <div class="w-100 bg-gray-800">
+            Footer
+        </div>
     </div>
 </template>
 
