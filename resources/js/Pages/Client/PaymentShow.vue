@@ -33,8 +33,12 @@
 </template>
 
 <script>
+import Modal from '../../Components/Modal.vue'
 export default {
     name:'payment-page',
+    components:{
+        Modal
+    },
     created(){
         let cart = localStorage.getItem('cart')
         axios.get(route('api.comics.list', {where_in_id: cart}))
@@ -45,7 +49,8 @@ export default {
     data(){
         return {
             cartItems: [],
-            arSelected: {}
+            arSelected: {},
+            modal: true
         }
     },
     methods:{

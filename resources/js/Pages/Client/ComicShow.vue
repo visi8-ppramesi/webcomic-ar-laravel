@@ -48,14 +48,16 @@
                 <div>Authors:</div>
                 <div>
                     <div v-for="(author, idx) in authors" :key="'author-' + idx">
-                        <button class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" @click="$router.push({name: 'authorShow', params: {authorId: author.id}})">{{author.name}}</button>
+                        <button class="inline-flex items-center justify-center p-2 rounded-md text-gray-50 bg-gray-800 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" @click="$router.push({name: 'authorShow', params: {authorId: author.id}})">{{author.name}}</button>
                     </div><!-- authors value -->
                 </div>
             </div>
             <div><!-- genres -->
-                <div>Genres:</div>
+                <div>Tags:</div>
                 <div>
-                    <div></div><!-- genres value -->
+                    <div v-for="(tag, idx) in tags" :key="'tag-' + idx">
+                        <button class="inline-flex items-center justify-center p-2 rounded-md text-gray-50 bg-gray-800 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" @click="gotToTag(tag)">{{tag}}</button>
+                    </div><!-- genres value -->
                 </div>
             </div>
         </div>
@@ -84,12 +86,14 @@ export default {
             bookmark: {},
             purchased: false,
             authors: [],
+            tags: [],
         }
     },
     created(){
         axios.get(route('api.comic.show', {comic: this.$route.params.comicId}))
         .then((response) => {
             this.comic = response.data
+            this.tags = JSON.parse(this.comic.tags)
             this.parseAuthors()
             return axios.get(route('api.comic.check.purchased', {comicId: this.$route.params.comicId}))
         })
@@ -132,6 +136,9 @@ export default {
                 chapter: this.bookmark.chapter,
                 page: this.bookmark.page_number,
             }})
+        },
+        gotToTag(){
+
         },
         favorite(){
 

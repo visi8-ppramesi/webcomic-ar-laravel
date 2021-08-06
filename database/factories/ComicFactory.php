@@ -23,11 +23,17 @@ class ComicFactory extends Factory
     public function definition()
     {
         $author = Author::inRandomOrder()->first();
+        $genres = explode(' ', 'quisque tincidunt ornare nisl Nunc mattis nibh libero in aliquet nisi mollis');
+        $tags = explode(' ', 'lorem ipsum dolor sit amet consectetur adipiscing elit nullam sed nulla et nisl venenatis semper aliquam erat volutpat praesent malesuada');
+        $randomKeys = array_rand($tags, 3);
+        $tagsStr = json_encode([$tags[$randomKeys[0]], $tags[$randomKeys[1]], $tags[$randomKeys[2]]]);
+        $randomKeysGenre = array_rand($genres, 3);
+        $genresStr = json_encode([$genres[$randomKeysGenre[0]], $genres[$randomKeysGenre[1]], $genres[$randomKeysGenre[2]]]);
         return [
             'title' => $this->faker->words(4, true),
             'description' => $this->faker->paragraph(),
-            'tags' => '["asdf", "zxcv"]',
-            'genres' => '["asdf", "zxcv"]',
+            'tags' => $tagsStr,
+            'genres' => $genresStr,
             'author_id' => $author,
             'price' => $this->faker->randomFloat(2, 0, 10),
             'cover_url' => '/storage/media/covers/cover.jpg'

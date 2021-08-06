@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Filters\Get;
+use App\Filters\WhereGenre;
+use App\Filters\WhereTag;
 use App\Filters\WhereInId;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +19,8 @@ class Comic extends Model
     public function pipeable(){
         return [
             Get::class,
+            WhereTag::class,
+            WhereGenre::class,
             WhereInId::class,
         ];
     }

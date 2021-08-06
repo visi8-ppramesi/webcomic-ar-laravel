@@ -17,6 +17,12 @@ class ComicController extends Controller
         $ids = json_decode($validated['comic_ids']);
         $ar = json_decode($validated['ar_bought']);
 
+        $u = auth()->user();
+
+        foreach($ids as $id){
+            $u->purchaseComic($id, in_array($id, $ar));
+        }
+
         return response()->json(['ids' => $ids], 200);
     }
 

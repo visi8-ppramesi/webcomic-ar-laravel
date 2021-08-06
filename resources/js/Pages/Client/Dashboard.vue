@@ -17,30 +17,16 @@
                 ></horizontal-slider>
             </div>
         </div>
-        <div class="mb-3">
+        <div class="mb-3" v-for="(tag, idx) in shownTags" :key="'tag-' + idx">
             <div>
-                <div>Tag 1</div>
+                <div>{{tag}}</div>
                 <div></div>
             </div>
             <div>
                 <horizontal-slider
-                    :items="processToHorizontalSlider(comics.all.comics)"
+                    :items="processToHorizontalSlider(comics[tag].comics)"
                     :config="config"
-                    objectCategory="all"
-                    @nextPage="nextPage"
-                ></horizontal-slider>
-            </div>
-        </div>
-        <div class="mb-3">
-            <div>
-                <div>Tag 2</div>
-                <div></div>
-            </div>
-            <div>
-                <horizontal-slider
-                    :items="processToHorizontalSlider(comics.all.comics)"
-                    :config="config"
-                    objectCategory="all"
+                    :objectCategory="tag"
                     @nextPage="nextPage"
                 ></horizontal-slider>
             </div>
@@ -56,10 +42,19 @@ export default {
         HorizontalSlider
     },
     created(){
+        this.shownTags.forEach((elem) => {
+            this.comics[elem] = {}
+            this.comics[elem].comics = []
+            this.getComics(route('api.comics.list', {...this.query, where_tag: elem}), elem)
+        })
         this.getComics(route('api.comics.list', this.query), 'all')
     },
     data(){
         return {
+            shownTags: [
+                'asdf',
+                'lorem'
+            ],
             comics: {
                 all: {
                     comics: []
