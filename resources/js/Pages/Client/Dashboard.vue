@@ -1,12 +1,12 @@
 <template>
     <div class="pa-2 w-full">
-        <div class="bg-blue-100 min-w-100 h-36 mb-6"> <!-- add featured comic here -->
+        <div class="bg-blue-100 w-150 h-40 mb-8"> <!-- add featured comic here -->
             featured comics
         </div>
-        <div class="mb-3">
+        <div class="mb-3 text-white">
             <div>
-                <div>All Comics</div>
-                <div></div>
+                <div class="text-white float-right">More</div>
+                <div>New Releases</div>
             </div>
             <div>
                 <horizontal-slider
@@ -17,10 +17,10 @@
                 ></horizontal-slider>
             </div>
         </div>
-        <div class="mb-3" v-for="(tag, idx) in shownTags" :key="'tag-' + idx">
+        <div class="mb-3 text-white" v-for="(tag, idx) in shownTags" :key="'tag-' + idx">
             <div>
-                <div>{{tag}}</div>
-                <div></div>
+                <div class="text-white float-right">More</div>
+                <div>Most Viewed</div>
             </div>
             <div>
                 <horizontal-slider

@@ -1,16 +1,16 @@
 <template>
     <div class="scrolling-wrapper">
-        <div v-for="(item, idx) in items" class="card scroller-container mr-1" :key="'item-' + idx">
+        <div v-for="(item, idx) in items" class="card scroller-container mr-1 bg-gradient-to-t from-indigo-900 to-indigo-400" :key="'item-' + idx">
             <div>
                 <router-link :to="item.url">
                     <img :src="item[config.image]" class="image">
                 </router-link>
             </div>
-            <div>
+            <div class="text-sm p-2">
                 {{item[config.title]}}
             </div>
         </div>
-        <div @click="loadMore">load more</div>
+        <div class="mt-10 ml-2" @click="loadMore">load more</div>
     </div>
 </template>
 
@@ -49,6 +49,7 @@ export default {
     flex-wrap: nowrap;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    padding-top: 5px;
 }
 .scrolling-wrapper.card{
     flex: 0 0 auto;
@@ -56,8 +57,17 @@ export default {
 .scrolling-wrapper::-webkit-scrollbar {
     display: none;
 }
-.scroller-container{
-    max-height: 200px;
-    min-width: 150px;
+.scroller-container{    
+    max-height: 155px;
+    min-width: 100px;
+    height: 155px;
+    border-radius: 10px;
+}
+
+.image{
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    height: 80px;
+    max-width: 100%;
 }
 </style>
