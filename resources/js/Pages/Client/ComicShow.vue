@@ -1,77 +1,35 @@
 <template>
     <div>
-        <div class="flex flex-row"><!-- top block -->
-            <div class="w-40"><!-- cover image -->
-                <img :src="comic.cover_url">
+        <div class="description-block text-white flex flex-col justify-end p-5" :style="'background-image:linear-gradient(to bottom, rgba(245, 246, 252, 0.52), rgb(0 0 0 / 73%)), url(' + comic.cover_url + ');'"><!-- top block -->
+            <div>{{genres.join(', ')}}</div><!-- make it linkable later -->
+            <div>{{comic.title}}</div>
+            <div>{{authors.map(el => el.name).join(', ')}}</div><!-- make it linkable later -->
+            <div>{{comic.description}}</div>
+            <div class="flex flex-row">
+                <button class="inline-flex items-center justify-center p-2 rounded-md text-gray-50 bg-gray-800 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">View with AR</button>
+                 <template v-if="purchased">
+                    <button class="inline-flex items-center justify-center p-2 rounded-md text-gray-50 bg-gray-800 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" v-if="$_.isEmpty(bookmark)" @click="startReading">Start Reading</button>
+                    <button class="inline-flex items-center justify-center p-2 rounded-md text-gray-50 bg-gray-800 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" v-else @click="continueReading">Continue Reading</button>
+                </template>
+                <template v-else>
+                    <button class="inline-flex items-center justify-center p-2 rounded-md text-gray-50 bg-gray-800 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" @click="purchaseComic">Buy Comic</button>
+                </template>
+                <button class="inline-flex items-center justify-center p-2 rounded-md text-gray-50 bg-gray-800 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" @click="favorite">Favorite</button>
             </div>
-            <div><!-- title block -->
-                <div><!-- title -->
-                    {{comic.title}}
+        </div>
+        <div>
+            <div class="flex flex-row h-20" v-for="(preview, idx) in previews" :key="'preview-'+idx" @click="goToChapter(preview.chapter)">
+                <div class="flex-none">
+                    <img class="h-20" :src="preview.image_url" alt="">
                 </div>
-                <div><!-- subtitle -->
-
-                </div>
-                <div><!-- price -->
-                    {{comic.price}}
-                </div>
-                <div><!-- buttons -->
-                    <div><!-- buy/continue reading -->
-                        <template v-if="purchased">
-                            <button class="inline-flex items-center justify-center p-2 rounded-md text-gray-50 bg-gray-800 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" v-if="$_.isEmpty(bookmark)" @click="startReading">Start Reading</button>
-                            <button class="inline-flex items-center justify-center p-2 rounded-md text-gray-50 bg-gray-800 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" v-else @click="continueReading">Continue Reading</button>
-                        </template>
-                        <template v-else>
-                            <button class="inline-flex items-center justify-center p-2 rounded-md text-gray-50 bg-gray-800 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" @click="purchaseComic">Buy Comic</button>
-                        </template>
+                <div class="flex-grow flex flex-col p-3">
+                    <div>Ep. {{preview.chapter}}</div>
+                    <div class="flex flex-row w-100">
+                        <div class="mr-2">[put heart here]</div>
+                        <div>{{preview.release_date}}</div>
                     </div>
-                    <div><!-- favorite -->
-                        <button class="inline-flex items-center justify-center p-2 rounded-md text-gray-50 bg-gray-800 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" @click="favorite">Favorite</button>
-                    </div>
                 </div>
             </div>
-        </div>
-        <div><!-- description block -->
-            <div>Description</div><!-- description title -->
-            <div>{{comic.description}}</div><!-- description text -->
-        </div>
-        <div><!-- about block -->
-            <div>About Block:</div><!-- about title -->
-            <div><!-- release date -->
-                <div>Release Date:</div>
-                <div>{{comic.release_date}}</div><!-- release date value -->
-            </div>
-            <div><!-- total pages -->
-                <div>Total Pages:</div>
-                <div></div><!-- total pages value -->
-            </div>
-            <div><!-- authors -->
-                <div>Authors:</div>
-                <div>
-                    <div v-for="(author, idx) in authors" :key="'author-' + idx">
-                        <button class="inline-flex items-center justify-center p-2 rounded-md text-gray-50 bg-gray-800 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" @click="$router.push({name: 'authorShow', params: {authorId: author.id}})">{{author.name}}</button>
-                    </div><!-- authors value -->
-                </div>
-            </div>
-            <div><!-- genres -->
-                <div>Tags:</div>
-                <div>
-                    <div v-for="(tag, idx) in tags" :key="'tag-' + idx">
-                        <button class="inline-flex items-center justify-center p-2 rounded-md text-gray-50 bg-gray-800 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" @click="gotToTag(tag)">{{tag}}</button>
-                    </div><!-- genres value -->
-                </div>
-            </div>
-        </div>
-        <div><!-- page preview title block -->
-
-        </div>
-        <div><!-- pages block -->
-
-        </div>
-        <div><!-- recommendation block title -->
-
-        </div>
-        <div><!-- recommendation content block -->
-
         </div>
     </div>
 </template>
@@ -87,13 +45,20 @@ export default {
             purchased: false,
             authors: [],
             tags: [],
+            previews: [],
+            genres: []
         }
     },
     created(){
+        axios.get(route('api.comic.get.previews', {comicId: this.$route.params.comicId}))
+        .then((response) => {
+            this.previews = response.data
+        })
         axios.get(route('api.comic.show', {comic: this.$route.params.comicId}))
         .then((response) => {
             this.comic = response.data
             this.tags = JSON.parse(this.comic.tags)
+            this.genres = JSON.parse(this.comic.genres)
             this.parseAuthors()
             return axios.get(route('api.comic.check.purchased', {comicId: this.$route.params.comicId}))
         })
@@ -127,14 +92,12 @@ export default {
             this.$router.push({name: 'pageShow', params: {
                 comicId: this.$route.params.comicId,
                 chapter: 1,
-                page: 1,
             }})
         },
         continueReading(){
             this.$router.push({name: 'pageShow', params: {
                 comicId: this.$route.params.comicId,
-                chapter: this.bookmark.chapter,
-                page: this.bookmark.page_number,
+                chapter: this.bookmark.chapter
             }})
         },
         gotToTag(){
@@ -142,11 +105,19 @@ export default {
         },
         favorite(){
 
+        },
+        goToChapter(chapter){
+            this.$router.push({name: 'pageShow', params: {
+                comicId: this.$route.params.comicId,
+                chapter: chapter,
+            }})
         }
     }
 }
 </script>
 
 <style>
-
+.description-block{
+    height: calc(100vh - 64px - 0.5rem);
+}
 </style>

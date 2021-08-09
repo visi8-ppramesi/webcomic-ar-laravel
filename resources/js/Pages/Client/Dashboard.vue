@@ -3,32 +3,34 @@
         <div class="bg-blue-100 w-150 h-40 mb-8"> <!-- add featured comic here -->
             featured comics
         </div>
-        <div class="mb-3 text-white">
-            <div>
-                <div class="text-white float-right">More</div>
-                <div>New Releases</div>
+        <div class="px-5">
+            <div class="mb-3 text-white">
+                <div>
+                    <div class="text-white float-right">More</div>
+                    <div>New Releases</div>
+                </div>
+                <div>
+                    <horizontal-slider
+                        :items="processToHorizontalSlider(comics.all.comics)"
+                        :config="config"
+                        objectCategory="all"
+                        @nextPage="nextPage"
+                    ></horizontal-slider>
+                </div>
             </div>
-            <div>
-                <horizontal-slider
-                    :items="processToHorizontalSlider(comics.all.comics)"
-                    :config="config"
-                    objectCategory="all"
-                    @nextPage="nextPage"
-                ></horizontal-slider>
-            </div>
-        </div>
-        <div class="mb-3 text-white" v-for="(tag, idx) in shownTags" :key="'tag-' + idx">
-            <div>
-                <div class="text-white float-right">More</div>
-                <div>Most Viewed</div>
-            </div>
-            <div>
-                <horizontal-slider
-                    :items="processToHorizontalSlider(comics[tag].comics)"
-                    :config="config"
-                    :objectCategory="tag"
-                    @nextPage="nextPage"
-                ></horizontal-slider>
+            <div class="mb-3 text-white" v-for="(tag, idx) in shownTags" :key="'tag-' + idx">
+                <div>
+                    <div class="text-white float-right">More</div>
+                    <div>Most Viewed</div>
+                </div>
+                <div>
+                    <horizontal-slider
+                        :items="processToHorizontalSlider(comics[tag].comics)"
+                        :config="config"
+                        :objectCategory="tag"
+                        @nextPage="nextPage"
+                    ></horizontal-slider>
+                </div>
             </div>
         </div>
     </div>

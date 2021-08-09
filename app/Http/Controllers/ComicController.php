@@ -8,6 +8,14 @@ use Illuminate\Http\Request;
 
 class ComicController extends Controller
 {
+    public function getComicChapters($comicId){
+        return response()->json(Page::where('comic_id', $comicId)->get()->pluck('chapter'), 200);
+    }
+
+    public function getComicChapterCount($comicId){
+        return response()->json(Page::where('comic_id', $comicId)->max('chapter'), 200);
+    }
+
     public function purchaseComics(Request $request){
         $validated = $request->validate([
             'comic_ids' => ['required', 'json'],

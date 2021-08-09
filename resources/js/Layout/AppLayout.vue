@@ -1,5 +1,5 @@
 <template>
-    <div class="text-gray-50 bg-gray-800 pt-2 md:pt-1 mt-0 h-auto w-full z-20 top-0">
+    <div class="text-gray-50 bg-gray-800 mt-0 h-auto w-full z-20 top-0">
         <nav class="bg-gray-800">
             <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
                 <div class="relative flex items-center justify-between h-16">
@@ -68,8 +68,8 @@
                     <router-link :to="item.path">{{item.name}}</router-link>
                 </div>
             </div> -->
-            <div class="min-h-screen main-content flex-1 bg-gradient-to-t from-purple-800 to-green-400 pb-24 md:pb-5 h-auto text-black px-4 pt-4">
-                <router-view></router-view>
+            <div class="min-h-screen main-content flex-1 bg-gradient-to-t from-purple-800 to-green-400 pb-24 md:pb-5 h-auto text-black">
+                <router-view :key="$route.fullPath"></router-view>
             </div>
         </div>
         <div class="w-100 bg-gray-800">

@@ -39,7 +39,7 @@ const routes = [
                 }
             },
             {
-                path: '/page/:comicId/:chapter/:page',
+                path: '/page/:comicId/:chapter',
                 component: PageShow,
                 name: 'pageShow',
                 meta: {

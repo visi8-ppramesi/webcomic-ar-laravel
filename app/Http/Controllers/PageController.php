@@ -23,8 +23,8 @@ class PageController extends Controller
         return response()->json(['config' => $page->config, 'scene' => $page->scene], 200);
     }
 
-    public function getComicPages($comicId, $chapter, $page){
-        $pages = Page::where('comic_id', $comicId)->where('chapter', $chapter)->where('page_number', $page)->orderBy('section')->get();
+    public function getComicPages($comicId, $chapter){
+        $pages = Page::where('comic_id', $comicId)->where('chapter', $chapter)->orderBy('section')->get();
 
         return response()->json($pages, 200);
     }

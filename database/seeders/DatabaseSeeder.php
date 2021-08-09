@@ -36,6 +36,21 @@ class DatabaseSeeder extends Seeder
         foreach($comics as $comic){
             $l = \App\Models\Author::inRandomOrder()->take(3)->get()->pluck('id')->toArray();
             $comic->authors()->sync($l);
+
+            $pages = $comic->pages()->get();
+            $chapters = [];
+            foreach($pages as $page){
+                if(!in_array($page->chapter, $chapters, true)){
+                    \App\Models\ChapterPreview::create([
+                        'comic_id' => $comic->id,
+                        'chapter' => $page->chapter,
+                        'release_date' => now(),
+                        'image_url' => '/storage/media/previews/captain-america-preview.jpg'
+                    ]);
+                    $chapters[] = $page->chapter;
+                }
+            }
+            
         }
 
         $admin = Role::create(['name' => 'admin', 'display_name' => 'Administrator', 'description' => 'Administrate website']);
