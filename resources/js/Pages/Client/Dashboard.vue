@@ -21,7 +21,7 @@
             <div class="mb-3 text-white" v-for="(tag, idx) in shownTags" :key="'tag-' + idx">
                 <div>
                     <div class="text-white float-right">More</div>
-                    <div>Most Viewed</div>
+                    <div>{{$_.startCase($_.toLower(tag))}}</div>
                 </div>
                 <div>
                     <horizontal-slider

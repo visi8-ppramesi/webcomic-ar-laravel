@@ -1,9 +1,17 @@
 <template>
     <div>
-        <div class="description-block text-white flex flex-col justify-end p-5" :style="'background-image:linear-gradient(to bottom, rgba(245, 246, 252, 0.52), rgb(0 0 0 / 73%)), url(' + comic.cover_url + ');'"><!-- top block -->
-            <div>{{genres.join(', ')}}</div><!-- make it linkable later -->
+        <div class="description-block text-white flex flex-col justify-end p-5" :style="'background-image:linear-gradient(to bottom, rgba(245, 246, 252, 0), rgb(0 0 0 / 73%)), url(' + comic.cover_url + ');'"><!-- top block -->
+            <div>
+                <template v-for="(genre, idx) in genres">
+                    <router-link :to="{name: 'search', query: {search: genre}}" :key="'genre-' + idx">{{genre}}<span v-if="idx < genres.length - 1" :key="'comma-' + idx">, </span></router-link> 
+                </template>
+            </div><!-- make it linkable later -->
             <div>{{comic.title}}</div>
-            <div>{{authors.map(el => el.name).join(', ')}}</div><!-- make it linkable later -->
+            <div>
+                <template v-for="(author, idx) in authors">
+                    <router-link :to="{name: 'authorShow', params: {authorId: author.id}}" :key="'author-' + idx">{{author.name}}<span v-if="idx < authors.length - 1" :key="'comma-' + idx">, </span></router-link> 
+                </template>
+            </div>
             <div>{{comic.description}}</div>
             <div class="flex flex-row">
                 <button class="inline-flex items-center justify-center p-2 rounded-md text-gray-50 bg-gray-800 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">View with AR</button>
@@ -118,6 +126,8 @@ export default {
 
 <style>
 .description-block{
-    height: calc(100vh - 64px - 0.5rem);
+    height: calc(100vh - 64px);
+    background-size: cover;
+    background-position: center;
 }
 </style>

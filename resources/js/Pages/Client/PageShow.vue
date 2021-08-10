@@ -14,9 +14,19 @@
                 </svg>
             </div>
         </div>
-        <div class="w-100" v-for="(page, idx) in pages" :key="'img-' + idx">
+        <template v-for="(page, idx) in pages">
+            <div v-if="page.id in scenePages && $route.query.ar == 'true'" :class="{glow: shownClass['ar-' + page.id], 'fill-width': !shownClass['ar-' + page.id]}" class="w-100 glow-animation" :key="'img-' + idx" :id="'ar-' + page.id">
+                <router-link :to="{name: 'sceneShow', params: {pageId: page.id}}">
+                    <img :src="page.image_url">
+                </router-link>
+            </div>
+            <div v-else :key="'img-' + idx">
+                <img :src="page.image_url">
+            </div>
+        </template>
+        <!-- <div :class="{glow: shownClass['ar-' + page.id], 'fill-width': !shownClass['ar-' + page.id]}" class="w-100 glow-animation" v-for="(page, idx) in pages" :key="'img-' + idx" :id="page.id in scenePages ? 'ar-' + page.id : null">
             <img :src="page.image_url">
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -29,7 +39,10 @@ export default {
             chapters: [],
             selectedChapter: this.$route.params.chapter,
             prevEnabled: false,
-            nextEnabled: false
+            nextEnabled: false,
+            scenePages: {},
+            shownClass: {},
+            arElems: {}
         }
     },
     methods:{
@@ -68,24 +81,94 @@ export default {
             }))
             .then((response) => {
                 this.pages = response.data
+                return response
             })
             .catch((error) => {
 
             })
 
+        },
+        handleScroll(e){
+            if(this.$route.query.ar != 'true'){
+                return
+            }
+            let shownClass = {}
+            Object.keys(this.arElems).forEach((el, idx) => {
+                if(this.isInViewport(this.arElems[el])){
+                    shownClass['ar-' + el] = true
+                }else{
+                    shownClass['ar-' + el] = false
+                }
+            })
+            this.shownClass = shownClass
+        },
+        isInViewport(element){
+            const rect = element.getBoundingClientRect();
+            const bottom = rect.bottom < (window.innerHeight / 1.5) ? rect.bottom : rect.bottom / 1.5
+            const right = rect.right - 1
+            const visible = (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                right <= (window.innerWidth || document.documentElement.clientWidth)
+            )
+            return visible;
         }
     },
+    destroyed(){
+        window.removeEventListener('scroll', this.handleScroll)
+    },
     created(){
+        axios.get(route('api.author.show', {author:1}))
+        window.addEventListener('scroll', this.handleScroll)
         this.fetchChapters(this.$route.params.comicId)
         .then((resp) => {
             this.prevEnabled = this.$route.params.chapter != this.chapters[0]
             this.nextEnabled = this.$route.params.chapter != this.chapters[this.chapters.length - 1]
         })
         this.fetchPages(this.$route.params.comicId, this.$route.params.chapter)
+        .then((resp) => {
+            let k = {}
+            this.pages.filter((el) => {
+                return !!el.scene
+            }).forEach((el) => {
+                k[el.id] = el.scene
+            })
+            this.scenePages = k
+
+            this.$nextTick(() => {
+                let elems = {}
+                Object.keys(this.scenePages).forEach((el) => {
+                    elems[el] = document.getElementById('ar-' + el)
+                })
+                this.arElems = elems
+            })
+        })
+        .then((resp) => {
+            return axios.get(route('api.page.bookmark', {pageId: this.pages[0].id}))
+        })
     },
 }
 </script>
 
 <style>
-
+.glow{
+    box-shadow: 0 0 15px 3px #FFF, 0 0 8px 2px #f0f, 0 0 5px 5px #0FF;
+    /* width: 80.5vw; */
+    z-index: 99;
+    margin-bottom:2px;
+    transform: scale(0.98, 0.99) !important;
+    /* transition-property: transform;
+    transition-duration: 0.5s;
+    transition-timing-function: ease !important; */
+}
+.glow-animation{
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+.full-width{
+    width: 100%;
+}
 </style>

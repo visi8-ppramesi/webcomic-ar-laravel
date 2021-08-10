@@ -6,6 +6,8 @@ import PageShow from '../Pages/Client/PageShow.vue'
 import PaymentShow from '../Pages/Client/PaymentShow.vue'
 import Login from '../Pages/Client/Login.vue'
 import Logout from '../Pages/Client/Logout.vue'
+import Search from '../Pages/Client/Search.vue'
+import SceneShow from '../Pages/Client/SceneShow.vue'
 
 import NotFound from '../Pages/NotFound.vue'
 
@@ -29,6 +31,22 @@ const routes = [
                 path: '/',
                 component: Dashboard,
                 name: 'dashboard'
+            },
+            {
+                path: '/scene/:pageId',
+                component: SceneShow,
+                name: 'sceneShow',
+                meta: {
+                    requiresAuth: true
+                }
+            },
+            {
+                path: '/search',
+                component: Search,
+                name: 'search',
+                meta: {
+                    requiresAuth: true
+                }
             },
             {
                 path: '/comic/:comicId',

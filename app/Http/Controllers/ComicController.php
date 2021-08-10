@@ -9,7 +9,8 @@ use Illuminate\Http\Request;
 class ComicController extends Controller
 {
     public function getComicChapters($comicId){
-        return response()->json(Page::where('comic_id', $comicId)->get()->pluck('chapter'), 200);
+        $chapters = Page::where('comic_id', $comicId)->get()->pluck('chapter')->toArray();
+        return response()->json(array_values(array_unique($chapters)), 200);
     }
 
     public function getComicChapterCount($comicId){
