@@ -3,7 +3,10 @@
         <div class="w-full mt-1 mb-2 px-5 py-2">
             <label for="chapter">Select chapter</label>
             <div class="flex">
-                <svg @click="prevChapter" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mt-1 mr-1" fill="none" viewBox="0 0 24 24" :stroke="prevEnabled ? '#2f2f2f' : '#919191'">
+                <select class="rounded-lg form-select block w-full mt-1" @change="changeChapter(selectedChapter)" v-model="selectedChapter">
+                    <option v-for="(chapter, idx) in chapters" :value="chapter" :key="'cpt-' + idx">Episode {{chapter}}</option>
+                </select>
+                <!-- <svg @click="prevChapter" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mt-1 mr-1" fill="none" viewBox="0 0 24 24" :stroke="prevEnabled ? '#2f2f2f' : '#919191'">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                 </svg>
                 <select class="form-select block w-full mt-1" @change="changeChapter(selectedChapter)" v-model="selectedChapter">
@@ -11,11 +14,11 @@
                 </select>
                 <svg @click="nextChapter" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mt-1 ml-1" fill="none" viewBox="0 0 24 24" :stroke="nextEnabled ? '#2f2f2f' : '#919191'">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
+                </svg> -->
             </div>
         </div>
         <template v-for="(page, idx) in pages">
-            <div v-if="page.id in scenePages && $route.query.ar == 'true'" :class="{glow: shownClass['ar-' + page.id], 'fill-width': !shownClass['ar-' + page.id]}" class="w-100 glow-animation" :key="'img-' + idx" :id="'ar-' + page.id">
+            <div v-if="page.id in scenePages && isAr" :class="{glow: shownClass['ar-' + page.id], 'fill-width': !shownClass['ar-' + page.id]}" class="w-100 glow-animation" :key="'img-' + idx" :id="'ar-' + page.id">
                 <router-link :to="{name: 'sceneShow', params: {pageId: page.id}}">
                     <img :src="page.image_url">
                 </router-link>
@@ -27,6 +30,20 @@
         <!-- <div :class="{glow: shownClass['ar-' + page.id], 'fill-width': !shownClass['ar-' + page.id]}" class="w-100 glow-animation" v-for="(page, idx) in pages" :key="'img-' + idx" :id="page.id in scenePages ? 'ar-' + page.id : null">
             <img :src="page.image_url">
         </div> -->
+        <div class="flex justify-center mt-8">
+            <button @click="prevChapter" class="flex bg-indigo-900 h-8 w-20 text-white rounded-lg justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mt-1 mr-1" fill="none" viewBox="0 0 24 24" :stroke="prevEnabled ? '#919191' : '#2f2f2f'">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                <div class="mt-1">Prev</div>
+            </button>
+            <button @click="nextChapter" class="ml-5 flex bg-indigo-900 h-8 w-20 text-white rounded-lg justify-center">
+                <div class="mt-1">Next</div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mt-1 ml-1" fill="none" viewBox="0 0 24 24" :stroke="nextEnabled ? '#919191' : '#2f2f2f'">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+            </button>
+        </div>
     </div>
 </template>
 
@@ -42,16 +59,22 @@ export default {
             nextEnabled: false,
             scenePages: {},
             shownClass: {},
-            arElems: {}
+            arElems: {},
+            isAr: false
         }
     },
     methods:{
         changeChapter(newchapter){
             // this.fetchPages(this.$route.params.comicId, this.selectedChapter)
-            this.$router.push({name: 'pageShow', params: {
-                comicId: this.$route.params.comicId,
-                chapter: newchapter
-            }})
+            this.$router.push({name: 'pageShow', 
+                params: {
+                    comicId: this.$route.params.comicId,
+                    chapter: newchapter
+                },
+                query: {
+                    ar: this.isAr
+                }
+            })
         },
         nextChapter(){
             if(this.nextEnabled){
@@ -89,7 +112,7 @@ export default {
 
         },
         handleScroll(e){
-            if(this.$route.query.ar != 'true'){
+            if(!this.isAr){
                 return
             }
             let shownClass = {}
@@ -118,9 +141,12 @@ export default {
     destroyed(){
         window.removeEventListener('scroll', this.handleScroll)
     },
+    mounted(){
+        // window.addEventListener('scroll', this.handleScroll)
+    },    
     created(){
+        this.isAr = this.$route.query.ar
         axios.get(route('api.author.show', {author:1}))
-        window.addEventListener('scroll', this.handleScroll)
         this.fetchChapters(this.$route.params.comicId)
         .then((resp) => {
             this.prevEnabled = this.$route.params.chapter != this.chapters[0]
@@ -142,6 +168,7 @@ export default {
                     elems[el] = document.getElementById('ar-' + el)
                 })
                 this.arElems = elems
+                window.addEventListener('scroll', this.handleScroll)
             })
         })
         .then((resp) => {

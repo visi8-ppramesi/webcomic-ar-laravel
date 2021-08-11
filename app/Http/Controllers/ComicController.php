@@ -23,13 +23,22 @@ class ComicController extends Controller
             'ar_bought' => ['required', 'json']
         ]);
 
-        $ids = json_decode($validated['comic_ids']);
-        $ar = json_decode($validated['ar_bought']);
+        $ids = json_decode($validated['comic_ids'], true);
+        $ars = json_decode($validated['ar_bought'], true);
+        $arObjs = [];
+        foreach($ars as $ar){
+            $stuff = explode('-', $ar);
+            if(empty($arObjs[$stuff[0]])){
+                $arObjs[$stuff[0]] = [];
+            }
+            $arObjs[$stuff[0]][] = $stuff[1];
+        }
 
         $u = auth()->user();
 
-        foreach($ids as $id){
-            $u->purchaseComic($id, in_array($id, $ar));
+        foreach($ids as $id => $val){
+            $arr = !empty($arObjs[$id]) ? $arObjs[$id] : [];
+            $u->purchaseComic($id, $val, $arr);
         }
 
         return response()->json(['ids' => $ids], 200);

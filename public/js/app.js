@@ -2034,11 +2034,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'modal',
   props: ['value'],
@@ -2655,25 +2650,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-//
-//
-//
-//
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Pages/Client/ComicShow.vue?vue&type=script&lang=js&":
-/*!******************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Pages/Client/ComicShow.vue?vue&type=script&lang=js& ***!
-  \******************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
+/* harmony import */ var _Components_HorizontalSlider_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Components/HorizontalSlider.vue */ "./resources/js/Components/HorizontalSlider.vue");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -2724,18 +2701,198 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'comic-show',
-  components: {},
+  name: 'author',
+  components: {
+    HorizontalSlider: _Components_HorizontalSlider_vue__WEBPACK_IMPORTED_MODULE_0__.default
+  },
   data: function data() {
     return {
+      facebookIcon: __webpack_require__(/*! ../../../icons/facebook.png */ "./resources/icons/facebook.png"),
+      instagramIcon: __webpack_require__(/*! ../../../icons/instagram.png */ "./resources/icons/instagram.png"),
+      twitterIcon: __webpack_require__(/*! ../../../icons/twitter.png */ "./resources/icons/twitter.png"),
+      authors: [],
+      shownTags: ['asdf', 'lorem'],
+      comics: {
+        all: {
+          comics: []
+        }
+      },
+      query: {
+        paginate: 5,
+        page: 1
+      },
+      config: {
+        image: 'cover_url',
+        title: 'title'
+      }
+    };
+  },
+  created: function created() {
+    var _this = this;
+
+    this.shownTags.forEach(function (elem) {
+      _this.comics[elem] = {};
+      _this.comics[elem].comics = [];
+
+      _this.getComics(route('api.comics.list', _objectSpread(_objectSpread({}, _this.query), {}, {
+        where_tag: elem
+      })), elem);
+    });
+    this.getComics(route('api.comics.list', this.query), 'all');
+    axios.get(route('api.author.show', {
+      author: this.$route.params.authorId
+    })).then(function (response) {
+      _this.authors = response.data;
+    });
+  },
+  methods: {
+    processToHorizontalSlider: function processToHorizontalSlider(comicObjects) {
+      var retVal = [];
+      comicObjects.forEach(function (element) {
+        retVal.push({
+          url: '/comic/' + element.id,
+          cover_url: element.cover_url,
+          title: element.title
+        });
+      });
+      return retVal;
+    },
+    getComics: function getComics(url, category) {
+      var _this2 = this;
+
+      axios.get(url).then(function (response) {
+        if (!_this2.comics[category]) {
+          _this2.comics[category] = {};
+          _this2.comics[category].comics = response.data.data;
+        } else {
+          _this2.comics[category].comics = _this2.comics[category].comics.concat(response.data.data);
+        }
+
+        _this2.comics[category].paginationData = response.data;
+        _this2.comics[category].prevDisabled = _this2.comics[category].paginationData.prev_page_url === null;
+        _this2.comics[category].nextDisabled = _this2.comics[category].paginationData.next_page_url === null;
+        _this2.comics[category].prevPageUrl = _this2.comics[category].paginationData.prev_page_url;
+        _this2.comics[category].nextPageUrl = _this2.comics[category].paginationData.next_page_url;
+      })["catch"](function (error) {//do error catching later
+      });
+    },
+    nextPage: function nextPage(category) {
+      if (!this.comics[category].nextDisabled) {
+        this.getComics(this.comics[category].nextPageUrl, category);
+      }
+    },
+    prevPage: function prevPage(category) {}
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Pages/Client/ComicShow.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Pages/Client/ComicShow.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Components_Modal_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../Components/Modal.vue */ "./resources/js/Components/Modal.vue");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'comic-show',
+  components: {
+    Modal: _Components_Modal_vue__WEBPACK_IMPORTED_MODULE_0__.default
+  },
+  data: function data() {
+    return {
+      modal: false,
       comic: {},
       bookmark: {},
       purchased: false,
+      purchaseObj: {},
       authors: [],
       tags: [],
       previews: [],
-      genres: []
+      genres: [],
+      episodeModal: null
     };
   },
   created: function created() {
@@ -2759,6 +2916,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         comicId: _this.$route.params.comicId
       }));
     }).then(function (response) {
+      _this.purchaseObj = response.data;
       _this.purchased = Object.keys(_objectSpread({}, response.data)).length > 0;
       return axios.get(route('api.comic.check.bookmark', {
         comicId: _this.$route.params.comicId
@@ -2772,6 +2930,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     });
   },
   methods: {
+    addToCart: function addToCart() {
+      var cart = JSON.parse(localStorage.getItem('cart') || '{}');
+
+      if (this.$route.params.comicId in cart) {
+        cart[this.$route.params.comicId].push(this.episodeModal);
+      } else {
+        cart[this.$route.params.comicId] = [this.episodeModal];
+      }
+
+      cart[this.$route.params.comicId] = this.$_.uniq(cart[this.$route.params.comicId]);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      this.episodeModal = null;
+      this.modal = false;
+    },
     parseAuthors: function parseAuthors() {
       var _this2 = this;
 
@@ -2782,10 +2954,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         });
       });
     },
+    openModal: function openModal(chapter) {
+      this.episodeModal = chapter;
+      this.modal = true;
+    },
     purchaseComic: function purchaseComic() {
-      var cart = JSON.parse(localStorage.getItem('cart') || '[]');
-      cart.push(this.$route.params.comicId);
-      localStorage.setItem('cart', JSON.stringify(cart));
+      // let cart = JSON.parse(localStorage.getItem('cart') || '[]')
+      // cart.push(this.$route.params.comicId)
+      // localStorage.setItem('cart', JSON.stringify(cart))
+      this.addToCart();
       this.$router.push({
         name: 'paymentShow'
       });
@@ -2800,11 +2977,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     continueReading: function continueReading() {
+      var ar = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+      var chapter = this.bookmark.chapter || 1;
       this.$router.push({
         name: 'pageShow',
         params: {
           comicId: this.$route.params.comicId,
-          chapter: this.bookmark.chapter
+          chapter: chapter
+        },
+        query: {
+          ar: ar
         }
       });
     },
@@ -3107,6 +3289,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'page',
   data: function data() {
@@ -3118,7 +3317,8 @@ __webpack_require__.r(__webpack_exports__);
       nextEnabled: false,
       scenePages: {},
       shownClass: {},
-      arElems: {}
+      arElems: {},
+      isAr: false
     };
   },
   methods: {
@@ -3129,6 +3329,9 @@ __webpack_require__.r(__webpack_exports__);
         params: {
           comicId: this.$route.params.comicId,
           chapter: newchapter
+        },
+        query: {
+          ar: this.isAr
         }
       });
     },
@@ -3175,7 +3378,7 @@ __webpack_require__.r(__webpack_exports__);
     handleScroll: function handleScroll(e) {
       var _this5 = this;
 
-      if (this.$route.query.ar != 'true') {
+      if (!this.isAr) {
         return;
       }
 
@@ -3200,13 +3403,15 @@ __webpack_require__.r(__webpack_exports__);
   destroyed: function destroyed() {
     window.removeEventListener('scroll', this.handleScroll);
   },
+  mounted: function mounted() {// window.addEventListener('scroll', this.handleScroll)
+  },
   created: function created() {
     var _this6 = this;
 
+    this.isAr = this.$route.query.ar;
     axios.get(route('api.author.show', {
       author: 1
     }));
-    window.addEventListener('scroll', this.handleScroll);
     this.fetchChapters(this.$route.params.comicId).then(function (resp) {
       _this6.prevEnabled = _this6.$route.params.chapter != _this6.chapters[0];
       _this6.nextEnabled = _this6.$route.params.chapter != _this6.chapters[_this6.chapters.length - 1];
@@ -3228,6 +3433,7 @@ __webpack_require__.r(__webpack_exports__);
           elems[el] = document.getElementById('ar-' + el);
         });
         _this6.arElems = elems;
+        window.addEventListener('scroll', _this6.handleScroll);
       });
     }).then(function (resp) {
       return axios.get(route('api.page.bookmark', {
@@ -3285,6 +3491,77 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'payment-page',
@@ -3294,18 +3571,30 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    var cart = localStorage.getItem('cart');
-    axios.get(route('api.comics.list', {
-      where_in_id: cart
-    })).then(function (response) {
-      _this.cartItems = response.data;
-    });
+    var cart = JSON.parse(localStorage.getItem('cart'));
+    this.comics = Object.keys(cart);
+    console.log(this.comics);
+
+    if (cart) {
+      axios.get(route('api.comics.list', {
+        where_in_id: JSON.stringify(this.comics)
+      })).then(function (response) {
+        _this.cartItems = response.data;
+
+        _this.cartItems.forEach(function (el, idx) {
+          _this.cartItems[idx].chapters = cart[el.id];
+          _this.total += _this.cartItems[idx].price * _this.cartItems[idx].chapters.length;
+        });
+      });
+    }
   },
   data: function data() {
     return {
       cartItems: [],
       arSelected: {},
-      modal: true
+      modal: true,
+      comics: [],
+      total: 0
     };
   },
   methods: {
@@ -3318,11 +3607,22 @@ __webpack_require__.r(__webpack_exports__);
           arBought.push(el);
         }
       });
-      axios.get(route('api.comics.purchase'), {
-        comic_ids: JSON.stringify(this.cartItems.map(function (el) {
-          return el.id;
-        })),
+      var sendObj = {};
+      this.cartItems.forEach(function (el) {
+        sendObj[el.id] = el.chapters;
+      });
+      axios.post(route('api.comics.purchase'), {
+        comic_ids: JSON.stringify(sendObj),
         ar_bought: JSON.stringify(arBought)
+      }).then(function (response) {
+        localStorage.removeItem('cart');
+
+        _this2.$router.push({
+          name: 'comicShow',
+          params: {
+            comicId: Object.keys(sendObj)[0]
+          }
+        });
       });
     }
   }
@@ -23762,28 +24062,16 @@ var render = function() {
             "div",
             {
               staticClass:
-                "modal-container bg-white w-11/12 md:max-w-md mx-auto rounded-xl shadow-lg z-50 overflow-y-auto"
+                "modal-container bg-white w-9/12 md:max-w-md mx-auto rounded-xl shadow-lg z-50 overflow-y-auto"
             },
             [
               _c(
                 "div",
-                { staticClass: "modal-content py-4 text-left px-6" },
+                { staticClass: "modal-content" },
                 [
-                  _c(
-                    "div",
-                    { staticClass: "flex justify-between items-center pb-3" },
-                    [_vm._t("title")],
-                    2
-                  ),
-                  _vm._v(" "),
                   _vm._t("body"),
                   _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "flex justify-end pt-2" },
-                    [_vm._t("footer")],
-                    2
-                  )
+                  _c("div", { staticClass: "mt-2" }, [_vm._t("footer")], 2)
                 ],
                 2
               )
@@ -24950,9 +25238,95 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c("div", [
+    _c("div", { staticClass: "flex flex-row p-5" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", [
+        _c("div", { staticClass: "ml-4 text-2xl font-bold" }, [
+          _vm._v(
+            "\n                " + _vm._s(_vm.authors.name) + "\n            "
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "ml-4 text-lg mt-3" }, [
+          _vm._v(
+            "\n                " + _vm._s(_vm.authors.email) + "\n            "
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", [
+          _c("div", { staticClass: "ml-4 mt-3 text-sm" }, [
+            _vm._v("\n                    Social Media :\n                ")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "flex w-8" }, [
+            _c("div", { staticClass: "w-10" }),
+            _vm._v(" "),
+            _c("img", {
+              staticClass: "ml-3",
+              attrs: { src: _vm.facebookIcon.default }
+            }),
+            _vm._v(" "),
+            _c("img", {
+              staticClass: "ml-5",
+              attrs: { src: _vm.instagramIcon.default }
+            }),
+            _vm._v(" "),
+            _c("img", {
+              staticClass: "ml-5",
+              attrs: { src: _vm.twitterIcon.default }
+            })
+          ])
+        ])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "p-5" }, [
+      _c("div", { staticClass: "text-xl font-bold" }, [
+        _vm._v("About Authors :")
+      ]),
+      _vm._v(" "),
+      _c("div", [_vm._v(_vm._s(_vm.authors.description))])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "p-5" }, [
+      _c("div", { staticClass: "text-xl font-bold" }, [
+        _vm._v("Author Books :")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "mb-3" }, [
+        _c(
+          "div",
+          [
+            _c("horizontal-slider", {
+              attrs: {
+                items: _vm.processToHorizontalSlider(_vm.comics.all.comics),
+                config: _vm.config,
+                objectCategory: "all"
+              },
+              on: { nextPage: _vm.nextPage }
+            })
+          ],
+          1
+        )
+      ])
+    ])
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("img", {
+        staticClass: "w-24 h-36",
+        attrs: { src: "/storage/media/covers/cover.jpg" }
+      })
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -24975,176 +25349,329 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "div",
-      {
-        staticClass:
-          "description-block text-white flex flex-col justify-end p-5",
-        style:
-          "background-image:linear-gradient(to bottom, rgba(245, 246, 252, 0), rgb(0 0 0 / 73%)), url(" +
-          _vm.comic.cover_url +
-          ");"
-      },
-      [
-        _c(
-          "div",
-          [
-            _vm._l(_vm.genres, function(genre, idx) {
-              return [
-                _c(
-                  "router-link",
-                  {
-                    key: "genre-" + idx,
-                    attrs: { to: { name: "search", query: { search: genre } } }
-                  },
-                  [
-                    _vm._v(_vm._s(genre)),
-                    idx < _vm.genres.length - 1
-                      ? _c("span", { key: "comma-" + idx }, [_vm._v(", ")])
-                      : _vm._e()
-                  ]
-                )
-              ]
-            })
-          ],
-          2
-        ),
-        _vm._v(" "),
-        _c("div", [_vm._v(_vm._s(_vm.comic.title))]),
-        _vm._v(" "),
-        _c(
-          "div",
-          [
-            _vm._l(_vm.authors, function(author, idx) {
-              return [
-                _c(
-                  "router-link",
-                  {
-                    key: "author-" + idx,
-                    attrs: {
-                      to: {
-                        name: "authorShow",
-                        params: { authorId: author.id }
-                      }
-                    }
-                  },
-                  [
-                    _vm._v(_vm._s(author.name)),
-                    idx < _vm.authors.length - 1
-                      ? _c("span", { key: "comma-" + idx }, [_vm._v(", ")])
-                      : _vm._e()
-                  ]
-                )
-              ]
-            })
-          ],
-          2
-        ),
-        _vm._v(" "),
-        _c("div", [_vm._v(_vm._s(_vm.comic.description))]),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "flex flex-row" },
-          [
-            _c(
-              "button",
-              {
-                staticClass:
-                  "inline-flex items-center justify-center p-2 rounded-md text-gray-50 bg-gray-800 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-              },
-              [_vm._v("View with AR")]
-            ),
-            _vm._v(" "),
-            _vm.purchased
-              ? [
-                  _vm.$_.isEmpty(_vm.bookmark)
-                    ? _c(
-                        "button",
-                        {
-                          staticClass:
-                            "inline-flex items-center justify-center p-2 rounded-md text-gray-50 bg-gray-800 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white",
-                          on: { click: _vm.startReading }
-                        },
-                        [_vm._v("Start Reading")]
-                      )
-                    : _c(
-                        "button",
-                        {
-                          staticClass:
-                            "inline-flex items-center justify-center p-2 rounded-md text-gray-50 bg-gray-800 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white",
-                          on: { click: _vm.continueReading }
-                        },
-                        [_vm._v("Continue Reading")]
-                      )
-                ]
-              : [
+  return _c(
+    "div",
+    [
+      _c(
+        "div",
+        {
+          staticClass:
+            "description-block text-white flex flex-col justify-end p-5",
+          style:
+            "background-image:linear-gradient(to bottom, rgba(245, 246, 252, 0), rgb(0 0 0 / 73%)), url(" +
+            _vm.comic.cover_url +
+            ");"
+        },
+        [
+          _c(
+            "div",
+            [
+              _vm._l(_vm.genres, function(genre, idx) {
+                return [
                   _c(
-                    "button",
+                    "router-link",
                     {
-                      staticClass:
-                        "inline-flex items-center justify-center p-2 rounded-md text-gray-50 bg-gray-800 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white",
-                      on: { click: _vm.purchaseComic }
+                      key: "genre-" + idx,
+                      attrs: {
+                        to: { name: "search", query: { search: genre } }
+                      }
                     },
-                    [_vm._v("Buy Comic")]
+                    [
+                      _vm._v(_vm._s(genre)),
+                      idx < _vm.genres.length - 1
+                        ? _c("span", { key: "comma-" + idx }, [_vm._v(", ")])
+                        : _vm._e()
+                    ]
                   )
-                ],
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass:
-                  "inline-flex items-center justify-center p-2 rounded-md text-gray-50 bg-gray-800 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white",
-                on: { click: _vm.favorite }
-              },
-              [_vm._v("Favorite")]
-            )
-          ],
-          2
-        )
-      ]
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      _vm._l(_vm.previews, function(preview, idx) {
-        return _c(
-          "div",
-          {
-            key: "preview-" + idx,
-            staticClass: "flex flex-row h-20",
-            on: {
-              click: function($event) {
-                return _vm.goToChapter(preview.chapter)
-              }
-            }
-          },
-          [
-            _c("div", { staticClass: "flex-none" }, [
-              _c("img", {
-                staticClass: "h-20",
-                attrs: { src: preview.image_url, alt: "" }
+                ]
               })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "flex-grow flex flex-col p-3" }, [
-              _c("div", [_vm._v("Ep. " + _vm._s(preview.chapter))]),
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "text-2xl font-bold" }, [
+            _vm._v(_vm._s(_vm.comic.title))
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            [
+              _vm._l(_vm.authors, function(author, idx) {
+                return [
+                  _c(
+                    "router-link",
+                    {
+                      key: "author-" + idx,
+                      attrs: {
+                        to: {
+                          name: "authorShow",
+                          params: { authorId: author.id }
+                        }
+                      }
+                    },
+                    [
+                      _vm._v(_vm._s(author.name)),
+                      idx < _vm.authors.length - 1
+                        ? _c("span", { key: "comma-" + idx }, [_vm._v(", ")])
+                        : _vm._e()
+                    ]
+                  )
+                ]
+              })
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "text-sm" }, [
+            _vm._v(_vm._s(_vm.comic.description))
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "flex flex-row content-center justify-between" },
+            [
+              _vm.purchased
+                ? [
+                    _c(
+                      "button",
+                      {
+                        staticClass:
+                          "mt-3 mt-3 inline-flex items-center justify-center p-2 rounded-full text-gray-50 bg-green-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white",
+                        on: {
+                          click: function($event) {
+                            return _vm.continueReading(true)
+                          }
+                        }
+                      },
+                      [_vm._v("View with AR")]
+                    ),
+                    _vm._v(" "),
+                    _vm.$_.isEmpty(_vm.bookmark)
+                      ? _c(
+                          "button",
+                          {
+                            staticClass:
+                              "mt-3 inline-flex items-center justify-center p-2 rounded-full text-gray-50 bg-green-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white",
+                            on: { click: _vm.startReading }
+                          },
+                          [_vm._v("Start Reading")]
+                        )
+                      : _c(
+                          "button",
+                          {
+                            staticClass:
+                              "mt-3 inline-flex items-center justify-center p-2 rounded-full text-gray-50 bg-green-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white",
+                            on: {
+                              click: function($event) {
+                                return _vm.continueReading(false)
+                              }
+                            }
+                          },
+                          [_vm._v("Continue Reading")]
+                        )
+                  ]
+                : _vm._e(),
               _vm._v(" "),
-              _c("div", { staticClass: "flex flex-row w-100" }, [
-                _c("div", { staticClass: "mr-2" }, [
-                  _vm._v("[put heart here]")
-                ]),
-                _vm._v(" "),
-                _c("div", [_vm._v(_vm._s(preview.release_date))])
-              ])
-            ])
-          ]
-        )
-      }),
-      0
-    )
-  ])
+              _c(
+                "button",
+                {
+                  staticClass:
+                    "mt-3 inline-flex items-center justify-center p-2 rounded-full text-gray-50 bg-green-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white",
+                  on: { click: _vm.favorite }
+                },
+                [_vm._v("Favorite")]
+              )
+            ],
+            2
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "divide-y divide-black" },
+        _vm._l(_vm.previews, function(preview, idx) {
+          return _c(
+            "div",
+            {
+              key: "preview-" + idx,
+              staticClass: "flex flex-row h-20 bg-indigo-900 text-white"
+            },
+            [
+              _c("div", { staticClass: "flex-none w-1/5" }, [
+                _c("img", {
+                  staticClass: "h-20",
+                  attrs: { src: preview.image_url, alt: "" }
+                })
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "flex-grow flex flex-col p-3 w-3/5",
+                  on: {
+                    click: function($event) {
+                      return _vm.goToChapter(preview.chapter)
+                    }
+                  }
+                },
+                [
+                  _c("div", [_vm._v("Ep. " + _vm._s(preview.chapter))]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "flex flex-row w-100" }, [
+                    _c("div", { staticClass: "mr-2" }, [
+                      _c(
+                        "svg",
+                        {
+                          staticClass: "h-4 w-4",
+                          attrs: {
+                            xmlns: "http://www.w3.org/2000/svg",
+                            fill: "none",
+                            viewBox: "0 0 24 24",
+                            stroke: "currentColor"
+                          }
+                        },
+                        [
+                          _c("path", {
+                            attrs: {
+                              "stroke-linecap": "round",
+                              "stroke-linejoin": "round",
+                              "stroke-width": "2",
+                              d:
+                                "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                            }
+                          })
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "text-xs" }, [
+                      _vm._v(_vm._s(preview.release_date))
+                    ])
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              !_vm.$_.includes(_vm.purchaseObj.chapters, preview.chapter)
+                ? _c(
+                    "div",
+                    { staticClass: "w-1/5 flex justify-center items-center" },
+                    [
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "text-xs items-center h-8 w-116  p-2 rounded-lg text-gray-50 bg-green-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white",
+                          on: {
+                            click: function($event) {
+                              return _vm.openModal(preview.chapter)
+                            }
+                          }
+                        },
+                        [_vm._v("Buy Ep. " + _vm._s(preview.chapter))]
+                      )
+                    ]
+                  )
+                : _vm._e()
+            ]
+          )
+        }),
+        0
+      ),
+      _vm._v(" "),
+      _c("modal", {
+        scopedSlots: _vm._u([
+          {
+            key: "body",
+            fn: function() {
+              return [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "p-6 flex flex-col content-center justify-center"
+                  },
+                  [
+                    _c("img", {
+                      staticClass: "h-1/2 rounded-lg",
+                      attrs: { src: _vm.comic.cover_url }
+                    }),
+                    _vm._v(" "),
+                    _c("div", [
+                      _vm._v(
+                        "Rp. " + _vm._s(_vm.comic.price.toLocaleString("id-ID"))
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", [
+                      _vm._v(
+                        "Apakah kamu mau membeli Ep. " +
+                          _vm._s(_vm.episodeModal) +
+                          "?"
+                      )
+                    ])
+                  ]
+                )
+              ]
+            },
+            proxy: true
+          },
+          {
+            key: "footer",
+            fn: function() {
+              return [
+                _c(
+                  "div",
+                  { staticClass: "flex h-16 bg-purple-600 bg-opacity-25" },
+                  [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "h-100 w-1/3",
+                        on: {
+                          click: function($event) {
+                            _vm.modal = false
+                          }
+                        }
+                      },
+                      [_vm._v("Cancel")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "h-100 w-1/3",
+                        on: { click: _vm.addToCart }
+                      },
+                      [_vm._v("Add to Cart")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "h-100 w-1/3",
+                        on: { click: _vm.purchaseComic }
+                      },
+                      [_vm._v("Purchase")]
+                    )
+                  ]
+                )
+              ]
+            },
+            proxy: true
+          }
+        ]),
+        model: {
+          value: _vm.modal,
+          callback: function($$v) {
+            _vm.modal = $$v
+          },
+          expression: "modal"
+        }
+      })
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -25454,30 +25981,6 @@ var render = function() {
         _vm._v(" "),
         _c("div", { staticClass: "flex" }, [
           _c(
-            "svg",
-            {
-              staticClass: "h-6 w-6 mt-1 mr-1",
-              attrs: {
-                xmlns: "http://www.w3.org/2000/svg",
-                fill: "none",
-                viewBox: "0 0 24 24",
-                stroke: _vm.prevEnabled ? "#2f2f2f" : "#919191"
-              },
-              on: { click: _vm.prevChapter }
-            },
-            [
-              _c("path", {
-                attrs: {
-                  "stroke-linecap": "round",
-                  "stroke-linejoin": "round",
-                  "stroke-width": "2",
-                  d: "M10 19l-7-7m0 0l7-7m-7 7h18"
-                }
-              })
-            ]
-          ),
-          _vm._v(" "),
-          _c(
             "select",
             {
               directives: [
@@ -25488,7 +25991,7 @@ var render = function() {
                   expression: "selectedChapter"
                 }
               ],
-              staticClass: "form-select block w-full mt-1",
+              staticClass: "rounded-lg form-select block w-full mt-1",
               on: {
                 change: [
                   function($event) {
@@ -25514,41 +26017,17 @@ var render = function() {
               return _c(
                 "option",
                 { key: "cpt-" + idx, domProps: { value: chapter } },
-                [_vm._v(_vm._s(chapter))]
+                [_vm._v("Episode " + _vm._s(chapter))]
               )
             }),
             0
-          ),
-          _vm._v(" "),
-          _c(
-            "svg",
-            {
-              staticClass: "h-6 w-6 mt-1 ml-1",
-              attrs: {
-                xmlns: "http://www.w3.org/2000/svg",
-                fill: "none",
-                viewBox: "0 0 24 24",
-                stroke: _vm.nextEnabled ? "#2f2f2f" : "#919191"
-              },
-              on: { click: _vm.nextChapter }
-            },
-            [
-              _c("path", {
-                attrs: {
-                  "stroke-linecap": "round",
-                  "stroke-linejoin": "round",
-                  "stroke-width": "2",
-                  d: "M17 8l4 4m0 0l-4 4m4-4H3"
-                }
-              })
-            ]
           )
         ])
       ]),
       _vm._v(" "),
       _vm._l(_vm.pages, function(page, idx) {
         return [
-          page.id in _vm.scenePages && _vm.$route.query.ar == "true"
+          page.id in _vm.scenePages && _vm.isAr
             ? _c(
                 "div",
                 {
@@ -25577,7 +26056,79 @@ var render = function() {
                 _c("img", { attrs: { src: page.image_url } })
               ])
         ]
-      })
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "flex justify-center mt-8" }, [
+        _c(
+          "button",
+          {
+            staticClass:
+              "flex bg-indigo-900 h-8 w-20 text-white rounded-lg justify-center",
+            on: { click: _vm.prevChapter }
+          },
+          [
+            _c(
+              "svg",
+              {
+                staticClass: "h-6 w-6 mt-1 mr-1",
+                attrs: {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  fill: "none",
+                  viewBox: "0 0 24 24",
+                  stroke: _vm.prevEnabled ? "#919191" : "#2f2f2f"
+                }
+              },
+              [
+                _c("path", {
+                  attrs: {
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-width": "2",
+                    d: "M10 19l-7-7m0 0l7-7m-7 7h18"
+                  }
+                })
+              ]
+            ),
+            _vm._v(" "),
+            _c("div", { staticClass: "mt-1" }, [_vm._v("Prev")])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass:
+              "ml-5 flex bg-indigo-900 h-8 w-20 text-white rounded-lg justify-center",
+            on: { click: _vm.nextChapter }
+          },
+          [
+            _c("div", { staticClass: "mt-1" }, [_vm._v("Next")]),
+            _vm._v(" "),
+            _c(
+              "svg",
+              {
+                staticClass: "h-6 w-6 mt-1 ml-1",
+                attrs: {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  fill: "none",
+                  viewBox: "0 0 24 24",
+                  stroke: _vm.nextEnabled ? "#919191" : "#2f2f2f"
+                }
+              },
+              [
+                _c("path", {
+                  attrs: {
+                    "stroke-linecap": "round",
+                    "stroke-linejoin": "round",
+                    "stroke-width": "2",
+                    d: "M17 8l4 4m0 0l-4 4m4-4H3"
+                  }
+                })
+              ]
+            )
+          ]
+        )
+      ])
     ],
     2
   )
@@ -25605,76 +26156,166 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "div",
-      _vm._l(_vm.cartItems, function(item, idx) {
-        return _c("div", { key: "cart-" + idx, staticClass: "mb-2" }, [
-          _c("div", [
-            _vm._v("\n                " + _vm._s(item.title) + "\n            ")
-          ]),
-          _vm._v(" "),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.arSelected[item.id],
-                expression: "arSelected[item.id]"
-              }
-            ],
-            attrs: { type: "checkbox" },
-            domProps: {
-              value: item.id,
-              checked: Array.isArray(_vm.arSelected[item.id])
-                ? _vm._i(_vm.arSelected[item.id], item.id) > -1
-                : _vm.arSelected[item.id]
-            },
-            on: {
-              change: function($event) {
-                var $$a = _vm.arSelected[item.id],
-                  $$el = $event.target,
-                  $$c = $$el.checked ? true : false
-                if (Array.isArray($$a)) {
-                  var $$v = item.id,
-                    $$i = _vm._i($$a, $$v)
-                  if ($$el.checked) {
-                    $$i < 0 &&
-                      _vm.$set(_vm.arSelected, item.id, $$a.concat([$$v]))
-                  } else {
-                    $$i > -1 &&
-                      _vm.$set(
-                        _vm.arSelected,
-                        item.id,
-                        $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+  return _c("div", { staticClass: "px-5 py-5" }, [
+    _c("div", { staticClass: "bg-white rounded-lg" }, [
+      _c("div", { staticClass: "text-center font-bold text-xl pt-4" }, [
+        _vm._v("\n            Transaction Details\n        ")
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "text-base px-3 mt-4 divide-y divide-black pb-4" },
+        [
+          _c(
+            "div",
+            { staticClass: "mb-3" },
+            [
+              _vm._l(_vm.cartItems, function(item, idx) {
+                return _vm._l(item.chapters, function(cpt, idxCpt) {
+                  return _c(
+                    "div",
+                    { key: "cart-" + idx + "-" + idxCpt, staticClass: "mb-2" },
+                    [
+                      _vm._v(
+                        "\n                        " +
+                          _vm._s(item.title) +
+                          " Ep. " +
+                          _vm._s(cpt) +
+                          "\n                        "
+                      ),
+                      _c("div", { staticClass: "float-right" }, [
+                        _vm._v(
+                          "\n                            Rp. " +
+                            _vm._s(item.price.toLocaleString("id-ID")) +
+                            "\n                        "
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.arSelected[item.id + "-" + cpt],
+                              expression: "arSelected[item.id + '-' + cpt]"
+                            }
+                          ],
+                          staticClass: "ml-3 text-sm",
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.arSelected,
+                                item.id + "-" + cpt,
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _c("option", { staticClass: "text-sm" }, [
+                            _vm._v("No Ar")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "option",
+                            {
+                              staticClass: "text-sm",
+                              domProps: { value: item.id + "-" + cpt }
+                            },
+                            [_vm._v("Ar")]
+                          )
+                        ]
                       )
-                  }
-                } else {
-                  _vm.$set(_vm.arSelected, item.id, $$c)
-                }
-              }
-            }
-          }),
-          _vm._v(" Buy AR\n        ")
-        ])
-      }),
-      0
-    ),
-    _vm._v(" "),
-    _c("div", [_vm._v("Choose Method:")]),
+                    ]
+                  )
+                })
+              })
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c("div", [
+            _vm._v("\n                Total Items\n                "),
+            _c("div", { staticClass: "float-right" }, [
+              _vm._v(
+                "\n                    Rp. " +
+                  _vm._s(_vm.total.toLocaleString("id-ID")) +
+                  "\n                "
+              )
+            ])
+          ])
+        ]
+      )
+    ]),
     _vm._v(" "),
     _vm._m(0),
     _vm._v(" "),
-    _vm._m(1),
+    _c("div", { staticClass: "px-5" }, [
+      _c(
+        "div",
+        {
+          staticClass:
+            "block uppercase text-gray-700 text-xs font-bold mb-2 mt-3"
+        },
+        [_vm._v("\n            Choose Your Payment\n        ")]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "inline-block relative w-28" }, [
+        _vm._m(1),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass:
+              "pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
+          },
+          [
+            _c(
+              "svg",
+              {
+                staticClass: "fill-current h-4 w-4",
+                attrs: {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  viewBox: "0 0 20 20"
+                }
+              },
+              [
+                _c("path", {
+                  attrs: {
+                    d:
+                      "M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
+                  }
+                })
+              ]
+            )
+          ]
+        )
+      ])
+    ]),
     _vm._v(" "),
     _c(
-      "button",
+      "div",
       {
         staticClass:
-          "inline-flex items-center justify-center p-2 rounded-md text-gray-50 bg-gray-800 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white",
-        on: { click: _vm.submit }
+          "w-full bg-indigo-900 h-16 text-white text-center font-bold rounded-b-lg mt-8"
       },
-      [_vm._v("Submit")]
+      [
+        _c("div", { staticClass: "py-4", on: { click: _vm.submit } }, [
+          _vm._v("Pay Order")
+        ])
+      ]
     )
   ])
 }
@@ -25683,71 +26324,91 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("div", [_vm._v("Credit/Debit Card")]),
-      _vm._v(" "),
-      _c("form", [
-        _c("div", { staticClass: "grid grid-cols-5 gap-x-4 gap-y-1" }, [
+    return _c("div", { staticClass: "divide-y mt-5" }, [
+      _c("div", [
+        _c(
+          "div",
+          {
+            staticClass:
+              "block uppercase text-gray-700 text-xs font-bold mb-2 px-4"
+          },
+          [
+            _vm._v("\n                CARDHOLDER'S NAME\n                "),
+            _c("input", {
+              staticClass:
+                "mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
+              attrs: {
+                id: "username",
+                type: "text",
+                placeholder: "Input Your Cardholder Name"
+              }
+            })
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass:
+              "block uppercase text-gray-700 text-xs font-bold mb-2 px-4"
+          },
+          [
+            _vm._v("\n                CARD NUMBER\n                "),
+            _c("input", {
+              staticClass:
+                "mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
+              attrs: {
+                id: "username",
+                type: "text",
+                placeholder: "Input Your Card Number"
+              }
+            })
+          ]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "font-bold px-4 mt-5 text-xs" }, [
           _c(
-            "label",
+            "div",
             {
-              staticClass: "col-span-2 text-right text-sm",
-              attrs: { for: "name" }
+              staticClass:
+                "float-right block uppercase text-gray-700 text-xs font-bold mb-2"
             },
-            [_vm._v("Card Holder Name")]
+            [
+              _c("div", [_vm._v("CVC/CVV")]),
+              _vm._v(" "),
+              _c("input", {
+                staticClass:
+                  "mt-2 shadow appearance-none border rounded w-20 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
+                attrs: { id: "username", type: "text", placeholder: "CVC/CVV" }
+              })
+            ]
           ),
           _vm._v(" "),
-          _c("input", {
-            staticClass:
-              "col-span-3 bg-gray-300 appearance-none border-2 border-gray-300 rounded w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500",
-            attrs: { type: "text", name: "name" }
-          }),
-          _vm._v(" "),
           _c(
-            "label",
+            "div",
             {
-              staticClass: "col-span-2 text-right text-sm",
-              attrs: { for: "name" }
+              staticClass:
+                "block uppercase text-gray-700 text-xs font-bold mb-5"
             },
-            [_vm._v("Card Number")]
-          ),
-          _vm._v(" "),
-          _c("input", {
-            staticClass:
-              "col-span-3 bg-gray-300 appearance-none border-2 border-gray-300 rounded w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500",
-            attrs: { type: "text", name: "cardNumber" }
-          }),
-          _vm._v(" "),
-          _c(
-            "label",
-            {
-              staticClass: "col-span-2 text-right text-sm",
-              attrs: { for: "name" }
-            },
-            [_vm._v("Expiration Date")]
-          ),
-          _vm._v(" "),
-          _c("input", {
-            staticClass:
-              "col-span-3 bg-gray-300 appearance-none border-2 border-gray-300 rounded w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500",
-            attrs: { type: "text", name: "expDate" }
-          }),
-          _vm._v(" "),
-          _c(
-            "label",
-            {
-              staticClass: "col-span-2 text-right text-sm",
-              attrs: { for: "name" }
-            },
-            [_vm._v("CCV Number")]
-          ),
-          _vm._v(" "),
-          _c("input", {
-            staticClass:
-              "col-span-3 bg-gray-300 appearance-none border-2 border-gray-300 rounded w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500",
-            attrs: { type: "text", name: "ccv" }
-          })
+            [
+              _c("div", [_vm._v("EXP DATE")]),
+              _vm._v(" "),
+              _c("input", {
+                staticClass:
+                  "mt-2 shadow appearance-none border rounded w-28 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
+                attrs: {
+                  id: "username",
+                  type: "text",
+                  placeholder: "Exp Card Date"
+                }
+              })
+            ]
+          )
         ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "font-bold text-lg text-center py-2" }, [
+        _vm._v("\n            OnLine Payment\n        ")
       ])
     ])
   },
@@ -25755,11 +26416,20 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("div", [_vm._v("Online Payment")]),
-      _vm._v(" "),
-      _c("div", [_vm._v("[button] [button] [button] [button]")])
-    ])
+    return _c(
+      "select",
+      {
+        staticClass:
+          "block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+      },
+      [
+        _c("option", [_vm._v("OVO")]),
+        _vm._v(" "),
+        _c("option", [_vm._v("GO-PAY")]),
+        _vm._v(" "),
+        _c("option", [_vm._v("DANA")])
+      ]
+    )
   }
 ]
 render._withStripped = true

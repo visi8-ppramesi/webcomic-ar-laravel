@@ -81,17 +81,30 @@ class User extends Authenticatable
         return Comic::whereIn('id', $purchasedId)->get();
     }
 
-    public function purchaseComic($comicId, $ar = 0){//to be called after sucessful payment
+    public function purchaseComic($comicId, $chapters, $ar = []){//to be called after sucessful payment
         $comicObj = Comic::findOrFail($comicId);
-        $purchaseObject = [
-            'price' => $comicObj->price,
-            'ar' => $ar,
-            'id' => $comicId,
-            'date' => now()
-        ];
+        $currentPurchaseObj = json_decode($this->purchase_history, true);
         $jsonString = 'purchase_history->' . $comicId;
+        if(array_key_exists($comicId, $currentPurchaseObj)){
+            $currentChapter = $currentPurchaseObj[$comicId]['chapters'];
+            $currentChapter = array_merge($currentChapter, $chapters);
+            $purchaseObject = [
+                'price' => $comicObj->price,
+                'ar' => $ar,
+                'id' => $comicId,
+                'date' => now(),
+                'chapters' => $currentChapter
+            ];
+        }else{
+            $purchaseObject = [
+                'price' => $comicObj->price,
+                'ar' => $ar,
+                'id' => $comicId,
+                'date' => now(),
+                'chapters' => $chapters
+            ];
+        }
         $uid = $this->id;
-        echo $jsonString;
         return self::where('id', $uid)->update([$jsonString => $purchaseObject]);
     }
 
