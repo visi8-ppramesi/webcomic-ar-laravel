@@ -34,7 +34,7 @@ class ComicFactory extends Factory
             'description' => $this->faker->paragraph(),
             'tags' => $tagsStr,
             'genres' => $genresStr,
-            'author_id' => $author,
+            // 'author_id' => $author,
             'price' => $this->faker->randomFloat(2, 0, 10),
             'cover_url' => '/storage/media/covers/cover.jpg'
         ];

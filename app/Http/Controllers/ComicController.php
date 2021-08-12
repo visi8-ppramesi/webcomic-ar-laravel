@@ -97,7 +97,7 @@ class ComicController extends Controller
             'description' => ['string', 'required'],
             'tags' => ['json', 'nullable'],
             'genres' => ['json', 'nullable'],
-            'author_id' => ['required', 'exists:authors,id'],
+            // 'author_id' => ['required', 'exists:authors,id'],
             'price' => ['numeric', 'required'],
             'cover_url' => ['image', 'required']
         ]);
@@ -144,7 +144,7 @@ class ComicController extends Controller
             'description' => ['string', 'required'],
             'tags' => ['json', 'nullable'],
             'genres' => ['json', 'nullable'],
-            'author_id' => ['required', 'exists:authors,id'],
+            // 'author_id' => ['required', 'exists:authors,id'],
             'price' => ['numeric', 'required'],
             'cover_url' => ['image', 'nullable']
         ]);

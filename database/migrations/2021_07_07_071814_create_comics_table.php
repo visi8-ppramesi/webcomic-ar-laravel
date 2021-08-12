@@ -19,7 +19,7 @@ class CreateComicsTable extends Migration
             $table->text('description');
             $table->json('tags');
             $table->json('genres');
-            $table->foreignId('author_id');
+            // $table->foreignId('author_id');
             $table->float('price')->default(0);
             $table->timestamps();
         });

@@ -14,7 +14,7 @@ class AddPageScene extends Migration
     public function up()
     {
         Schema::table('pages', function($table){
-            $table->string('scene')->nullable();
+            $table->text('scene')->nullable();
         });
     }
 
