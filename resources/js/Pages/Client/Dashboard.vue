@@ -1,9 +1,13 @@
 <template>
     <div class="pa-2 w-full">
-        <div class="bg-blue-100 w-150 h-40 mb-8"> <!-- add featured comic here -->
-            featured comics
+        <div class="flex flex-col justify-end items-center bg-blue-100 w-150 h-40 pb-8 featured-block" style="background-image: linear-gradient(rgba(245, 246, 252, 0) 50%, rgb(49 46 129)), url(/storage/media/covers/kara.jpg);"> <!-- add featured comic here -->
+            <div class="mb-6 text-white">
+                <div class="text-center text-7xl">Kara</div>
+                <div class="text-center text-2xl">Guardian of Realms</div>
+                <div class="text-center text-base subsubtitle">Adventure, Teen, Magical</div>
+            </div>
         </div>
-        <div class="px-5">
+        <div class="px-5 bg-gradient-to-t  to-indigo-900 from-green-400">
             <div class="mb-3 text-white">
                 <div>
                     <div class="text-white float-right">More</div>
@@ -54,7 +58,7 @@ export default {
     data(){
         return {
             shownTags: [
-                'asdf',
+                'dolor',
                 'lorem'
             ],
             comics: {
@@ -116,5 +120,12 @@ export default {
 </script>
 
 <style>
-
+.subsubtitle{
+    color: #41b3a9;
+}
+.featured-block{
+    height: calc(100vh - 64px);
+    background-size: cover;
+    background-position: center;
+}
 </style>

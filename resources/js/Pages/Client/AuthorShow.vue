@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="rounded-xl m-5 bg-gray-200 bg-opacity-70">
+        <div class="rounded-xl m-5 bg-gray-200 bg-opacity-70 border border-indigo-600">
             <div class="flex flex-row p-5">
                 <div>
                     <img class="w-24 h-36" :src="this.authors.profile_picture_url" />
