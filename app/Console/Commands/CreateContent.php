@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Author;
 use App\Models\ChapterPreview;
 use App\Models\Comic;
+use App\Models\Page;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
@@ -124,13 +125,15 @@ class CreateContent extends Command
                 'section' => $cptZeroSectionCount,
                 'config' => 'figureoutlater',
                 'comic_id' => $this->comic->id,
-                'image_url' => '/storage/media/comics/' . $publicFileName
+                'image_url' => '/storage/media/comics/' . $publicFileName,
+                'chapter' => $cpt
             ];
             $fileNameArray = explode('.', $file->getFilename());
             if (strpos($fileNameArray[0], '_AR') !== false) {
                 $actualName = explode('_', $fileNameArray[0]);
                 $pageObj['scene'] = str_replace('%%model_url%%', 'https://insert url here/' . $cpt . '_' . $actualName[0] . '.glb', str_replace('%%id%%', $cpt . '_' . $actualName[0], $this->sceneStub));
             }
+            Page::create($pageObj);
 
             $cptZeroSectionCount++;
         }
@@ -140,7 +143,7 @@ class CreateContent extends Command
         $prev = ChapterPreview::create([
             'image_url' => '/storage/media/previews/' . $cpt . '.jpg',
             'comic_id' => $this->comic->id,
-            'chapter' => 0
+            'chapter' => $cpt
         ]);
     }
 }
