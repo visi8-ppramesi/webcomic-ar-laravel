@@ -169,6 +169,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
+    window.scrollTo(0, 0)
     const loggedIn = localStorage.getItem("token")
     if (to.matched.some(record => record.meta.requiresAuth)) {
         if (store.getters.tokenExpired || (!store.getters.loggedIn && !loggedIn)) {
