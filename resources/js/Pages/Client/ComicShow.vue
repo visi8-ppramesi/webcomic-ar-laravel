@@ -3,21 +3,21 @@
         <div class="description-block text-white flex flex-col justify-end p-5" :style="'background-image:linear-gradient(to bottom, rgba(245, 246, 252, 0), rgb(0 0 0 / 73%)), url(' + comic.cover_url + ');'"><!-- top block -->
             <div>
                 <template v-for="(genre, idx) in genres">
-                    <router-link :to="{name: 'search', query: {search: genre}}" :key="'genre-' + idx">{{genre}}<span v-if="idx < genres.length - 1" :key="'comma-' + idx">, </span></router-link> 
+                    <router-link :to="{name: 'search', query: {search: genre}}" :key="'genre-' + idx">{{genre}}<span v-if="idx < genres.length - 1" :key="'comma-' + idx">, </span></router-link>
                 </template>
             </div><!-- make it linkable later -->
             <div class="text-2xl font-bold">{{comic.title}}</div>
             <div>
                 <template v-for="(author, idx) in authors">
-                    <router-link :to="{name: 'authorShow', params: {authorId: author.id}}" :key="'author-' + idx">{{author.name}}<span v-if="idx < authors.length - 1" :key="'comma-' + idx">, </span></router-link> 
+                    <router-link :to="{name: 'authorShow', params: {authorId: author.id}}" :key="'author-' + idx">{{author.name}}<span v-if="idx < authors.length - 1" :key="'comma-' + idx">, </span></router-link>
                 </template>
             </div>
             <div class="text-sm">{{comic.description}}</div>
             <div class="flex flex-row content-center justify-between">
                  <template v-if="purchased">
-                    <button class="mt-3 mt-3 inline-flex items-center justify-center p-2 rounded-full text-gray-50 bg-green-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" @click="continueReading(true)">View with AR</button>
-                    <button class="mt-3 inline-flex items-center justify-center p-2 rounded-full text-gray-50 bg-green-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" v-if="$_.isEmpty(bookmark)" @click="startReading">Start Reading</button>
-                    <button class="mt-3 inline-flex items-center justify-center p-2 rounded-full text-gray-50 bg-green-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" v-else @click="continueReading(false)">Continue Reading</button>
+                    <button class="text-sm mt-3 mt-3 inline-flex items-center justify-center p-2 rounded-full text-gray-50 bg-green-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" @click="continueReading(true)">View with AR</button>
+                    <button class="text-sm mt-3 inline-flex items-center justify-center p-2 rounded-full text-gray-50 bg-green-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" v-if="$_.isEmpty(bookmark)" @click="startReading">Start Reading</button>
+                    <button class="text-sm mt-3 inline-flex items-center justify-center p-2 rounded-full text-gray-50 bg-green-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" v-else @click="continueReading(false)">Continue Reading</button>
                 </template>
                 <!-- <template v-else>
                     <button class="mt-3 inline-flex items-center justify-center p-2 rounded-full text-gray-50 bg-green-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" @click="openModal">Buy Comic</button>

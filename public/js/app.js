@@ -2701,6 +2701,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'author',
@@ -3645,7 +3647,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'scene-show',
+  data: function data() {
+    return {
+      origHtmlClass: ''
+    };
+  },
+  created: function created() {
+    var _this = this;
+
+    axios.get(route('api.page.show.scene', {
+      page: this.$route.params.pageId
+    })).then(function (response) {
+      var html = document.getElementsByTagName('html')[0];
+      _this.origHtmlClass = html.className;
+      document.body.insertAdjacentHTML('beforeend', response.data.scene);
+    });
+  },
+  beforeDestroy: function beforeDestroy() {
+    var ascene = document.getElementsByTagName('a-scene')[0];
+    ascene.parentNode.removeChild(ascene);
+    var html = document.getElementsByTagName('html')[0];
+    html.className = this.origHtmlClass;
+  }
+});
 
 /***/ }),
 
@@ -25239,94 +25265,95 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: "flex flex-row p-5" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _c("div", [
-        _c("div", { staticClass: "ml-4 text-2xl font-bold" }, [
-          _vm._v(
-            "\n                " + _vm._s(_vm.authors.name) + "\n            "
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "ml-4 text-lg mt-3" }, [
-          _vm._v(
-            "\n                " + _vm._s(_vm.authors.email) + "\n            "
-          )
+    _c("div", { staticClass: "rounded-xl m-5 bg-gray-200 bg-opacity-70" }, [
+      _c("div", { staticClass: "flex flex-row p-5" }, [
+        _c("div", [
+          _c("img", {
+            staticClass: "w-24 h-36",
+            attrs: { src: this.authors.profile_picture_url }
+          })
         ]),
         _vm._v(" "),
         _c("div", [
-          _c("div", { staticClass: "ml-4 mt-3 text-sm" }, [
-            _vm._v("\n                    Social Media :\n                ")
+          _c("div", { staticClass: "ml-4 text-2xl font-bold" }, [
+            _vm._v(
+              "\n                    " +
+                _vm._s(_vm.authors.name) +
+                "\n                "
+            )
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "flex w-8" }, [
-            _c("div", { staticClass: "w-10" }),
+          _c("div", { staticClass: "ml-4 text-lg mt-3" }, [
+            _vm._v(
+              "\n                    " +
+                _vm._s(_vm.authors.email) +
+                "\n                "
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", [
+            _c("div", { staticClass: "ml-4 mt-3 text-sm" }, [
+              _vm._v(
+                "\n                        Social Media :\n                    "
+              )
+            ]),
             _vm._v(" "),
-            _c("img", {
-              staticClass: "ml-3",
-              attrs: { src: _vm.facebookIcon.default }
-            }),
-            _vm._v(" "),
-            _c("img", {
-              staticClass: "ml-5",
-              attrs: { src: _vm.instagramIcon.default }
-            }),
-            _vm._v(" "),
-            _c("img", {
-              staticClass: "ml-5",
-              attrs: { src: _vm.twitterIcon.default }
-            })
+            _c("div", { staticClass: "flex w-8" }, [
+              _c("div", { staticClass: "w-10" }),
+              _vm._v(" "),
+              _c("img", {
+                staticClass: "ml-3",
+                attrs: { src: _vm.facebookIcon.default }
+              }),
+              _vm._v(" "),
+              _c("img", {
+                staticClass: "ml-5",
+                attrs: { src: _vm.instagramIcon.default }
+              }),
+              _vm._v(" "),
+              _c("img", {
+                staticClass: "ml-5",
+                attrs: { src: _vm.twitterIcon.default }
+              })
+            ])
           ])
         ])
-      ])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "p-5" }, [
-      _c("div", { staticClass: "text-xl font-bold" }, [
-        _vm._v("About Authors :")
       ]),
       _vm._v(" "),
-      _c("div", [_vm._v(_vm._s(_vm.authors.description))])
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "p-5" }, [
-      _c("div", { staticClass: "text-xl font-bold" }, [
-        _vm._v("Author Books :")
+      _c("div", { staticClass: "p-5" }, [
+        _c("div", { staticClass: "text-xl font-bold" }, [
+          _vm._v("About Authors :")
+        ]),
+        _vm._v(" "),
+        _c("div", [_vm._v(_vm._s(_vm.authors.description))])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "mb-3" }, [
-        _c(
-          "div",
-          [
-            _c("horizontal-slider", {
-              attrs: {
-                items: _vm.processToHorizontalSlider(_vm.comics.all.comics),
-                config: _vm.config,
-                objectCategory: "all"
-              },
-              on: { nextPage: _vm.nextPage }
-            })
-          ],
-          1
-        )
+      _c("div", { staticClass: "p-5" }, [
+        _c("div", { staticClass: "text-xl font-bold" }, [
+          _vm._v("Author Books :")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "mb-3" }, [
+          _c(
+            "div",
+            [
+              _c("horizontal-slider", {
+                attrs: {
+                  items: _vm.processToHorizontalSlider(_vm.comics.all.comics),
+                  config: _vm.config,
+                  objectCategory: "all"
+                },
+                on: { nextPage: _vm.nextPage }
+              })
+            ],
+            1
+          )
+        ])
       ])
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("img", {
-        staticClass: "w-24 h-36",
-        attrs: { src: "/storage/media/covers/cover.jpg" }
-      })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -25436,7 +25463,7 @@ var render = function() {
                       "button",
                       {
                         staticClass:
-                          "mt-3 mt-3 inline-flex items-center justify-center p-2 rounded-full text-gray-50 bg-green-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white",
+                          "text-sm mt-3 mt-3 inline-flex items-center justify-center p-2 rounded-full text-gray-50 bg-green-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white",
                         on: {
                           click: function($event) {
                             return _vm.continueReading(true)
@@ -25451,7 +25478,7 @@ var render = function() {
                           "button",
                           {
                             staticClass:
-                              "mt-3 inline-flex items-center justify-center p-2 rounded-full text-gray-50 bg-green-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white",
+                              "text-sm mt-3 inline-flex items-center justify-center p-2 rounded-full text-gray-50 bg-green-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white",
                             on: { click: _vm.startReading }
                           },
                           [_vm._v("Start Reading")]
@@ -25460,7 +25487,7 @@ var render = function() {
                           "button",
                           {
                             staticClass:
-                              "mt-3 inline-flex items-center justify-center p-2 rounded-full text-gray-50 bg-green-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white",
+                              "text-sm mt-3 inline-flex items-center justify-center p-2 rounded-full text-gray-50 bg-green-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white",
                             on: {
                               click: function($event) {
                                 return _vm.continueReading(false)

@@ -143,7 +143,8 @@ class CreateContent extends Command
         $prev = ChapterPreview::create([
             'image_url' => '/storage/media/previews/' . $cpt . '.jpg',
             'comic_id' => $this->comic->id,
-            'chapter' => $cpt
+            'chapter' => $cpt,
+            'release_date' => now()
         ]);
     }
 }

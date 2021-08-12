@@ -1,41 +1,43 @@
 <template>
     <div>
-        <div class="flex flex-row p-5">
-            <div>
-                <img class="w-24 h-36" src="/storage/media/covers/cover.jpg" />
-            </div>
-            <div>
-                <div class="ml-4 text-2xl font-bold">
-                    {{authors.name}}
-                </div>
-                <div class="ml-4 text-lg mt-3">
-                    {{authors.email}}
+        <div class="rounded-xl m-5 bg-gray-200 bg-opacity-70">
+            <div class="flex flex-row p-5">
+                <div>
+                    <img class="w-24 h-36" :src="this.authors.profile_picture_url" />
                 </div>
                 <div>
-                    <div class="ml-4 mt-3 text-sm">
-                        Social Media :
+                    <div class="ml-4 text-2xl font-bold">
+                        {{authors.name}}
                     </div>
-                    <div class="flex w-8">
-                        <div class="w-10"></div>
-                        <img class="ml-3" :src="facebookIcon.default" />
-                        <img class="ml-5" :src="instagramIcon.default" />
-                        <img class="ml-5" :src="twitterIcon.default" />
+                    <div class="ml-4 text-lg mt-3">
+                        {{authors.email}}
+                    </div>
+                    <div>
+                        <div class="ml-4 mt-3 text-sm">
+                            Social Media :
+                        </div>
+                        <div class="flex w-8">
+                            <div class="w-10"></div>
+                            <img class="ml-3" :src="facebookIcon.default" />
+                            <img class="ml-5" :src="instagramIcon.default" />
+                            <img class="ml-5" :src="twitterIcon.default" />
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="p-5">
-            <div class="text-xl font-bold">About Authors :</div>
-            <div>{{authors.description}}</div>
-        </div>
-        <div class="p-5">
-            <div class="text-xl font-bold">Author Books :</div>
-            <div class="mb-3">
-                <div>
-                    <horizontal-slider :items="processToHorizontalSlider(comics.all.comics)"
-                                       :config="config"
-                                       objectCategory="all"
-                                       @nextPage="nextPage"></horizontal-slider>
+            <div class="p-5">
+                <div class="text-xl font-bold">About Authors :</div>
+                <div>{{authors.description}}</div>
+            </div>
+            <div class="p-5">
+                <div class="text-xl font-bold">Author Books :</div>
+                <div class="mb-3">
+                    <div>
+                        <horizontal-slider :items="processToHorizontalSlider(comics.all.comics)"
+                                        :config="config"
+                                        objectCategory="all"
+                                        @nextPage="nextPage"></horizontal-slider>
+                    </div>
                 </div>
             </div>
         </div>
