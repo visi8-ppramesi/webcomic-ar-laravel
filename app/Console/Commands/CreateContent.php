@@ -120,19 +120,19 @@ class CreateContent extends Command
             $publicFileName = $cpt . '_' . $file->getFilename();
             $publicPathName = public_path('storage/media/comics/' . $publicFileName);
             File::copy($pathName, $publicPathName);
+            $fileNameArray = explode('.', $file->getFilename());
+            $actualName = explode('_', $fileNameArray[0]);
+            if (strpos($fileNameArray[0], '_AR') !== false) {
+                $pageObj['scene'] = str_replace('%%model_url%%', 'https://insert url here/' . $cpt . '_' . $actualName[0] . '.glb', str_replace('%%id%%', $cpt . '_' . $actualName[0], $this->sceneStub));
+            }
             $pageObj = [
                 'page_number' => $cptZeroSectionCount,
-                'section' => $cptZeroSectionCount,
+                'section' => (int)$actualName[0],
                 'config' => 'figureoutlater',
                 'comic_id' => $this->comic->id,
                 'image_url' => '/storage/media/comics/' . $publicFileName,
                 'chapter' => $cpt
             ];
-            $fileNameArray = explode('.', $file->getFilename());
-            if (strpos($fileNameArray[0], '_AR') !== false) {
-                $actualName = explode('_', $fileNameArray[0]);
-                $pageObj['scene'] = str_replace('%%model_url%%', 'https://insert url here/' . $cpt . '_' . $actualName[0] . '.glb', str_replace('%%id%%', $cpt . '_' . $actualName[0], $this->sceneStub));
-            }
             Page::create($pageObj);
 
             $cptZeroSectionCount++;

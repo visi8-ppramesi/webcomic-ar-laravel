@@ -24565,7 +24565,10 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "text-gray-50 bg-gray-800 mt-0 h-auto w-full z-20 top-0" },
+    {
+      staticClass:
+        "text-gray-50 bg-gray-800 mt-0 h-auto w-full z-20 top-0 font-sans"
+    },
     [
       _c(
         "nav",
