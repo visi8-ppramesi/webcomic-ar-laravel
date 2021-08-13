@@ -14,7 +14,7 @@ class ChapterPreviewController extends Controller
      */
     public function index($comicId)
     {
-        return response()->json(ChapterPreview::where('comic_id', $comicId)->get(), 200);
+        return response()->json(ChapterPreview::where('comic_id', $comicId)->orderBy('chapter')->get(), 200);
     }
 
     /**

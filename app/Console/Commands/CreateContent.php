@@ -122,9 +122,6 @@ class CreateContent extends Command
             File::copy($pathName, $publicPathName);
             $fileNameArray = explode('.', $file->getFilename());
             $actualName = explode('_', $fileNameArray[0]);
-            if (strpos($fileNameArray[0], '_AR') !== false) {
-                $pageObj['scene'] = str_replace('%%model_url%%', 'https://insert url here/' . $cpt . '_' . $actualName[0] . '.glb', str_replace('%%id%%', $cpt . '_' . $actualName[0], $this->sceneStub));
-            }
             $pageObj = [
                 'page_number' => $cptZeroSectionCount,
                 'section' => (int)$actualName[0],
@@ -133,6 +130,27 @@ class CreateContent extends Command
                 'image_url' => '/storage/media/comics/' . $publicFileName,
                 'chapter' => $cpt
             ];
+            if (strpos($fileNameArray[0], '_AR') !== false) {
+                $config = [
+                    'entityScale' => [2, 2, 2],
+                    'cameraPosition' => [0, 2, 3],
+                    'modelUrl' => 'https://visi8-webcomic.s3.ap-southeast-1.amazonaws.com/' . $cpt . '_' . $actualName[0] . '.glb',
+                    'id' => $cpt . '_' . $actualName[0]
+                ];
+                $replaceArr = [
+                    '%%model_url%%' => $config['modelUrl'],
+                    '%%id%%' => $config['id'],
+                    '%%entity_scale_x%%' => $config['entityScale'][0],
+                    '%%entity_scale_y%%' => $config['entityScale'][1],
+                    '%%entity_scale_z%%' => $config['entityScale'][2],
+                    '%%camera_position_x%%' => $config['cameraPosition'][0],
+                    '%%camera_position_y%%' => $config['cameraPosition'][1],
+                    '%%camera_position_z%%' => $config['cameraPosition'][2],
+                ];
+                $pageObj['scene'] = $this->substringsReplace($this->sceneStub, $replaceArr);
+                $pageObj['config'] = json_encode($config);
+                // $pageObj['scene'] = str_replace('%%model_url%%', 'https://visi8-webcomic.s3.ap-southeast-1.amazonaws.com/' . $cpt . '_' . $actualName[0] . '.glb', str_replace('%%id%%', $cpt . '_' . $actualName[0], $this->sceneStub));
+            }
             Page::create($pageObj);
 
             $cptZeroSectionCount++;
@@ -146,5 +164,13 @@ class CreateContent extends Command
             'chapter' => $cpt,
             'release_date' => now()
         ]);
+    }
+
+    private function substringsReplace($str, $arr){
+        $retVal = $str;
+        foreach($arr as $search => $replace){
+            $retVal = str_replace($search, $replace, $retVal);
+        }
+        return $retVal;
     }
 }

@@ -4,11 +4,15 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>AR Webcomics</title>
+
+        <!-- Scripts -->
+        <script src="//cdn.8thwall.com/web/aframe/8frame-1.1.0.min.js"></script>
+        <script src="//cdn.8thwall.com/web/xrextras/xrextras.js"></script>
+        <script async src="//apps.8thwall.com/xrweb?appKey=kpUcLoAOCG5h94F5XcfF0J6xziZqTN2tiq7mRDyxdS29lFRz0vcsD3s8H2pEXDtwXKufBV"></script>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-        
         <link rel="stylesheet" href="{{ mix('css/app.css') }}" />
 
         <!-- Styles -->

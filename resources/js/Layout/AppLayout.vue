@@ -85,7 +85,6 @@ export default {
     name: 'app-layout',
     created() {
         this.isLoggedIn = this.$store.getters.loggedIn
-        console.log('is logged in: ' + this.isLoggedIn)
         if(this.$store.getters.loggedIn){
             this.$store.commit('setAxiosCurrentToken')
         }

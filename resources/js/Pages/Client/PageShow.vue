@@ -66,7 +66,7 @@ export default {
     methods:{
         changeChapter(newchapter){
             // this.fetchPages(this.$route.params.comicId, this.selectedChapter)
-            this.$router.push({name: 'pageShow', 
+            this.$router.push({name: 'pageShow',
                 params: {
                     comicId: this.$route.params.comicId,
                     chapter: newchapter
@@ -143,7 +143,7 @@ export default {
     },
     mounted(){
         // window.addEventListener('scroll', this.handleScroll)
-    },    
+    },
     created(){
         this.isAr = this.$route.query.ar
         axios.get(route('api.author.show', {author:1}))
@@ -168,6 +168,7 @@ export default {
                     elems[el] = document.getElementById('ar-' + el)
                 })
                 this.arElems = elems
+                this.handleScroll()
                 window.addEventListener('scroll', this.handleScroll)
             })
         })

@@ -1,6 +1,9 @@
 <?php
 
+use Illuminate\Contracts\Routing\UrlGenerator;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Tightenco\Ziggy\Ziggy;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/testing', function(Request $request){
+    return url('') . ' ' . env('APP_URL');
+});
 
 Route::get('/{vue_capture?}', function(){
     return view('home');

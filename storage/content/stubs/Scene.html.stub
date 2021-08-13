@@ -10,7 +10,7 @@
     </a-assets>
     <a-camera
         id="camera"
-        position="0 8 8"
+        position="%%camera_position_x%% %%camera_position_y%% %%camera_position_z%%"
         raycaster="objects: .cantap"
         cursor="fuse: false; rayOrigin: mouse;">
     </a-camera>
@@ -32,7 +32,7 @@
         xrextras-hold-drag
         xrextras-two-finger-rotate
         xrextras-pinch-scale
-        scale="1 1 1"
+        scale="%%entity_scale_x%% %%entity_scale_y%% %%entity_scale_z%%"
         shadow="cast: true; receive: false;">
     </a-entity>
     <a-entity

@@ -1,6 +1,6 @@
 <template>
     <div class="scrolling-wrapper">
-        <div v-for="(item, idx) in items" class="card scroller-container mr-1 bg-gradient-to-t from-indigo-900 to-indigo-400" :key="'item-' + idx">
+        <div v-for="(item, idx) in items" class="w-screen/3 card scroller-container mr-1 bg-gradient-to-t from-indigo-900 to-indigo-400" :key="'item-' + idx">
             <!-- <div>
                 <router-link :to="item.url">
                     <img :src="item[config.image]" class="image">
@@ -60,7 +60,7 @@ export default {
 .scrolling-wrapper::-webkit-scrollbar {
     display: none;
 }
-.scroller-container{    
+.scroller-container{
     max-height: 155px;
     min-width: 100px;
     height: 155px;

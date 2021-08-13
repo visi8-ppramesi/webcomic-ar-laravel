@@ -17,7 +17,7 @@ class CreatePagesTable extends Migration
             $table->id();
             $table->integer('page_number');
             $table->string('image_url');
-            $table->text('config')->nullable;
+            $table->text('config')->nullable();
             $table->foreignId('comic_id');
             $table->timestamps();
         });

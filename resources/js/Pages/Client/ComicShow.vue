@@ -41,8 +41,11 @@
                         <div class="text-xs">{{preview.release_date}}</div>
                     </div>
                 </div>
-                <div class="w-1/5 flex justify-center items-center" v-if="!$_.includes(purchaseObj.chapters, preview.chapter)">
-                    <button class="text-xs items-center h-8 w-116  p-2 rounded-lg text-gray-50 bg-green-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" @click="openModal(preview.chapter)">Buy Ep. {{preview.chapter}}</button>
+                <div class="w-1/5 flex justify-center items-center" >
+                    <button v-if="!$_.includes(purchaseObj.chapters, preview.chapter)" class="text-xs items-center min-h-8 w-116  p-2 rounded-lg text-gray-50 bg-green-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" @click="openModal(preview.chapter)">Buy Ep. {{preview.chapter}}</button>
+                    <template v-else>
+                        <button class="text-xs items-center h-auto w-116  p-2 rounded-lg text-gray-50 bg-green-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" @click="goToChapter(preview.chapter, true)">Read Ep. {{preview.chapter}} With AR</button>
+                    </template>
                     <!-- <button @click="openModal(preview.chapter)">Buy Episode</button> -->
                 </div>
             </div>
@@ -148,11 +151,11 @@ export default {
         startReading(){
             this.$router.push({name: 'pageShow', params: {
                 comicId: this.$route.params.comicId,
-                chapter: 1,
+                chapter: this.previews[0].chapter,
             }})
         },
         continueReading(ar = false){
-            let chapter = this.bookmark.chapter || 1
+            let chapter = this.bookmark.chapter || this.previews[0].chapter
             this.$router.push({name: 'pageShow', params: {
                 comicId: this.$route.params.comicId,
                 chapter: chapter
@@ -167,10 +170,13 @@ export default {
         favorite(){
 
         },
-        goToChapter(chapter){
+        goToChapter(chapter, ar = false){
             this.$router.push({name: 'pageShow', params: {
                 comicId: this.$route.params.comicId,
                 chapter: chapter,
+            },
+            query:{
+                ar: ar
             }})
         }
     }
