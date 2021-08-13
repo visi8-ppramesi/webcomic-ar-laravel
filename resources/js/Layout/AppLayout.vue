@@ -74,8 +74,19 @@
                 <router-view :key="$route.fullPath"></router-view>
             </div>
         </div>
-        <div class="w-100 bg-gray-800">
-            Footer
+        <div class="w-100 bg-gray-800 divide-y text-center h-full bg-indigo-900">
+            <div class="h-12 py-2">About Us</div>
+            <div class="h-12 py-2">My Account</div>
+            <div class="h-12 py-2">Privacy Policy</div>
+            <div class="h-12 py-2">FAQ</div>
+            <div class="py-2">
+                Follow Us On
+                <div class="flex w-8 ml-24 mt-10">
+                    <img class="ml-5" :src="facebookIcon.default" />
+                    <img class="ml-5" :src="instagramIcon.default" />
+                    <img class="ml-5" :src="twitterIcon.default" />
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -103,12 +114,18 @@ export default {
             items: [],
             mobileMenuOpen: false,
             profileMenuOpen: false,
-            isLoggedIn: false
+            isLoggedIn: false,
+            facebookIcon: require('../../icons/facebook.png'),
+            instagramIcon: require('../../icons/instagram.png'),
+            twitterIcon: require('../../icons/twitter.png'),
         }
     }
 }
 </script>
-<style scoped>
+<style>
+#mobile-menu{
+    z-index: 900;
+}
 .slide-enter-active {
    -moz-transition-duration: 0.3s;
    -webkit-transition-duration: 0.3s;

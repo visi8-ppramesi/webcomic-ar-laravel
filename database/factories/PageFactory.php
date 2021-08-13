@@ -22,7 +22,7 @@ class PageFactory extends Factory
      */
     public function definition()
     {
-        $comic = Comic::inRandomOrder()->first()->id;
+        $comic = Comic::inRandomOrder()->first()->id + 1;
         return [
             'page_number' => $this->faker->randomDigit(),
             'chapter' => $this->faker->randomDigit(),
