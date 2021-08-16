@@ -34,7 +34,7 @@
                     <router-link :to="item.path">{{item.name}}</router-link>
                 </div>
             </div>
-            <div class="min-h-screen main-content flex-1 bg-gray-100 pb-24 md:pb-5 h-auto text-black px-4 pt-4">
+            <div class="min-h-screen main-content flex-1 bg-gray-100 md:pb-5 h-auto text-black px-4 pt-4">
                 <router-view></router-view>
             </div>
         </div>
@@ -51,7 +51,7 @@ export default {
         })
         appLayout.children.forEach(route => {
             this.items.push({
-                name: route.name, 
+                name: route.name,
                 path: route.path
             })
         })

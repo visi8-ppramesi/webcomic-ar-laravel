@@ -1,7 +1,8 @@
 <template>
-    <div>
-        Loading... Please wait
-        <div style="z-index: 799" class="text-white relative">hello</div>
+    <div class="flex text-center text-white text-5xl h-screen-navbar w-screen justify-center items-center">
+        <div>
+            Loading... Please wait
+        </div>
     </div>
 </template>
 

@@ -26,11 +26,11 @@
             </div>
         </div>
         <div class="divide-y divide-black">
-            <div class="flex flex-row h-20 bg-indigo-900 text-white" v-for="(preview, idx) in previews" :key="'preview-'+idx">
+            <div class="flex flex-row h-20 bg-indigo-800 text-white" v-for="(preview, idx) in previews" :key="'preview-'+idx">
                 <div class="flex-none w-1/5">
                     <img class="h-20" :src="preview.image_url" alt="">
                 </div>
-                <div class="flex-grow flex flex-col p-3 w-3/5" @click="goToChapter(preview.chapter)">
+                <div class="flex-grow flex flex-col p-3 w-2/5" @click="goToChapter(preview.chapter)">
                     <div>Ep. {{preview.chapter}}</div>
                     <div class="flex flex-row w-100">
                         <div class="mr-2">
@@ -41,12 +41,30 @@
                         <div class="text-xs">{{preview.release_date}}</div>
                     </div>
                 </div>
-                <div class="w-1/5 flex justify-center items-center" >
+                <div class="w-2/5 flex justify-center items-center" >
                     <button v-if="!$_.includes(purchaseObj.chapters, preview.chapter)" class="text-xs items-center min-h-8 w-116  p-2 rounded-lg text-gray-50 bg-green-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" @click="openModal(preview.chapter)">Buy Ep. {{preview.chapter}}</button>
                     <template v-else>
                         <button class="text-xs items-center h-auto w-116  p-2 rounded-lg text-gray-50 bg-green-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" @click="goToChapter(preview.chapter, true)">Read Ep. {{preview.chapter}} With AR</button>
                     </template>
                     <!-- <button @click="openModal(preview.chapter)">Buy Episode</button> -->
+                </div>
+            </div>
+        </div>
+        <div class="p-5 text-white">
+            <div class="mb-5">
+                Comments:
+            </div>
+            <div class="flex flex-row mb-4 comment-container" v-for="(comment, idx) in comments" :key="'comm' + idx">
+                <div class="comment-profile rounded-xl border border-gray-100">
+                    <img :src="userIcon.default" alt="">
+                </div>
+                <div class="comment-textbox rounded-xl border border-gray-100 p-5 bg-gray-600 bg-opacity-50">
+                    <div>
+                        {{comment.username}}:
+                    </div>
+                    <div>
+                        {{comment.comment}}
+                    </div>
                 </div>
             </div>
         </div>
@@ -88,7 +106,26 @@ export default {
             tags: [],
             previews: [],
             genres: [],
-            episodeModal: null
+            episodeModal: null,
+            userIcon: require('../../../icons/user-icon.png'),
+            comments: [
+                {
+                    username: 'wahyu1989',
+                    comment: 'wow this is really good!'
+                },
+                {
+                    username: 'santo0813',
+                    comment: 'yes this is good'
+                },
+                {
+                    username: 'santo0813',
+                    comment: 'actually this is really good'
+                },
+                {
+                    username: 'santi',
+                    comment: 'i agree'
+                }
+            ]
         }
     },
     created(){
@@ -188,5 +225,21 @@ export default {
     height: calc(100vh - 64px);
     background-size: cover;
     background-position: center;
+}
+.comment-textbox{
+    width: calc(100% - 60px);
+    padding-left: 35px;
+}
+.comment-profile{
+    width: 60px;
+    height: 60px;
+    position: relative;
+    top: -10px;
+    left: 17px;
+    background-color: white;
+    overflow:hidden;
+}
+.comment-container{
+    margin-left:-17px;
 }
 </style>

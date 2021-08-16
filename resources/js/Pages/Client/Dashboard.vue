@@ -7,7 +7,7 @@
                 <div class="text-center text-base subsubtitle">Adventure, Teen, Magical</div>
             </div>
         </div>
-        <div class="px-5 bg-gradient-to-t  to-indigo-900 from-green-400">
+        <div class="px-5 pb-5 bg-gradient-to-t  to-indigo-900 from-purple-900">
             <div class="mb-3 text-white">
                 <div>
                     <div class="text-white float-right">More</div>
@@ -15,7 +15,7 @@
                 </div>
                 <div>
                     <horizontal-slider
-                        :items="processToHorizontalSlider(comics.all.comics)"
+                        :items="processToHorizontalSlider(comics.all)"
                         :config="config"
                         objectCategory="all"
                         @nextPage="nextPage"
@@ -29,9 +29,25 @@
                 </div>
                 <div>
                     <horizontal-slider
-                        :items="processToHorizontalSlider(comics[tag].comics)"
+                        :items="processToHorizontalSlider(comics[tag])"
                         :config="config"
                         :objectCategory="tag"
+                        @nextPage="nextPage"
+                    ></horizontal-slider>
+                </div>
+            </div>
+        </div>
+        <div class="px-5 py-5 bg-gray-100">
+            <div class="mb-3">
+                <div>
+                    <div class="float-right">More</div>
+                    <div>Authors</div>
+                </div>
+                <div>
+                    <horizontal-slider
+                        :items="processToHorizontalSlider(comics.all)"
+                        :config="config"
+                        objectCategory="all"
                         @nextPage="nextPage"
                     ></horizontal-slider>
                 </div>
@@ -58,7 +74,7 @@ export default {
     data(){
         return {
             shownTags: [
-                'dolor',
+                'ipsum',
                 'lorem'
             ],
             comics: {
@@ -79,14 +95,15 @@ export default {
     methods:{
         processToHorizontalSlider(comicObjects){
             let retVal = []
-            comicObjects.forEach(element => {
+            comicObjects.comics.forEach(element => {
                 retVal.push({
                     url: '/comic/' + element.id,
                     cover_url: element.cover_url,
                     title: element.title
                 })
             });
-            return retVal
+            console.log(comicObjects)
+            return {items: retVal, nextPageUrl: comicObjects.nextPageUrl}
         },
         getComics(url, category){
             axios.get(url)

@@ -57,9 +57,8 @@
                     <div class="px-2 pt-2 pb-3 space-y-1">
                         <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
                         <router-link @click.native="mobileMenuOpen = false" :to="{name: 'dashboard'}" class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium" aria-current="page">Dashboard</router-link>
-                        <router-link :to="{}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Team</router-link>
-                        <router-link :to="{}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Projects</router-link>
-                        <router-link :to="{}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Calendar</router-link>
+                        <router-link :to="{}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">My Comics</router-link>
+                        <router-link :to="{}" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">My Account</router-link>
                     </div>
                 </div>
             </transition>
@@ -70,21 +69,21 @@
                     <router-link :to="item.path">{{item.name}}</router-link>
                 </div>
             </div> -->
-            <div class="min-h-screen main-content flex-1 bg-gradient-to-t from-purple-800 to-green-400 pb-24 md:pb-5 h-auto text-black">
+            <div class="min-h-screen main-content flex-1 bg-gradient-to-t from-purple-800 to-indigo-900 md:pb-5 h-auto text-black">
                 <router-view :key="$route.fullPath"></router-view>
             </div>
         </div>
-        <div class="w-100 bg-gray-800 divide-y text-center h-full bg-indigo-900">
+        <div class="w-100 bg-gray-800 divide-y text-center h-full">
             <div class="h-12 py-2">About Us</div>
             <div class="h-12 py-2">My Account</div>
             <div class="h-12 py-2">Privacy Policy</div>
             <div class="h-12 py-2">FAQ</div>
             <div class="py-2">
                 Follow Us On
-                <div class="flex w-8 ml-24 mt-10">
-                    <img class="ml-5" :src="facebookIcon.default" />
-                    <img class="ml-5" :src="instagramIcon.default" />
-                    <img class="ml-5" :src="twitterIcon.default" />
+                <div class="flex w-full flex flex-row items-center justify-center mt-2">
+                    <img class="w-12" :src="facebookIcon.default" />
+                    <img class="w-12" :src="instagramIcon.default" />
+                    <img class="w-12" :src="twitterIcon.default" />
                 </div>
             </div>
         </div>

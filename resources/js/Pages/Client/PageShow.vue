@@ -1,7 +1,7 @@
 <template>
     <div class="w-full">
         <div class="w-full mt-1 mb-2 px-5 py-2">
-            <label for="chapter">Select chapter</label>
+            <label for="chapter" class="text-white">Select chapter</label>
             <div class="flex">
                 <select class="rounded-lg form-select block w-full mt-1" @change="changeChapter(selectedChapter)" v-model="selectedChapter">
                     <option v-for="(chapter, idx) in chapters" :value="chapter" :key="'cpt-' + idx">Episode {{chapter}}</option>

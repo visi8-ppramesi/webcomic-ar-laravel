@@ -23,8 +23,8 @@ class ComicFactory extends Factory
     public function definition()
     {
         $author = Author::inRandomOrder()->first();
-        $genres = explode(' ', 'quisque tincidunt ornare nisl Nunc mattis nibh libero in aliquet nisi mollis');
-        $tags = explode(' ', 'lorem ipsum dolor sit amet consectetur adipiscing elit nullam sed nulla et nisl venenatis semper aliquam erat volutpat praesent malesuada');
+        $genres = explode(' ', 'quisque tincidunt ornare nisl Nunc mattis nibh libero');
+        $tags = explode(' ', 'lorem ipsum dolor sit amet consectetur adipiscing elit');
         $randomKeys = array_rand($tags, 3);
         $tagsStr = json_encode([$tags[$randomKeys[0]], $tags[$randomKeys[1]], $tags[$randomKeys[2]]]);
         $randomKeysGenre = array_rand($genres, 3);

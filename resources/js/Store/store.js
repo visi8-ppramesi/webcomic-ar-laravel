@@ -8,7 +8,7 @@ const store = new Vuex.Store({
     state: {
         user: null,
         token: localStorage.getItem('token') || null,
-        tokenExpiration: localStorage.getItem('token_expiration') || null 
+        tokenExpiration: localStorage.getItem('token_expiration') || null
     },
     mutations: {
         setAxiosCurrentToken(state){
@@ -36,6 +36,13 @@ const store = new Vuex.Store({
         },
     },
     actions: {
+        register({ commit }, credentials) {
+            return axios.post(route('api.register'), credentials)
+            .then(({ data }) => {
+                commit('clearUserData')
+                commit('setToken', data)
+            })
+        },
         login({ commit }, credentials) {
             return axios.post(route('api.login'), credentials)
             .then(({ data }) => {

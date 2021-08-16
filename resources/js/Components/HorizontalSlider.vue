@@ -1,6 +1,6 @@
 <template>
     <div class="scrolling-wrapper">
-        <div v-for="(item, idx) in items" class="w-screen/3 card scroller-container mr-1 bg-gradient-to-t from-indigo-900 to-indigo-400" :key="'item-' + idx">
+        <div v-for="(item, idx) in items.items" class="w-12 card scroller-container mr-1 bg-gradient-to-t from-indigo-900 to-indigo-400" :key="'item-' + idx">
             <!-- <div>
                 <router-link :to="item.url">
                     <img :src="item[config.image]" class="image">
@@ -13,7 +13,7 @@
                 </div>
             </router-link>
         </div>
-        <div class="mt-10 ml-2" @click="loadMore">load more</div>
+        <div v-if="items.nextPageUrl" class="bg-green-500 w-20 px-5 flex justify-center items-center rounded-lg text-center" @click="loadMore">load more</div>
     </div>
 </template>
 
@@ -22,7 +22,7 @@ export default {
     name: 'horizontal-slider',
     props: {
         items: {
-            type: Array,
+            type: Object,
             default: () => []
         },
         config: {

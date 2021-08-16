@@ -5,6 +5,7 @@ import AuthorShow from '../Pages/Client/AuthorShow.vue'
 import PageShow from '../Pages/Client/PageShow.vue'
 import PaymentShow from '../Pages/Client/PaymentShow.vue'
 import Login from '../Pages/Client/Login.vue'
+import Register from '../Pages/Client/Register.vue'
 import Logout from '../Pages/Client/Logout.vue'
 import Search from '../Pages/Client/Search.vue'
 import SceneShow from '../Pages/Client/SceneShow.vue'
@@ -86,6 +87,14 @@ const routes = [
                 component: NotFound
             },
         ]
+    },
+    {
+        path: '/register',
+        component: Register,
+        name: 'register',
+        meta: {
+            requiresVisitor: true
+        }
     },
     {
         path: '/login',

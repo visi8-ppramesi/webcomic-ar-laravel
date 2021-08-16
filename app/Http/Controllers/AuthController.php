@@ -15,17 +15,18 @@ class AuthController extends Controller
             'password' => 'required|string|min:8',
             'full_name' => 'required|string'
         ]);
-        
+
         $user = User::create([
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
             'purchase_history' => '{}',
             'read_history' => '{}',
             'password' => Hash::make($validatedData['password']),
+            'full_name' => $validatedData['full_name']
         ]);
-        
+
         $token = $user->createToken('auth_token')->plainTextToken;
-        
+
         return response()->json([
             'token' => $token,
             'token_type' => 'Bearer',
@@ -38,14 +39,14 @@ class AuthController extends Controller
                 'message' => 'Invalid login details'
             ], 401);
         }
-        
+
         $user = User::where('email', $request['email'])->firstOrFail();
-        
+
         $token = $user->createToken('auth_token')->plainTextToken;
-        
+
         return response()->json([
-                    'token' => $token,
-                    'token_type' => 'Bearer',
+            'token' => $token,
+            'token_type' => 'Bearer',
         ]);
     }
 
