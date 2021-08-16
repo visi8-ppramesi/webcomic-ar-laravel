@@ -10,6 +10,7 @@ import _ from 'lodash'
 
 Vue.use(VueRouter)
 Object.defineProperty(Vue.prototype, '$_', { value: _ });
+window.eventBus = new Vue()
 
 const app = new Vue({
     el: '#app',

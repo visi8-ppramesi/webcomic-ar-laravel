@@ -2305,8 +2305,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'app-layout',
+  methods: {
+    goToPayment: function goToPayment() {
+      this.$router.push({
+        name: 'paymentShow'
+      });
+    },
+    countCartItems: function countCartItems() {
+      var count = 0;
+      var cartObj = JSON.parse(localStorage.getItem('cart') || '{}');
+      Object.keys(cartObj).forEach(function (key) {
+        count += cartObj[key].length;
+      });
+      this.cartCount = count;
+    }
+  },
   created: function created() {
     var _this = this;
 
@@ -2325,16 +2343,22 @@ __webpack_require__.r(__webpack_exports__);
         path: route.path
       });
     });
+    this.countCartItems();
+    eventBus.$on('cartAddItem', function (e) {
+      _this.countCartItems();
+    });
   },
   data: function data() {
     return {
+      cartCount: 0,
       items: [],
       mobileMenuOpen: false,
       profileMenuOpen: false,
       isLoggedIn: false,
       facebookIcon: __webpack_require__(/*! ../../icons/facebook.png */ "./resources/icons/facebook.png"),
       instagramIcon: __webpack_require__(/*! ../../icons/instagram.png */ "./resources/icons/instagram.png"),
-      twitterIcon: __webpack_require__(/*! ../../icons/twitter.png */ "./resources/icons/twitter.png")
+      twitterIcon: __webpack_require__(/*! ../../icons/twitter.png */ "./resources/icons/twitter.png"),
+      visi8Icon: __webpack_require__(/*! ../../assets/visi8_logo.png */ "./resources/assets/visi8_logo.png")
     };
   }
 });
@@ -2994,6 +3018,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       localStorage.setItem('cart', JSON.stringify(cart));
       this.episodeModal = null;
       this.modal = false;
+      eventBus.$emit('cartAddItem');
     },
     parseAuthors: function parseAuthors() {
       var _this2 = this;
@@ -3137,6 +3162,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'dashboard',
@@ -3155,10 +3181,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       })), elem);
     });
     this.getComics(route('api.comics.list', this.query), 'all');
+    this.getAuthors(route('api.authors.list', this.query), 'all');
   },
   data: function data() {
     return {
       shownTags: ['ipsum', 'lorem'],
+      authors: {
+        all: {
+          authors: []
+        }
+      },
       comics: {
         all: {
           comics: []
@@ -3171,10 +3203,30 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       config: {
         image: 'cover_url',
         title: 'title'
-      }
+      },
+      configAuthor: {
+        image: 'cover_url',
+        title: 'title'
+      },
+      karaIcon: __webpack_require__(/*! ../../../assets/kara_logo.png */ "./resources/assets/kara_logo.png")
     };
   },
   methods: {
+    processToAuthorHorizontalSlider: function processToAuthorHorizontalSlider(authorObjects) {
+      var retVal = [];
+      console.log(authorObjects);
+      authorObjects.authors.forEach(function (element) {
+        retVal.push({
+          url: '/author/' + element.id,
+          cover_url: element.profile_picture_url,
+          title: element.name
+        });
+      });
+      return {
+        items: retVal,
+        nextPageUrl: authorObjects.nextPageUrl
+      };
+    },
     processToHorizontalSlider: function processToHorizontalSlider(comicObjects) {
       var retVal = [];
       comicObjects.comics.forEach(function (element) {
@@ -3184,30 +3236,53 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           title: element.title
         });
       });
-      console.log(comicObjects);
       return {
         items: retVal,
         nextPageUrl: comicObjects.nextPageUrl
       };
     },
-    getComics: function getComics(url, category) {
+    getAuthors: function getAuthors(url, category) {
       var _this2 = this;
 
       axios.get(url).then(function (response) {
-        if (!_this2.comics[category]) {
-          _this2.comics[category] = {};
-          _this2.comics[category].comics = response.data.data;
+        if (!_this2.authors[category]) {
+          _this2.authors[category] = {};
+          _this2.authors[category].authors = response.data.data;
         } else {
-          _this2.comics[category].comics = _this2.comics[category].comics.concat(response.data.data);
+          _this2.authors[category].authors = _this2.authors[category].authors.concat(response.data.data);
         }
 
-        _this2.comics[category].paginationData = response.data;
-        _this2.comics[category].prevDisabled = _this2.comics[category].paginationData.prev_page_url === null;
-        _this2.comics[category].nextDisabled = _this2.comics[category].paginationData.next_page_url === null;
-        _this2.comics[category].prevPageUrl = _this2.comics[category].paginationData.prev_page_url;
-        _this2.comics[category].nextPageUrl = _this2.comics[category].paginationData.next_page_url;
+        _this2.authors[category].paginationData = response.data;
+        _this2.authors[category].prevDisabled = _this2.authors[category].paginationData.prev_page_url === null;
+        _this2.authors[category].nextDisabled = _this2.authors[category].paginationData.next_page_url === null;
+        _this2.authors[category].prevPageUrl = _this2.authors[category].paginationData.prev_page_url;
+        _this2.authors[category].nextPageUrl = _this2.authors[category].paginationData.next_page_url;
       })["catch"](function (error) {//do error catching later
       });
+    },
+    getComics: function getComics(url, category) {
+      var _this3 = this;
+
+      axios.get(url).then(function (response) {
+        if (!_this3.comics[category]) {
+          _this3.comics[category] = {};
+          _this3.comics[category].comics = response.data.data;
+        } else {
+          _this3.comics[category].comics = _this3.comics[category].comics.concat(response.data.data);
+        }
+
+        _this3.comics[category].paginationData = response.data;
+        _this3.comics[category].prevDisabled = _this3.comics[category].paginationData.prev_page_url === null;
+        _this3.comics[category].nextDisabled = _this3.comics[category].paginationData.next_page_url === null;
+        _this3.comics[category].prevPageUrl = _this3.comics[category].paginationData.prev_page_url;
+        _this3.comics[category].nextPageUrl = _this3.comics[category].paginationData.next_page_url;
+      })["catch"](function (error) {//do error catching later
+      });
+    },
+    nextAuthorPage: function nextAuthorPage(category) {
+      if (!this.authors[category].nextDisabled) {
+        this.getAuthors(this.authors[category].nextPageUrl, category);
+      }
     },
     nextPage: function nextPage(category) {
       if (!this.comics[category].nextDisabled) {
@@ -3698,6 +3773,7 @@ __webpack_require__.r(__webpack_exports__);
         ar_bought: JSON.stringify(arBought)
       }).then(function (response) {
         localStorage.removeItem('cart');
+        eventBus.$emit('cartAddItem');
 
         _this2.$router.push({
           name: 'comicShow',
@@ -4226,6 +4302,7 @@ vue__WEBPACK_IMPORTED_MODULE_4__.default.use(vue_router__WEBPACK_IMPORTED_MODULE
 Object.defineProperty(vue__WEBPACK_IMPORTED_MODULE_4__.default.prototype, '$_', {
   value: (lodash__WEBPACK_IMPORTED_MODULE_3___default())
 });
+window.eventBus = new vue__WEBPACK_IMPORTED_MODULE_4__.default();
 var app = new vue__WEBPACK_IMPORTED_MODULE_4__.default({
   el: '#app',
   router: _Router_router__WEBPACK_IMPORTED_MODULE_0__.default,
@@ -4309,7 +4386,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n#mobile-menu{\n    z-index: 900;\n}\n.slide-enter-active {\n   transition-duration: 0.3s;\n   transition-timing-function: ease-in;\n}\n.slide-leave-active {\n   transition-duration: 0.3s;\n   transition-timing-function: cubic-bezier(0, 1, 0.5, 1);\n}\n.slide-enter-to, .slide-leave {\n   max-height: 100px;\n   overflow: hidden;\n}\n.slide-enter, .slide-leave-to {\n   overflow: hidden;\n   max-height: 0;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n#mobile-menu{\n    z-index: 900;\n}\n.slide-enter-active {\n   transition-duration: 0.3s;\n   transition-timing-function: ease-in;\n}\n.slide-leave-active {\n   transition-duration: 0.3s;\n   transition-timing-function: cubic-bezier(0, 1, 0.5, 1);\n}\n.slide-enter-to, .slide-leave {\n   max-height: 100px;\n   overflow: hidden;\n}\n.slide-enter, .slide-leave-to {\n   overflow: hidden;\n   max-height: 0;\n}\n.badge{\n    position: relative;\n    top: -13px;\n    right: -34px;\n    padding: 0px 5px;\n    border-radius: 50%;\n    background: red;\n    font-size: 12px;\n    color: white;\n    pointer-events: none;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -4500,6 +4577,36 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/kara_bg.jpg?7a66a6c64ab81a33c2da436ba54f0535");
+
+/***/ }),
+
+/***/ "./resources/assets/kara_logo.png":
+/*!****************************************!*\
+  !*** ./resources/assets/kara_logo.png ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/kara_logo.png?7eeb0799911d6f7ef06cd55049114f19");
+
+/***/ }),
+
+/***/ "./resources/assets/visi8_logo.png":
+/*!*****************************************!*\
+  !*** ./resources/assets/visi8_logo.png ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ("/images/visi8_logo.png?9e66d9f38c02e9a233246f057c7cf9ed");
 
 /***/ }),
 
@@ -25036,7 +25143,25 @@ var render = function() {
                       "flex-1 flex items-center justify-center sm:items-stretch sm:justify-start"
                   },
                   [
-                    _vm._m(0),
+                    _c(
+                      "div",
+                      { staticClass: "flex-shrink-0 flex items-center" },
+                      [
+                        _c("img", {
+                          staticClass: "block lg:hidden h-16 w-auto",
+                          attrs: { src: _vm.visi8Icon.default, alt: "Workflow" }
+                        }),
+                        _vm._v(" "),
+                        _c("img", {
+                          staticClass: "hidden lg:block h-8 w-auto",
+                          attrs: {
+                            src:
+                              "https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg",
+                            alt: "Workflow"
+                          }
+                        })
+                      ]
+                    ),
                     _vm._v(" "),
                     _c("div", { staticClass: "hidden sm:block sm:ml-6" }, [
                       _c(
@@ -25105,6 +25230,37 @@ var render = function() {
                           "absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
                       },
                       [
+                        _vm.cartCount > 0
+                          ? _c("span", { staticClass: "badge" }, [
+                              _vm._v(_vm._s(_vm.cartCount))
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c(
+                          "svg",
+                          {
+                            staticClass: "h-6 w-6",
+                            attrs: {
+                              xmlns: "http://www.w3.org/2000/svg",
+                              fill: "none",
+                              viewBox: "0 0 24 24",
+                              stroke: "currentColor"
+                            },
+                            on: { click: _vm.goToPayment }
+                          },
+                          [
+                            _c("path", {
+                              attrs: {
+                                "stroke-linecap": "round",
+                                "stroke-linejoin": "round",
+                                "stroke-width": "2",
+                                d:
+                                  "M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                              }
+                            })
+                          ]
+                        ),
+                        _vm._v(" "),
                         _c("div", { staticClass: "ml-3 relative" }, [
                           _c("div", [
                             _c(
@@ -25307,31 +25463,7 @@ var render = function() {
     ]
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "flex-shrink-0 flex items-center" }, [
-      _c("img", {
-        staticClass: "block lg:hidden h-8 w-auto",
-        attrs: {
-          src: "https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg",
-          alt: "Workflow"
-        }
-      }),
-      _vm._v(" "),
-      _c("img", {
-        staticClass: "hidden lg:block h-8 w-auto",
-        attrs: {
-          src:
-            "https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg",
-          alt: "Workflow"
-        }
-      })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -26363,7 +26495,27 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "pa-2 w-full" }, [
-    _vm._m(0),
+    _c(
+      "div",
+      {
+        staticClass:
+          "flex flex-col justify-end items-center bg-blue-100 w-150 h-40 pb-8 featured-block",
+        staticStyle: {
+          "background-image":
+            "linear-gradient(rgba(245, 246, 252, 0) 50%, rgb(49 46 129)), url(/storage/media/covers/kara.jpg)"
+        }
+      },
+      [
+        _c("div", { staticClass: "mb-6 text-white" }, [
+          _c("img", {
+            staticClass: "w-64",
+            attrs: { src: _vm.karaIcon.default }
+          }),
+          _vm._v(" "),
+          _vm._m(0)
+        ])
+      ]
+    ),
     _vm._v(" "),
     _c(
       "div",
@@ -26435,11 +26587,11 @@ var render = function() {
           [
             _c("horizontal-slider", {
               attrs: {
-                items: _vm.processToHorizontalSlider(_vm.comics.all),
-                config: _vm.config,
+                items: _vm.processToAuthorHorizontalSlider(_vm.authors.all),
+                config: _vm.configAuthor,
                 objectCategory: "all"
               },
-              on: { nextPage: _vm.nextPage }
+              on: { nextPage: _vm.nextAuthorPage }
             })
           ],
           1
@@ -26453,30 +26605,11 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass:
-          "flex flex-col justify-end items-center bg-blue-100 w-150 h-40 pb-8 featured-block",
-        staticStyle: {
-          "background-image":
-            "linear-gradient(rgba(245, 246, 252, 0) 50%, rgb(49 46 129)), url(/storage/media/covers/kara.jpg)"
-        }
-      },
-      [
-        _c("div", { staticClass: "mb-6 text-white" }, [
-          _c("div", { staticClass: "text-center text-7xl" }, [_vm._v("Kara")]),
-          _vm._v(" "),
-          _c("div", { staticClass: "text-center text-2xl" }, [
-            _vm._v("Guardian of Realms")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "text-center text-base subsubtitle" }, [
-            _vm._v("Adventure, Teen, Magical")
-          ])
-        ])
-      ]
-    )
+    return _c("div", { staticClass: "mb-6 text-white" }, [
+      _c("div", { staticClass: "text-center text-base subsubtitle" }, [
+        _vm._v("Adventure, Teen, Magical")
+      ])
+    ])
   },
   function() {
     var _vm = this
@@ -26545,7 +26678,13 @@ var render = function() {
               ],
               staticClass:
                 "shadow appearance-none border rounded-full w-full py-2 px-3 text-grey-darker",
-              attrs: { id: "email", type: "text", placeholder: "Email" },
+              attrs: {
+                name: "email",
+                for: "email",
+                id: "email",
+                type: "text",
+                placeholder: "Email"
+              },
               domProps: { value: _vm.email },
               on: {
                 input: function($event) {
@@ -26571,6 +26710,8 @@ var render = function() {
               staticClass:
                 "shadow appearance-none border border-red rounded-full w-full py-2 px-3 text-grey-darker mb-3",
               attrs: {
+                name: "password",
+                for: "password",
                 id: "password",
                 type: "password",
                 placeholder: "Password"
@@ -26957,9 +27098,11 @@ var render = function() {
                           }
                         },
                         [
-                          _c("option", { staticClass: "text-sm" }, [
-                            _vm._v("No Ar")
-                          ]),
+                          _c(
+                            "option",
+                            { staticClass: "text-sm", attrs: { selected: "" } },
+                            [_vm._v("No Ar")]
+                          ),
                           _vm._v(" "),
                           _c(
                             "option",
@@ -27000,7 +27143,7 @@ var render = function() {
         "div",
         {
           staticClass:
-            "block uppercase text-gray-700 text-xs font-bold mb-2 mt-3"
+            "block uppercase text-gray-100 text-xs font-bold mb-2 mt-3"
         },
         [_vm._v("\n            Choose Your Payment\n        ")]
       ),
@@ -27063,7 +27206,7 @@ var staticRenderFns = [
           "div",
           {
             staticClass:
-              "block uppercase text-gray-700 text-xs font-bold mb-2 px-4"
+              "block uppercase text-gray-100 text-xs font-bold mb-2 px-4"
           },
           [
             _vm._v("\n                CARDHOLDER'S NAME\n                "),
@@ -27071,7 +27214,7 @@ var staticRenderFns = [
               staticClass:
                 "mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
               attrs: {
-                id: "username",
+                id: "name",
                 type: "text",
                 placeholder: "Input Your Cardholder Name"
               }
@@ -27083,7 +27226,7 @@ var staticRenderFns = [
           "div",
           {
             staticClass:
-              "block uppercase text-gray-700 text-xs font-bold mb-2 px-4"
+              "block uppercase text-gray-100 text-xs font-bold mb-2 px-4"
           },
           [
             _vm._v("\n                CARD NUMBER\n                "),
@@ -27091,7 +27234,7 @@ var staticRenderFns = [
               staticClass:
                 "mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
               attrs: {
-                id: "username",
+                id: "number",
                 type: "text",
                 placeholder: "Input Your Card Number"
               }
@@ -27104,7 +27247,7 @@ var staticRenderFns = [
             "div",
             {
               staticClass:
-                "float-right block uppercase text-gray-700 text-xs font-bold mb-2"
+                "float-right block uppercase text-gray-100 text-xs font-bold mb-2"
             },
             [
               _c("div", [_vm._v("CVC/CVV")]),
@@ -27112,7 +27255,7 @@ var staticRenderFns = [
               _c("input", {
                 staticClass:
                   "mt-2 shadow appearance-none border rounded w-20 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
-                attrs: { id: "username", type: "text", placeholder: "CVC/CVV" }
+                attrs: { id: "cvv", type: "text", placeholder: "CVC/CVV" }
               })
             ]
           ),
@@ -27121,7 +27264,7 @@ var staticRenderFns = [
             "div",
             {
               staticClass:
-                "block uppercase text-gray-700 text-xs font-bold mb-5"
+                "block uppercase text-gray-100 text-xs font-bold mb-5"
             },
             [
               _c("div", [_vm._v("EXP DATE")]),
@@ -27130,7 +27273,7 @@ var staticRenderFns = [
                 staticClass:
                   "mt-2 shadow appearance-none border rounded w-28 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
                 attrs: {
-                  id: "username",
+                  id: "exp_date",
                   type: "text",
                   placeholder: "Exp Card Date"
                 }
@@ -27141,7 +27284,7 @@ var staticRenderFns = [
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "font-bold text-lg text-center py-2" }, [
-        _vm._v("\n            OnLine Payment\n        ")
+        _vm._v("\n            Online Payment\n        ")
       ])
     ])
   },
@@ -27214,6 +27357,7 @@ var render = function() {
                   "shadow appearance-none border rounded-full w-full py-2 px-3 text-grey-darker",
                 attrs: {
                   name: "username",
+                  for: "username",
                   id: "username",
                   type: "text",
                   placeholder: "Username"
@@ -27244,6 +27388,7 @@ var render = function() {
                   "shadow appearance-none border rounded-full w-full py-2 px-3 text-grey-darker",
                 attrs: {
                   name: "email",
+                  for: "email",
                   id: "email",
                   type: "text",
                   placeholder: "Email"
@@ -27274,6 +27419,7 @@ var render = function() {
                   "shadow appearance-none border rounded-full w-full py-2 px-3 text-grey-darker",
                 attrs: {
                   name: "full_name",
+                  for: "full_name",
                   id: "full_name",
                   type: "text",
                   placeholder: "Full Name"
@@ -27304,6 +27450,7 @@ var render = function() {
                   "shadow appearance-none border border-red rounded-full w-full py-2 px-3 text-grey-darker mb-3",
                 attrs: {
                   name: "password",
+                  for: "password",
                   id: "password",
                   type: "password",
                   placeholder: "Password"

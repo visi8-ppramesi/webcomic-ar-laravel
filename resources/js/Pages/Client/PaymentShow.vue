@@ -13,7 +13,7 @@
                                 Rp. {{(item.price).toLocaleString('id-ID')}}
                             </div>
                             <select class="ml-3 text-sm" v-model="arSelected[item.id + '-' + cpt]">
-                                <option class="text-sm">No Ar</option>
+                                <option class="text-sm" selected>No Ar</option>
                                 <option class="text-sm" :value="item.id + '-' + cpt">Ar</option>
                             </select>
                         </div>
@@ -37,32 +37,32 @@
         </div>
         <div class="divide-y mt-5">
             <div>
-                <div class="block uppercase text-gray-700 text-xs font-bold mb-2 px-4">
+                <div class="block uppercase text-gray-100 text-xs font-bold mb-2 px-4">
                     CARDHOLDER'S NAME
-                    <input class="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Input Your Cardholder Name">
+                    <input class="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" placeholder="Input Your Cardholder Name">
                 </div>
-                <div class="block uppercase text-gray-700 text-xs font-bold mb-2 px-4">
+                <div class="block uppercase text-gray-100 text-xs font-bold mb-2 px-4">
                     CARD NUMBER
-                    <input class="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Input Your Card Number">
+                    <input class="mt-2 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="number" type="text" placeholder="Input Your Card Number">
                 </div>
 
                 <div class="font-bold px-4 mt-5 text-xs">
-                    <div class="float-right block uppercase text-gray-700 text-xs font-bold mb-2">
+                    <div class="float-right block uppercase text-gray-100 text-xs font-bold mb-2">
                         <div>CVC/CVV</div>
-                        <input class="mt-2 shadow appearance-none border rounded w-20 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="CVC/CVV">
+                        <input class="mt-2 shadow appearance-none border rounded w-20 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="cvv" type="text" placeholder="CVC/CVV">
                     </div>
-                    <div class="block uppercase text-gray-700 text-xs font-bold mb-5">
+                    <div class="block uppercase text-gray-100 text-xs font-bold mb-5">
                         <div>EXP DATE</div>
-                        <input class="mt-2 shadow appearance-none border rounded w-28 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="Exp Card Date">
+                        <input class="mt-2 shadow appearance-none border rounded w-28 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="exp_date" type="text" placeholder="Exp Card Date">
                     </div>
                 </div>
             </div>
             <div class="font-bold text-lg text-center py-2">
-                OnLine Payment
+                Online Payment
             </div>
         </div>
         <div class="px-5">
-            <div class="block uppercase text-gray-700 text-xs font-bold mb-2 mt-3">
+            <div class="block uppercase text-gray-100 text-xs font-bold mb-2 mt-3">
                 Choose Your Payment
             </div>
             <div class="inline-block relative w-28">
@@ -152,6 +152,7 @@ export default {
             })
             .then((response) => {
                 localStorage.removeItem('cart')
+                eventBus.$emit('cartAddItem')
                 this.$router.push({name: 'comicShow', params: {comicId: Object.keys(sendObj)[0]}})
             })
         }

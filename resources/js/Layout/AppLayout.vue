@@ -17,7 +17,7 @@
                     </div>
                     <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
                         <div class="flex-shrink-0 flex items-center">
-                            <img class="block lg:hidden h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg" alt="Workflow">
+                            <img class="block lg:hidden h-16 w-auto" :src="visi8Icon.default" alt="Workflow">
                             <img class="hidden lg:block h-8 w-auto" src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg" alt="Workflow">
                         </div>
                         <div class="hidden sm:block sm:ml-6">
@@ -31,6 +31,10 @@
                     </div>
                     <div v-if="isLoggedIn" class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                         <!-- Profile dropdown -->
+                        <span class="badge" v-if="cartCount > 0">{{cartCount}}</span>
+                        <svg @click="goToPayment" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
                         <div class="ml-3 relative">
                             <div>
                                 <button @click="profileMenuOpen = !profileMenuOpen" type="button" class="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
@@ -38,7 +42,6 @@
                                     <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
                                 </button>
                             </div>
-
                             <div v-if="profileMenuOpen" class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
                                 <!-- Active: "bg-gray-100", Not Active: "" -->
                                 <router-link :to="{name: 'logout'}" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</router-link>
@@ -93,6 +96,19 @@
 <script>
 export default {
     name: 'app-layout',
+    methods: {
+        goToPayment(){
+            this.$router.push({name: 'paymentShow'})
+        },
+        countCartItems(){
+            let count = 0
+            let cartObj = JSON.parse(localStorage.getItem('cart') || '{}')
+            Object.keys(cartObj).forEach((key) => {
+                count += cartObj[key].length
+            })
+            this.cartCount = count
+        }
+    },
     created() {
         this.isLoggedIn = this.$store.getters.loggedIn
         if(this.$store.getters.loggedIn){
@@ -107,9 +123,14 @@ export default {
                 path: route.path
             })
         })
+        this.countCartItems()
+        eventBus.$on('cartAddItem', (e) => {
+            this.countCartItems()
+        })
     },
     data() {
         return {
+            cartCount: 0,
             items: [],
             mobileMenuOpen: false,
             profileMenuOpen: false,
@@ -117,6 +138,7 @@ export default {
             facebookIcon: require('../../icons/facebook.png'),
             instagramIcon: require('../../icons/instagram.png'),
             twitterIcon: require('../../icons/twitter.png'),
+            visi8Icon: require('../../assets/visi8_logo.png')
         }
     }
 }
@@ -155,5 +177,16 @@ export default {
 .slide-enter, .slide-leave-to {
    overflow: hidden;
    max-height: 0;
+}
+.badge{
+    position: relative;
+    top: -13px;
+    right: -34px;
+    padding: 0px 5px;
+    border-radius: 50%;
+    background: red;
+    font-size: 12px;
+    color: white;
+    pointer-events: none;
 }
 </style>

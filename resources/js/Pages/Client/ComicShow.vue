@@ -165,6 +165,7 @@ export default {
             localStorage.setItem('cart', JSON.stringify(cart))
             this.episodeModal = null
             this.modal = false
+            eventBus.$emit('cartAddItem')
         },
         parseAuthors(){
             this.comic.authors.forEach(element => {

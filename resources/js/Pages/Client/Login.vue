@@ -3,10 +3,10 @@
         <div class="flex items-end h-screen">
             <div class="w-full p-5">
                 <div class="mb-4">
-                    <input class="shadow appearance-none border rounded-full w-full py-2 px-3 text-grey-darker" v-model="email" id="email" type="text" placeholder="Email">
+                    <input name="email" for="email" class="shadow appearance-none border rounded-full w-full py-2 px-3 text-grey-darker" v-model="email" id="email" type="text" placeholder="Email">
                 </div>
                 <div class="pass-form">
-                    <input class="shadow appearance-none border border-red rounded-full w-full py-2 px-3 text-grey-darker mb-3" v-model="password" id="password" type="password" placeholder="Password">
+                    <input name="password" for="password" class="shadow appearance-none border border-red rounded-full w-full py-2 px-3 text-grey-darker mb-3" v-model="password" id="password" type="password" placeholder="Password">
                 </div>
                 <div class="text-sm text-center text-white mb-10">
                     <router-link to="#">Forgot Password?</router-link>

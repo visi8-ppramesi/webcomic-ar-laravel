@@ -4,16 +4,16 @@
             <div class="w-full p-5">
                 <form autocomplete="off">
                     <div class="mb-4">
-                        <input name="username" class="shadow appearance-none border rounded-full w-full py-2 px-3 text-grey-darker" v-model="username" id="username" type="text" placeholder="Username">
+                        <input name="username" for="username" class="shadow appearance-none border rounded-full w-full py-2 px-3 text-grey-darker" v-model="username" id="username" type="text" placeholder="Username">
                     </div>
                     <div class="mb-4">
-                        <input name="email" class="shadow appearance-none border rounded-full w-full py-2 px-3 text-grey-darker" v-model="email" id="email" type="text" placeholder="Email">
+                        <input name="email" for="email" class="shadow appearance-none border rounded-full w-full py-2 px-3 text-grey-darker" v-model="email" id="email" type="text" placeholder="Email">
                     </div>
                     <div class="mb-4">
-                        <input name="full_name" class="shadow appearance-none border rounded-full w-full py-2 px-3 text-grey-darker" v-model="full_name" id="full_name" type="text" placeholder="Full Name">
+                        <input name="full_name" for="full_name" class="shadow appearance-none border rounded-full w-full py-2 px-3 text-grey-darker" v-model="full_name" id="full_name" type="text" placeholder="Full Name">
                     </div>
                     <div class="pass-form">
-                        <input name="password" class="shadow appearance-none border border-red rounded-full w-full py-2 px-3 text-grey-darker mb-3" v-model="password" id="password" type="password" placeholder="Password">
+                        <input name="password" for="password" class="shadow appearance-none border border-red rounded-full w-full py-2 px-3 text-grey-darker mb-3" v-model="password" id="password" type="password" placeholder="Password">
                     </div>
                 </form>
                 <div class="flex items-center justify-between">
