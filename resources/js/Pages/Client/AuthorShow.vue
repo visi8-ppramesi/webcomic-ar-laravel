@@ -98,7 +98,7 @@
                         title: element.title
                     })
                 });
-                return retVal
+                return {items: retVal, nextPageUrl: comicObjects.nextPageUrl}
             },
             getComics(url, category) {
                 axios.get(url)

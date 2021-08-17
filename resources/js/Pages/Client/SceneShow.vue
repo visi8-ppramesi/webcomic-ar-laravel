@@ -1,5 +1,5 @@
 <template>
-    <div class="flex text-center text-white text-5xl h-screen-navbar w-screen justify-center items-center">
+    <div class="flex text-center text-white text-5xl w-screen justify-center items-center">
         <div>
             Loading... Please wait
         </div>
@@ -26,11 +26,14 @@ export default {
             this.origHtmlClass = html.className
             document.body.insertAdjacentHTML('beforeend', response.data.scene)
             window.addEventListener('xrloaded', this.onXrLoaded)
+            console.log('a-frame injected')
         })
     },
     beforeDestroy(){
         const ascene = document.getElementsByTagName('a-scene')[0]
-        ascene.parentNode.removeChild(ascene)
+        if(eightWallLoading !== null){
+            ascene.parentNode.removeChild(ascene)
+        }
         const eightWallLoading = document.getElementById('loadingContainer')
         if(eightWallLoading !== null){
             eightWallLoading.parentNode.removeChild(eightWallLoading)

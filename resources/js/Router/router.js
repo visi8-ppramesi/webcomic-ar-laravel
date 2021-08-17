@@ -11,6 +11,7 @@ import Search from '../Pages/Client/Search.vue'
 import SceneShow from '../Pages/Client/SceneShow.vue'
 
 import NotFound from '../Pages/NotFound.vue'
+import Testing from '../Pages/Client/Testing.vue'
 
 import AdminHome from '../Pages/Admin/Home.vue'
 import AdminComics from '../Pages/Admin/Comics.vue'
@@ -32,14 +33,6 @@ const routes = [
                 path: '/',
                 component: Dashboard,
                 name: 'dashboard'
-            },
-            {
-                path: '/scene/:pageId',
-                component: SceneShow,
-                name: 'sceneShow',
-                meta: {
-                    requiresAuth: true
-                }
             },
             {
                 path: '/search',
@@ -87,6 +80,14 @@ const routes = [
                 component: NotFound
             },
         ]
+    },
+    {
+        path: '/scene/:pageId',
+        component: SceneShow,
+        name: 'sceneShow',
+        meta: {
+            requiresAuth: true
+        }
     },
     {
         path: '/register',
@@ -170,6 +171,11 @@ const routes = [
             requiresAuth: true,
         }
     },
+    {
+        path: '/testing',
+        component: Testing,
+        name: 'testing'
+    },
 ]
 
 const router = new VueRouter({
@@ -182,6 +188,7 @@ router.beforeEach((to, from, next) => {
     const loggedIn = localStorage.getItem("token")
     if (to.matched.some(record => record.meta.requiresAuth)) {
         if (store.getters.tokenExpired || (!store.getters.loggedIn && !loggedIn)) {
+            console.log('login')
             return next({
                 name: 'login',
             })
@@ -190,6 +197,7 @@ router.beforeEach((to, from, next) => {
         }
     } else if (to.matched.some(record => record.meta.requiresVisitor)) {
         if (store.getters.loggedIn) {
+            console.log('dashboard')
             return next({
                 name: 'dashboard',
             })

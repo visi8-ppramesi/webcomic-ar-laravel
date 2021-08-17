@@ -18,6 +18,13 @@ module.exports = {
         "screen/6": "calc(100vw / 6)",
         "screen/8": "calc(100vw / 8)",
         "screen/10": "calc(100vw / 10)",
+      }),
+      maxHeight: theme => ({
+        '0': '0',
+        '1/4': '25%',
+        '1/2': '50%',
+        '3/4': '75%',
+        'full': '100%',
       })
     },
   },

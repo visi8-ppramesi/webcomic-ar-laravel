@@ -72,10 +72,10 @@ class CreateContent extends Command
         $this->comic->authors()->sync([$author->id]);
 
         $this->sceneStub = file_get_contents(base_path('storage/content/stubs/Scene.html.stub'));
-        $this->createChapter(0);
-        $this->createChapter(1);
-        $this->createChapter(2);
-        $this->createChapter(3);
+
+        for($x = 0; $x <= 20; $x++){
+            $this->createChapter($x);
+        }
         // $chapterZero = storage_path('content/comics/cpt0/');
         // $cptZeroFiles = File::files($chapterZero);
         // $cptZeroSectionCount = 0;

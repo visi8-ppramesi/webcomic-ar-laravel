@@ -71,7 +71,7 @@
         <modal v-model="modal">
             <template v-slot:body>
                 <div class="p-6 flex flex-col content-center justify-center">
-                    <img :src="comic.cover_url" class="h-1/2 rounded-lg">
+                    <img :src="comic.cover_url" class="max-h-1/2 rounded-lg">
                     <div>Rp. {{(comic.price).toLocaleString('id-ID')}}</div>
                     <div>Apakah kamu mau membeli Ep. {{episodeModal}}?</div>
                 </div>
@@ -150,7 +150,14 @@ export default {
             this.bookmark = {...response.data}
         })
         .catch((error) => {
-            this.$router.push({ name: 'notFound' })
+            console.log(error.response)
+            if(error.response.status == 404){
+                this.$router.push({ name: 'notFound' })
+            }else{
+                this.$store.commit('clearUserData')
+                this.$store.commit('destroyToken')
+                this.$router.push({ name: 'login'})
+            }
         })
     },
     methods: {

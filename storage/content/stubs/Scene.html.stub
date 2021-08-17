@@ -3,7 +3,7 @@
     xrextras-almost-there
     xrextras-loading
     xrextras-runtime-error
-    renderer="antialias: true; colorManagement: true; physicallyCorrectLights: true;"
+    renderer="colorManagement: true;"
     xrweb>
     <a-assets>
         <a-asset-item id="%%id%%Model" src="%%model_url%%"></a-asset-item>
