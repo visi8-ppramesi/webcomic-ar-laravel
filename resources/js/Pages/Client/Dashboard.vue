@@ -107,7 +107,6 @@ export default {
     methods:{
         processToAuthorHorizontalSlider(authorObjects){
             let retVal = []
-            console.log(authorObjects)
             authorObjects.authors.forEach(element => {
                 retVal.push({
                     url: '/author/' + element.id,

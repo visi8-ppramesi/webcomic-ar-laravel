@@ -1,5 +1,5 @@
 <template>
-    <div class="flex text-center text-white text-5xl w-screen justify-center items-center">
+    <div class="flex text-center text-white text-5xl w-screen justify-center items-center testing">
         <div>
             Loading... Please wait
         </div>
@@ -75,3 +75,9 @@ export default {
     }
 }
 </script>
+
+<style>
+.testing{
+    height:84vh;
+}
+</style>
