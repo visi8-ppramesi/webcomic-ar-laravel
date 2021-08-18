@@ -44,6 +44,24 @@ class CreateContent extends Command
      */
     public function handle()
     {
+        $coversSource = [
+            storage_path('content/covers/1.jpg'),
+            storage_path('content/covers/2.jpg'),
+            storage_path('content/covers/3.jpg'),
+            storage_path('content/covers/4.jpg'),
+        ];
+
+        $coversTarget = [
+            public_path('storage/media/covers/1.jpg'),
+            public_path('storage/media/covers/2.jpg'),
+            public_path('storage/media/covers/3.jpg'),
+            public_path('storage/media/covers/4.jpg'),
+        ];
+
+        foreach($coversSource as $idx => $cover){
+            File::copy($coversSource[$idx], $coversTarget[$idx]);
+        }
+
         $contentProfilePath = storage_path('content/profile-pictures/alan_moore.jpg');
         $storageProfilePath = public_path('storage/media/authors/alan_moore.jpg');
         File::copy($contentProfilePath, $storageProfilePath);

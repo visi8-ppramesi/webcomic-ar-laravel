@@ -36,7 +36,7 @@ class ComicFactory extends Factory
             'genres' => $genresStr,
             // 'author_id' => $author,
             'price' => $this->faker->randomFloat(2, 0, 10),
-            'cover_url' => '/storage/media/covers/cover.jpg'
+            'cover_url' => '/storage/media/covers/' . rand(1,4) . '.jpg'
         ];
     }
 }
