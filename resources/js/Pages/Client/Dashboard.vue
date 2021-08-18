@@ -1,7 +1,7 @@
 <template>
     <div class="pa-2 w-full">
         <div class="flex flex-col justify-end items-center bg-blue-100 w-150 h-40 pb-8 featured-block" style="background-image: linear-gradient(rgba(245, 246, 252, 0) 50%, rgb(49 46 129)), url(/storage/media/covers/kara.jpg);"> <!-- add featured comic here -->
-            <div class="mb-6 text-white">
+            <div class="mb-6 text-white" @click="goToKara">
                 <img class="w-64" :src="karaIcon.default" />
                 <div class="mb-6 text-white">
                     <div class="text-center text-base subsubtitle">Adventure, Teen, Magical</div>
@@ -105,6 +105,9 @@ export default {
         }
     },
     methods:{
+        goToKara(){
+            this.$router.push({name: 'comicShow', params: {comicId: 1}})
+        },
         processToAuthorHorizontalSlider(authorObjects){
             let retVal = []
             authorObjects.authors.forEach(element => {

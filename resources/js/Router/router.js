@@ -9,6 +9,8 @@ import Register from '../Pages/Client/Register.vue'
 import Logout from '../Pages/Client/Logout.vue'
 import Search from '../Pages/Client/Search.vue'
 import SceneShow from '../Pages/Client/SceneShow.vue'
+import About from '../Pages/Client/About.vue'
+import PrivacyPolicy from '../Pages/Client/PrivacyPolicy.vue'
 
 import NotFound from '../Pages/NotFound.vue'
 import Testing from '../Pages/Client/Testing.vue'
@@ -41,6 +43,16 @@ const routes = [
                 meta: {
                     requiresAuth: true
                 }
+            },
+            {
+                path: '/about-us',
+                component: About,
+                name: 'about',
+            },
+            {
+                path: '/privacy-policy',
+                component: PrivacyPolicy,
+                name: 'privacyPolicy',
             },
             {
                 path: '/comic/:comicId',

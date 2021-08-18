@@ -10,23 +10,30 @@
 export default {
     name: 'testing',
     created(){
-        document.body.insertAdjacentHTML('beforeend', this.scene)
+        // document.body.insertAdjacentHTML('beforeend', this.scene)
+    },
+    mounted(){
+    },
+    methods: {
+        onXrLoaded(){
+            console.log('asdfasdf')
+        }
     },
     beforeDestroy(){
-        const ascene = document.getElementsByTagName('a-scene')[0]
-        if(ascene !== null){
-            ascene.parentNode.removeChild(ascene)
-        }
-        const eightWallLoading = document.getElementById('loadingContainer')
-        if(eightWallLoading !== null){
-            eightWallLoading.parentNode.removeChild(eightWallLoading)
-        }
-        const html = document.getElementsByTagName('html')[0]
-        html.className = this.origHtmlClass
-        window.removeEventListener('xrloaded', this.onXrLoaded)
+        // const ascene = document.getElementsByTagName('a-scene')[0]
+        // if(ascene !== null){
+        //     ascene.parentNode.removeChild(ascene)
+        // }
+        // const eightWallLoading = document.getElementById('loadingContainer')
+        // if(eightWallLoading !== null){
+        //     eightWallLoading.parentNode.removeChild(eightWallLoading)
+        // }
+        // const html = document.getElementsByTagName('html')[0]
+        // html.className = this.origHtmlClass
     },
     data(){
         return {
+            test: 'test',
             origHtmlClass: '',
             scene:
             `

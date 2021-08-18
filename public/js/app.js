@@ -2309,6 +2309,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'app-layout',
   methods: {
@@ -2674,6 +2686,75 @@ __webpack_require__.r(__webpack_exports__);
       });
     });
   }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Pages/Client/About.vue?vue&type=script&lang=js&":
+/*!**************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Pages/Client/About.vue?vue&type=script&lang=js& ***!
+  \**************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'about'
 });
 
 /***/ }),
@@ -3228,6 +3309,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     };
   },
   methods: {
+    goToKara: function goToKara() {
+      this.$router.push({
+        name: 'comicShow',
+        params: {
+          comicId: 1
+        }
+      });
+    },
     processToAuthorHorizontalSlider: function processToAuthorHorizontalSlider(authorObjects) {
       var retVal = [];
       authorObjects.authors.forEach(function (element) {
@@ -3803,6 +3892,122 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Pages/Client/PrivacyPolicy.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Pages/Client/PrivacyPolicy.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'privacy-policy'
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Pages/Client/Register.vue?vue&type=script&lang=js&":
 /*!*****************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Pages/Client/Register.vue?vue&type=script&lang=js& ***!
@@ -3989,28 +4194,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'testing',
-  created: function created() {
-    document.body.insertAdjacentHTML('beforeend', this.scene);
+  created: function created() {// document.body.insertAdjacentHTML('beforeend', this.scene)
   },
-  beforeDestroy: function beforeDestroy() {
-    var ascene = document.getElementsByTagName('a-scene')[0];
-
-    if (ascene !== null) {
-      ascene.parentNode.removeChild(ascene);
+  mounted: function mounted() {},
+  methods: {
+    onXrLoaded: function onXrLoaded() {
+      console.log('asdfasdf');
     }
-
-    var eightWallLoading = document.getElementById('loadingContainer');
-
-    if (eightWallLoading !== null) {
-      eightWallLoading.parentNode.removeChild(eightWallLoading);
-    }
-
-    var html = document.getElementsByTagName('html')[0];
-    html.className = this.origHtmlClass;
-    window.removeEventListener('xrloaded', this.onXrLoaded);
+  },
+  beforeDestroy: function beforeDestroy() {// const ascene = document.getElementsByTagName('a-scene')[0]
+    // if(ascene !== null){
+    //     ascene.parentNode.removeChild(ascene)
+    // }
+    // const eightWallLoading = document.getElementById('loadingContainer')
+    // if(eightWallLoading !== null){
+    //     eightWallLoading.parentNode.removeChild(eightWallLoading)
+    // }
+    // const html = document.getElementsByTagName('html')[0]
+    // html.className = this.origHtmlClass
   },
   data: function data() {
     return {
+      test: 'test',
       origHtmlClass: '',
       scene: "\n                <a-scene\n                    xrextras-gesture-detector\n                    xrextras-almost-there\n                    xrextras-loading\n                    xrextras-runtime-error\n                    renderer=\"colorManagement: true\"\n                    xrweb>\n                    <a-assets>\n                        <a-asset-item id=\"sandCastleModel\" src=\"https://visi8-webcomic.s3.ap-southeast-1.amazonaws.com/0_1.glb\"></a-asset-item>\n                    </a-assets>\n                    <a-camera\n                        id=\"camera\"\n                        position=\"0 8 8\"\n                        raycaster=\"objects: .cantap\"\n                        cursor=\"fuse: false; rayOrigin: mouse;\">\n                    </a-camera>\n                    <a-entity\n                        light=\"\n                        type: directional;\n                        intensity: 0.8;\n                        castShadow: true;\n                        shadowMapHeight:2048;\n                        shadowMapWidth:2048;\n                        shadowCameraTop: 10;\n                        target: #model;\"\n                        xrextras-attach=\"target: model; offset: 1 15 3;\"\n                        shadow>\n                    </a-entity>\n                    <a-light type=\"ambient\" intensity=\"0.7\"></a-light>\n                    <a-entity\n                        id=\"model\"\n                        gltf-model=\"#sandCastleModel\"\n                        class=\"cantap\"\n                        xrextras-hold-drag\n                        xrextras-two-finger-rotate\n                        xrextras-pinch-scale\n                        scale=\"3 3 3\"\n                        shadow=\"receive: false\">\n                    </a-entity>\n                </a-scene>\n            "
     };
@@ -4051,7 +4256,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var _Pages_Client_Dashboard_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Pages/Client/Dashboard.vue */ "./resources/js/Pages/Client/Dashboard.vue");
 /* harmony import */ var _Pages_Client_ComicShow_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Pages/Client/ComicShow.vue */ "./resources/js/Pages/Client/ComicShow.vue");
 /* harmony import */ var _Pages_Client_AuthorShow_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Pages/Client/AuthorShow.vue */ "./resources/js/Pages/Client/AuthorShow.vue");
@@ -4062,17 +4267,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Pages_Client_Logout_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../Pages/Client/Logout.vue */ "./resources/js/Pages/Client/Logout.vue");
 /* harmony import */ var _Pages_Client_Search_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../Pages/Client/Search.vue */ "./resources/js/Pages/Client/Search.vue");
 /* harmony import */ var _Pages_Client_SceneShow_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../Pages/Client/SceneShow.vue */ "./resources/js/Pages/Client/SceneShow.vue");
-/* harmony import */ var _Pages_NotFound_vue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../Pages/NotFound.vue */ "./resources/js/Pages/NotFound.vue");
-/* harmony import */ var _Pages_Client_Testing_vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../Pages/Client/Testing.vue */ "./resources/js/Pages/Client/Testing.vue");
-/* harmony import */ var _Pages_Admin_Home_vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../Pages/Admin/Home.vue */ "./resources/js/Pages/Admin/Home.vue");
-/* harmony import */ var _Pages_Admin_Comics_vue__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../Pages/Admin/Comics.vue */ "./resources/js/Pages/Admin/Comics.vue");
-/* harmony import */ var _Pages_Admin_ComicNew_vue__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../Pages/Admin/ComicNew.vue */ "./resources/js/Pages/Admin/ComicNew.vue");
-/* harmony import */ var _Pages_Admin_ComicShow_vue__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../Pages/Admin/ComicShow.vue */ "./resources/js/Pages/Admin/ComicShow.vue");
-/* harmony import */ var _Pages_Admin_Login_vue__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../Pages/Admin/Login.vue */ "./resources/js/Pages/Admin/Login.vue");
-/* harmony import */ var _Pages_Admin_Logout_vue__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../Pages/Admin/Logout.vue */ "./resources/js/Pages/Admin/Logout.vue");
-/* harmony import */ var _Layout_AdminAppLayout_vue__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../Layout/AdminAppLayout.vue */ "./resources/js/Layout/AdminAppLayout.vue");
-/* harmony import */ var _Layout_AppLayout_vue__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../Layout/AppLayout.vue */ "./resources/js/Layout/AppLayout.vue");
-/* harmony import */ var _Store_store__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../Store/store */ "./resources/js/Store/store.js");
+/* harmony import */ var _Pages_Client_About_vue__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../Pages/Client/About.vue */ "./resources/js/Pages/Client/About.vue");
+/* harmony import */ var _Pages_Client_PrivacyPolicy_vue__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../Pages/Client/PrivacyPolicy.vue */ "./resources/js/Pages/Client/PrivacyPolicy.vue");
+/* harmony import */ var _Pages_NotFound_vue__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../Pages/NotFound.vue */ "./resources/js/Pages/NotFound.vue");
+/* harmony import */ var _Pages_Client_Testing_vue__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../Pages/Client/Testing.vue */ "./resources/js/Pages/Client/Testing.vue");
+/* harmony import */ var _Pages_Admin_Home_vue__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../Pages/Admin/Home.vue */ "./resources/js/Pages/Admin/Home.vue");
+/* harmony import */ var _Pages_Admin_Comics_vue__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ../Pages/Admin/Comics.vue */ "./resources/js/Pages/Admin/Comics.vue");
+/* harmony import */ var _Pages_Admin_ComicNew_vue__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../Pages/Admin/ComicNew.vue */ "./resources/js/Pages/Admin/ComicNew.vue");
+/* harmony import */ var _Pages_Admin_ComicShow_vue__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../Pages/Admin/ComicShow.vue */ "./resources/js/Pages/Admin/ComicShow.vue");
+/* harmony import */ var _Pages_Admin_Login_vue__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ../Pages/Admin/Login.vue */ "./resources/js/Pages/Admin/Login.vue");
+/* harmony import */ var _Pages_Admin_Logout_vue__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ../Pages/Admin/Logout.vue */ "./resources/js/Pages/Admin/Logout.vue");
+/* harmony import */ var _Layout_AdminAppLayout_vue__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ../Layout/AdminAppLayout.vue */ "./resources/js/Layout/AdminAppLayout.vue");
+/* harmony import */ var _Layout_AppLayout_vue__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ../Layout/AppLayout.vue */ "./resources/js/Layout/AppLayout.vue");
+/* harmony import */ var _Store_store__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ../Store/store */ "./resources/js/Store/store.js");
+
+
 
 
 
@@ -4097,7 +4306,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var routes = [{
   path: '/',
-  component: _Layout_AppLayout_vue__WEBPACK_IMPORTED_MODULE_19__.default,
+  component: _Layout_AppLayout_vue__WEBPACK_IMPORTED_MODULE_21__.default,
   name: 'appLayout',
   children: [{
     path: '/',
@@ -4110,6 +4319,14 @@ var routes = [{
     meta: {
       requiresAuth: true
     }
+  }, {
+    path: '/about-us',
+    component: _Pages_Client_About_vue__WEBPACK_IMPORTED_MODULE_10__.default,
+    name: 'about'
+  }, {
+    path: '/privacy-policy',
+    component: _Pages_Client_PrivacyPolicy_vue__WEBPACK_IMPORTED_MODULE_11__.default,
+    name: 'privacyPolicy'
   }, {
     path: '/comic/:comicId',
     component: _Pages_Client_ComicShow_vue__WEBPACK_IMPORTED_MODULE_1__.default,
@@ -4141,7 +4358,7 @@ var routes = [{
   }, {
     path: '/404',
     name: 'notFound',
-    component: _Pages_NotFound_vue__WEBPACK_IMPORTED_MODULE_10__.default
+    component: _Pages_NotFound_vue__WEBPACK_IMPORTED_MODULE_12__.default
   }]
 }, {
   path: '/scene/:pageId',
@@ -4173,35 +4390,35 @@ var routes = [{
   }
 }, {
   path: '/admin',
-  component: _Layout_AdminAppLayout_vue__WEBPACK_IMPORTED_MODULE_18__.default,
+  component: _Layout_AdminAppLayout_vue__WEBPACK_IMPORTED_MODULE_20__.default,
   name: 'adminAppLayout',
   meta: {
     requiresAuth: true
   },
   children: [{
     path: '/home',
-    component: _Pages_Admin_Home_vue__WEBPACK_IMPORTED_MODULE_12__.default,
+    component: _Pages_Admin_Home_vue__WEBPACK_IMPORTED_MODULE_14__.default,
     name: 'adminHome',
     meta: {
       requiresAuth: true
     }
   }, {
     path: '/comics',
-    component: _Pages_Admin_Comics_vue__WEBPACK_IMPORTED_MODULE_13__.default,
+    component: _Pages_Admin_Comics_vue__WEBPACK_IMPORTED_MODULE_15__.default,
     name: 'adminComics',
     meta: {
       requiresAuth: true
     }
   }, {
     path: '/comic/:id',
-    component: _Pages_Admin_ComicShow_vue__WEBPACK_IMPORTED_MODULE_15__.default,
+    component: _Pages_Admin_ComicShow_vue__WEBPACK_IMPORTED_MODULE_17__.default,
     name: 'adminComicShow',
     meta: {
       requiresAuth: true
     }
   }, {
     path: '/comic/new',
-    component: _Pages_Admin_ComicNew_vue__WEBPACK_IMPORTED_MODULE_14__.default,
+    component: _Pages_Admin_ComicNew_vue__WEBPACK_IMPORTED_MODULE_16__.default,
     name: 'adminComicNew',
     meta: {
       requiresAuth: true
@@ -4209,24 +4426,24 @@ var routes = [{
   }]
 }, {
   path: '/admin/login',
-  component: _Pages_Admin_Login_vue__WEBPACK_IMPORTED_MODULE_16__.default,
+  component: _Pages_Admin_Login_vue__WEBPACK_IMPORTED_MODULE_18__.default,
   name: 'adminLogin',
   meta: {
     requiresVisitor: true
   }
 }, {
   path: '/admin/logout',
-  component: _Pages_Admin_Logout_vue__WEBPACK_IMPORTED_MODULE_17__.default,
+  component: _Pages_Admin_Logout_vue__WEBPACK_IMPORTED_MODULE_19__.default,
   name: 'adminLogout',
   meta: {
     requiresAuth: true
   }
 }, {
   path: '/testing',
-  component: _Pages_Client_Testing_vue__WEBPACK_IMPORTED_MODULE_11__.default,
+  component: _Pages_Client_Testing_vue__WEBPACK_IMPORTED_MODULE_13__.default,
   name: 'testing'
 }];
-var router = new vue_router__WEBPACK_IMPORTED_MODULE_21__.default({
+var router = new vue_router__WEBPACK_IMPORTED_MODULE_23__.default({
   mode: 'history',
   routes: routes
 });
@@ -4237,7 +4454,7 @@ router.beforeEach(function (to, from, next) {
   if (to.matched.some(function (record) {
     return record.meta.requiresAuth;
   })) {
-    if (_Store_store__WEBPACK_IMPORTED_MODULE_20__.default.getters.tokenExpired || !_Store_store__WEBPACK_IMPORTED_MODULE_20__.default.getters.loggedIn && !loggedIn) {
+    if (_Store_store__WEBPACK_IMPORTED_MODULE_22__.default.getters.tokenExpired || !_Store_store__WEBPACK_IMPORTED_MODULE_22__.default.getters.loggedIn && !loggedIn) {
       console.log('login');
       return next({
         name: 'login'
@@ -4248,7 +4465,7 @@ router.beforeEach(function (to, from, next) {
   } else if (to.matched.some(function (record) {
     return record.meta.requiresVisitor;
   })) {
-    if (_Store_store__WEBPACK_IMPORTED_MODULE_20__.default.getters.loggedIn) {
+    if (_Store_store__WEBPACK_IMPORTED_MODULE_22__.default.getters.loggedIn) {
       console.log('dashboard');
       return next({
         name: 'dashboard'
@@ -23265,6 +23482,45 @@ component.options.__file = "resources/js/Pages/Admin/Logout.vue"
 
 /***/ }),
 
+/***/ "./resources/js/Pages/Client/About.vue":
+/*!*********************************************!*\
+  !*** ./resources/js/Pages/Client/About.vue ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _About_vue_vue_type_template_id_9e6a7c5c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./About.vue?vue&type=template&id=9e6a7c5c& */ "./resources/js/Pages/Client/About.vue?vue&type=template&id=9e6a7c5c&");
+/* harmony import */ var _About_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./About.vue?vue&type=script&lang=js& */ "./resources/js/Pages/Client/About.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _About_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _About_vue_vue_type_template_id_9e6a7c5c___WEBPACK_IMPORTED_MODULE_0__.render,
+  _About_vue_vue_type_template_id_9e6a7c5c___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/Pages/Client/About.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/Pages/Client/AuthorShow.vue":
 /*!**************************************************!*\
   !*** ./resources/js/Pages/Client/AuthorShow.vue ***!
@@ -23540,6 +23796,45 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 /* hot reload */
 if (false) { var api; }
 component.options.__file = "resources/js/Pages/Client/PaymentShow.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Client/PrivacyPolicy.vue":
+/*!*****************************************************!*\
+  !*** ./resources/js/Pages/Client/PrivacyPolicy.vue ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _PrivacyPolicy_vue_vue_type_template_id_6c4fa19f___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./PrivacyPolicy.vue?vue&type=template&id=6c4fa19f& */ "./resources/js/Pages/Client/PrivacyPolicy.vue?vue&type=template&id=6c4fa19f&");
+/* harmony import */ var _PrivacyPolicy_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PrivacyPolicy.vue?vue&type=script&lang=js& */ "./resources/js/Pages/Client/PrivacyPolicy.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__.default)(
+  _PrivacyPolicy_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__.default,
+  _PrivacyPolicy_vue_vue_type_template_id_6c4fa19f___WEBPACK_IMPORTED_MODULE_0__.render,
+  _PrivacyPolicy_vue_vue_type_template_id_6c4fa19f___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/Pages/Client/PrivacyPolicy.vue"
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
 
 /***/ }),
@@ -23967,6 +24262,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/Pages/Client/About.vue?vue&type=script&lang=js&":
+/*!**********************************************************************!*\
+  !*** ./resources/js/Pages/Client/About.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_About_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./About.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Pages/Client/About.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_About_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
 /***/ "./resources/js/Pages/Client/AuthorShow.vue?vue&type=script&lang=js&":
 /*!***************************************************************************!*\
   !*** ./resources/js/Pages/Client/AuthorShow.vue?vue&type=script&lang=js& ***!
@@ -24076,6 +24387,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PaymentShow_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./PaymentShow.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Pages/Client/PaymentShow.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PaymentShow_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Client/PrivacyPolicy.vue?vue&type=script&lang=js&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/Pages/Client/PrivacyPolicy.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PrivacyPolicy_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./PrivacyPolicy.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Pages/Client/PrivacyPolicy.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_PrivacyPolicy_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__.default); 
 
 /***/ }),
 
@@ -24488,6 +24815,23 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/Pages/Client/About.vue?vue&type=template&id=9e6a7c5c&":
+/*!****************************************************************************!*\
+  !*** ./resources/js/Pages/Client/About.vue?vue&type=template&id=9e6a7c5c& ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_About_vue_vue_type_template_id_9e6a7c5c___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_About_vue_vue_type_template_id_9e6a7c5c___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_About_vue_vue_type_template_id_9e6a7c5c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./About.vue?vue&type=template&id=9e6a7c5c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Pages/Client/About.vue?vue&type=template&id=9e6a7c5c&");
+
+
+/***/ }),
+
 /***/ "./resources/js/Pages/Client/AuthorShow.vue?vue&type=template&id=16ac6bb3&":
 /*!*********************************************************************************!*\
   !*** ./resources/js/Pages/Client/AuthorShow.vue?vue&type=template&id=16ac6bb3& ***!
@@ -24603,6 +24947,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PaymentShow_vue_vue_type_template_id_b4b348b0___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PaymentShow_vue_vue_type_template_id_b4b348b0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./PaymentShow.vue?vue&type=template&id=b4b348b0& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Pages/Client/PaymentShow.vue?vue&type=template&id=b4b348b0&");
+
+
+/***/ }),
+
+/***/ "./resources/js/Pages/Client/PrivacyPolicy.vue?vue&type=template&id=6c4fa19f&":
+/*!************************************************************************************!*\
+  !*** ./resources/js/Pages/Client/PrivacyPolicy.vue?vue&type=template&id=6c4fa19f& ***!
+  \************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PrivacyPolicy_vue_vue_type_template_id_6c4fa19f___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PrivacyPolicy_vue_vue_type_template_id_6c4fa19f___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_PrivacyPolicy_vue_vue_type_template_id_6c4fa19f___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./PrivacyPolicy.vue?vue&type=template&id=6c4fa19f& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Pages/Client/PrivacyPolicy.vue?vue&type=template&id=6c4fa19f&");
 
 
 /***/ }),
@@ -25659,13 +26020,35 @@ var render = function() {
         "div",
         { staticClass: "w-100 bg-gray-800 divide-y text-center h-full" },
         [
-          _c("div", { staticClass: "h-12 py-2" }, [_vm._v("About Us")]),
+          _c(
+            "div",
+            { staticClass: "h-12 py-2" },
+            [
+              _c("router-link", { attrs: { to: { name: "about" } } }, [
+                _vm._v("\n                About Us\n            ")
+              ])
+            ],
+            1
+          ),
           _vm._v(" "),
-          _c("div", { staticClass: "h-12 py-2" }, [_vm._v("My Account")]),
+          _c("div", { staticClass: "h-12 py-2" }, [
+            _vm._v("\n            My Account\n        ")
+          ]),
           _vm._v(" "),
-          _c("div", { staticClass: "h-12 py-2" }, [_vm._v("Privacy Policy")]),
+          _c(
+            "div",
+            { staticClass: "h-12 py-2" },
+            [
+              _c("router-link", { attrs: { to: { name: "privacyPolicy" } } }, [
+                _vm._v("\n                Privacy Policy\n            ")
+              ])
+            ],
+            1
+          ),
           _vm._v(" "),
-          _c("div", { staticClass: "h-12 py-2" }, [_vm._v("FAQ")]),
+          _c("div", { staticClass: "h-12 py-2" }, [
+            _vm._v("\n            FAQ\n        ")
+          ]),
           _vm._v(" "),
           _c("div", { staticClass: "py-2" }, [
             _vm._v("\n            Follow Us On\n            "),
@@ -26166,6 +26549,112 @@ var render = function() {
   return _c("div")
 }
 var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Pages/Client/About.vue?vue&type=template&id=9e6a7c5c&":
+/*!*******************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Pages/Client/About.vue?vue&type=template&id=9e6a7c5c& ***!
+  \*******************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm._m(0)
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "text-white divide-y" }, [
+      _c("div", [
+        _c("div", { staticClass: "text-4xl text-center p-3" }, [
+          _vm._v("About Visi8")
+        ]),
+        _vm._v(" "),
+        _c("div", {
+          staticClass: "justify-end items-center bg-blue-100 w-full h-52 mt-5",
+          staticStyle: {
+            "background-image":
+              "linear-gradient(rgba(245, 246, 252, 0) 50%, rgb(49 46 129)), url(/storage/media/covers/kara.jpg)"
+          }
+        }),
+        _vm._v(" "),
+        _c("div", { staticClass: "p-3 text-center" }, [
+          _vm._v(
+            "\n            It’s 3D Animated movie , about a young guardian of the magical realms, who is curious yet skeptical toward humans, must cooperate with two mysterious human time explorers in order to find the source of anomalies, before the destructions spreads too far.\n\n            The project itself will develop it’s IP, through movies, games, AR & VR Experience, as well as merchandising and licensing for both national and international market.\n\n            This project is currently still being produced by our in-house production.\n        "
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", [
+        _c("div", [
+          _c("div", { staticClass: "flex mt-7 ml-20" }, [
+            _c("div", [
+              _c("img", {
+                staticClass: "w-24 h-24 rounded-full",
+                attrs: { src: "/storage/media/covers/kara.jpg" }
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "mt-3" }, [_vm._v("CEO Of Visi8")])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "ml-7" }, [
+              _c("img", {
+                staticClass: "w-24 h-24 rounded-full",
+                attrs: { src: "/storage/media/covers/kara.jpg" }
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "mt-3" }, [_vm._v("CO-FOUNDER")])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "p-3 text-center" }, [
+            _vm._v(
+              "\n                It’s 3D Animated movie , about a young guardian of the magical realms, who is curious yet skeptical toward humans, must cooperate with two mysterious human time explorers in order to find the source of anomalies, before the destructions spreads too far.\n\n                The project itself will develop it’s IP, through movies, games, AR & VR Experience, as well as merchandising and licensing for both national and international market.\n\n                This project is currently still being produced by our in-house production.\n            "
+            )
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", [
+        _c("div", { staticClass: "text-2xl text-center text-white py-3" }, [
+          _vm._v("WHAT WE DO")
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "mb-7" }, [
+          _c(
+            "div",
+            { staticClass: "grid grid-cols-3 divide-x divide-green-500" },
+            [
+              _c("div", { staticClass: "ml-5" }, [_vm._v("AR and 3D Design")]),
+              _vm._v(" "),
+              _c("div", [
+                _c("div", { staticClass: "ml-10" }, [_vm._v("WEB and APPS")])
+              ]),
+              _vm._v(" "),
+              _c("div", [
+                _c("div", { staticClass: "ml-7" }, [_vm._v("Animation Movie")])
+              ])
+            ]
+          )
+        ])
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -26741,14 +27230,18 @@ var render = function() {
         }
       },
       [
-        _c("div", { staticClass: "mb-6 text-white" }, [
-          _c("img", {
-            staticClass: "w-64",
-            attrs: { src: _vm.karaIcon.default }
-          }),
-          _vm._v(" "),
-          _vm._m(0)
-        ])
+        _c(
+          "div",
+          { staticClass: "mb-6 text-white", on: { click: _vm.goToKara } },
+          [
+            _c("img", {
+              staticClass: "w-64",
+              attrs: { src: _vm.karaIcon.default }
+            }),
+            _vm._v(" "),
+            _vm._m(0)
+          ]
+        )
       ]
     ),
     _vm._v(" "),
@@ -27541,6 +28034,345 @@ var staticRenderFns = [
         _c("option", [_vm._v("DANA")])
       ]
     )
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Pages/Client/PrivacyPolicy.vue?vue&type=template&id=6c4fa19f&":
+/*!***************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/Pages/Client/PrivacyPolicy.vue?vue&type=template&id=6c4fa19f& ***!
+  \***************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "p-5 text-justify" }, [
+    _c(
+      "div",
+      { staticClass: "bg-white rounded-xl p-5" },
+      [
+        _c("h1", { staticClass: "font-bold text-2xl" }, [
+          _vm._v("Privacy Policy for Visi 8 & Imagia Studio")
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "At Webcomic AR, accessible from https://WebcomicAr.com, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by Webcomic AR and how we use it."
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us."
+          )
+        ]),
+        _vm._v(" "),
+        _vm._m(0),
+        _vm._v(" "),
+        _c("h2", { staticClass: "font-bold text-2xl" }, [_vm._v("Consent")]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "By using our website, you hereby consent to our Privacy Policy and agree to its terms."
+          )
+        ]),
+        _vm._v(" "),
+        _c("h2", { staticClass: "font-bold text-2xl" }, [
+          _vm._v("Information we collect")
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "The personal information that you are asked to provide, and the reasons why you are asked to provide it, will be made clear to you at the point we ask you to provide your personal information."
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "If you contact us directly, we may receive additional information about you such as your name, email address, phone number, the contents of the message and/or attachments you may send us, and any other information you may choose to provide."
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "When you register for an Account, we may ask for your contact information, including items such as name, company name, address, email address, and telephone number."
+          )
+        ]),
+        _vm._v(" "),
+        _c("h2", { staticClass: "font-bold text-2xl" }, [
+          _vm._v("How we use your information")
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "We use the information we collect in various ways, including to:"
+          )
+        ]),
+        _vm._v(" "),
+        _vm._m(1),
+        _vm._v(" "),
+        _c("h2", { staticClass: "font-bold text-2xl" }, [_vm._v("Log Files")]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "Webcomic AR follows a standard procedure of using log files. These files log visitors when they visit websites. All hosting companies do this and a part of hosting services' analytics. The information collected by log files include internet protocol (IP) addresses, browser type, Internet Service Provider (ISP), date and time stamp, referring/exit pages, and possibly the number of clicks. These are not linked to any information that is personally identifiable. The purpose of the information is for analyzing trends, administering the site, tracking users' movement on the website, and gathering demographic information."
+          )
+        ]),
+        _vm._v(" "),
+        _c("h2", { staticClass: "font-bold text-2xl" }, [
+          _vm._v("Cookies and Web Beacons")
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "Like any other website, Webcomic AR uses 'cookies'. These cookies are used to store information including visitors' preferences, and the pages on the website that the visitor accessed or visited. The information is used to optimize the users' experience by customizing our web page content based on visitors' browser type and/or other information."
+          )
+        ]),
+        _vm._v(" "),
+        _vm._m(2),
+        _vm._v(" "),
+        _c("h2", { staticClass: "font-bold text-2xl" }, [
+          _vm._v("Our Advertising Partners")
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "Some of advertisers on our site may use cookies and web beacons. Our advertising partners are listed below. Each of our advertising partners has their own Privacy Policy for their policies on user data. For easier access, we hyperlinked to their Privacy Policies below."
+          )
+        ]),
+        _vm._v(" "),
+        _vm._m(3),
+        _vm._v(" "),
+        _c("h2", { staticClass: "font-bold text-2xl" }, [
+          _vm._v("Advertising Partners Privacy Policies")
+        ]),
+        _vm._v(" "),
+        _c("P", [
+          _vm._v(
+            "You may consult this list to find the Privacy Policy for each of the advertising partners of Webcomic AR."
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "Third-party ad servers or ad networks uses technologies like cookies, JavaScript, or Web Beacons that are used in their respective advertisements and links that appear on Webcomic AR, which are sent directly to users' browser. They automatically receive your IP address when this occurs. These technologies are used to measure the effectiveness of their advertising campaigns and/or to personalize the advertising content that you see on websites that you visit."
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "Note that Webcomic AR has no access to or control over these cookies that are used by third-party advertisers."
+          )
+        ]),
+        _vm._v(" "),
+        _c("h2", { staticClass: "font-bold text-2xl" }, [
+          _vm._v("Third Party Privacy Policies")
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "Webcomic AR's Privacy Policy does not apply to other advertisers or websites. Thus, we are advising you to consult the respective Privacy Policies of these third-party ad servers for more detailed information. It may include their practices and instructions about how to opt-out of certain options. "
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "You can choose to disable cookies through your individual browser options. To know more detailed information about cookie management with specific web browsers, it can be found at the browsers' respective websites."
+          )
+        ]),
+        _vm._v(" "),
+        _c("h2", { staticClass: "font-bold text-2xl" }, [
+          _vm._v("CCPA Privacy Rights (Do Not Sell My Personal Information)")
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "Under the CCPA, among other rights, California consumers have the right to:"
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "Request that a business that collects a consumer's personal data disclose the categories and specific pieces of personal data that a business has collected about consumers."
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "Request that a business delete any personal data about the consumer that a business has collected."
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "Request that a business that sells a consumer's personal data, not sell the consumer's personal data."
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "If you make a request, we have one month to respond to you. If you would like to exercise any of these rights, please contact us."
+          )
+        ]),
+        _vm._v(" "),
+        _c("h2", { staticClass: "font-bold text-2xl" }, [
+          _vm._v("GDPR Data Protection Rights")
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "We would like to make sure you are fully aware of all of your data protection rights. Every user is entitled to the following:"
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "The right to access – You have the right to request copies of your personal data. We may charge you a small fee for this service."
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "The right to rectification – You have the right to request that we correct any information you believe is inaccurate. You also have the right to request that we complete the information you believe is incomplete."
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "The right to erasure – You have the right to request that we erase your personal data, under certain conditions."
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "The right to restrict processing – You have the right to request that we restrict the processing of your personal data, under certain conditions."
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "The right to object to processing – You have the right to object to our processing of your personal data, under certain conditions."
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "The right to data portability – You have the right to request that we transfer the data that we have collected to another organization, or directly to you, under certain conditions."
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "If you make a request, we have one month to respond to you. If you would like to exercise any of these rights, please contact us."
+          )
+        ]),
+        _vm._v(" "),
+        _c("h2", [_vm._v("Children's Information")]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "Another part of our priority is adding protection for children while using the internet. We encourage parents and guardians to observe, participate in, and/or monitor and guide their online activity."
+          )
+        ]),
+        _vm._v(" "),
+        _c("p", [
+          _vm._v(
+            "Webcomic AR does not knowingly collect any Personal Identifiable Information from children under the age of 13. If you think that your child provided this kind of information on our website, we strongly encourage you to contact us immediately and we will do our best efforts to promptly remove such information from our records."
+          )
+        ])
+      ],
+      1
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _vm._v(
+        "This Privacy Policy applies only to our online activities and is valid for visitors to our website with regards to the information that they shared and/or collect in Webcomic AR. This policy is not applicable to any information collected offline or via channels other than this website. Our Privacy Policy was created with the help of the "
+      ),
+      _c(
+        "a",
+        {
+          attrs: { href: "https://www.termsfeed.com/privacy-policy-generator/" }
+        },
+        [_vm._v("TermsFeed Privacy Policy Generator")]
+      ),
+      _vm._v(".")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("ul", [
+      _c("li", [_vm._v("Provide, operate, and maintain our website")]),
+      _vm._v(" "),
+      _c("li", [_vm._v("Improve, personalize, and expand our website")]),
+      _vm._v(" "),
+      _c("li", [_vm._v("Understand and analyze how you use our website")]),
+      _vm._v(" "),
+      _c("li", [
+        _vm._v("Develop new products, services, features, and functionality")
+      ]),
+      _vm._v(" "),
+      _c("li", [
+        _vm._v(
+          "Communicate with you, either directly or through one of our partners, including for customer service, to provide you with updates and other information relating to the website, and for marketing and promotional purposes"
+        )
+      ]),
+      _vm._v(" "),
+      _c("li", [_vm._v("Send you emails")]),
+      _vm._v(" "),
+      _c("li", [_vm._v("Find and prevent fraud")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _vm._v("For more general information on cookies, please read "),
+      _c(
+        "a",
+        { attrs: { href: "https://www.generateprivacypolicy.com/#cookies" } },
+        [_vm._v('"Cookies" article from the Privacy Policy Generator')]
+      ),
+      _vm._v(".")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("ul", [
+      _c("li", [
+        _c("p", [_vm._v("Google")]),
+        _vm._v(" "),
+        _c("p", [
+          _c(
+            "a",
+            { attrs: { href: "https://policies.google.com/technologies/ads" } },
+            [_vm._v("https://policies.google.com/technologies/ads")]
+          )
+        ])
+      ])
+    ])
   }
 ]
 render._withStripped = true

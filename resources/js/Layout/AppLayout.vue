@@ -78,10 +78,22 @@
             </div>
         </div>
         <div class="w-100 bg-gray-800 divide-y text-center h-full">
-            <div class="h-12 py-2">About Us</div>
-            <div class="h-12 py-2">My Account</div>
-            <div class="h-12 py-2">Privacy Policy</div>
-            <div class="h-12 py-2">FAQ</div>
+            <div class="h-12 py-2">
+                <router-link :to="{name: 'about'}">
+                    About Us
+                </router-link>
+            </div>
+            <div class="h-12 py-2">
+                My Account
+            </div>
+            <div class="h-12 py-2">
+                <router-link :to="{name: 'privacyPolicy'}">
+                    Privacy Policy
+                </router-link>
+            </div>
+            <div class="h-12 py-2">
+                FAQ
+            </div>
             <div class="py-2">
                 Follow Us On
                 <div class="flex w-full flex flex-row items-center justify-center mt-2">
