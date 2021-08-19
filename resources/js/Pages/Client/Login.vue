@@ -11,7 +11,7 @@
                 <div class="text-sm text-center text-white mb-10">
                     <router-link to="#">Forgot Password?</router-link>
                 </div>
-                <div v-if="loginFailed" class="text-red">Wrong password or email</div>
+                <div v-if="loginFailed" class="text-red-500">Wrong password or email</div>
                 <div class="flex items-center justify-between">
                     <button @click="login" class="bg-green-400 w-full hover:bg-blue-dark text-white font-bold py-2 px-4 rounded-full" type="button">
                         LOG IN

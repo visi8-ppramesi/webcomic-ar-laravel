@@ -16,6 +16,7 @@
                         <input name="password" for="password" class="shadow appearance-none border border-red rounded-full w-full py-2 px-3 text-grey-darker mb-3" v-model="password" id="password" type="password" placeholder="Password">
                     </div>
                 </form>
+                <div v-if="loginFailed" class="text-red-500">Something is wrong with your account information!</div>
                 <div class="flex items-center justify-between">
                     <button @click="register" class="bg-green-400 w-full hover:bg-blue-dark text-white font-bold py-2 px-4 rounded-full" type="button">
                         Register
